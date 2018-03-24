@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SingleKeyBoard" customModule="st" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="GGh-C7-1bz" customClass="SingleKeyBoard" customModule="st" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <items>
+                <barButtonItem width="329" style="plain" systemItem="fixedSpace" id="8d3-X0-L4i"/>
+                <barButtonItem title="完成" id="m5z-XB-JeW">
+                    <connections>
+                        <action selector="didDown:" destination="-1" id="4Yf-7L-egF"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="QRI-Rz-35S"/>
+            </items>
+            <point key="canvasLocation" x="-129" y="81"/>
+        </toolbar>
+    </objects>
+</document>
