@@ -13,10 +13,21 @@ class User: NSObject {
     @objc var id: NSString!
     @objc var name: NSString!
     @objc var mobile: NSString!
+    // 省份名称
+    @objc var province_name: NSString!
+    // 省份id
     @objc var province: NSString!
+    // 学校名称
+    @objc var school_name: NSString!
+    // 学校id
     @objc var school: NSString!
+    // 系名称
+    @objc var series_name: NSString!
+    // 系id
     @objc var series: NSString!
-    @objc var city: NSString!
+    // 头像
+    @objc var head_pic: NSString!
+    
     
     init(dict: [String: AnyObject]) {
         super.init()
@@ -30,25 +41,5 @@ class User: NSObject {
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
         
     }
-    
-//    required? init(coder aDecoder: NSCoder) {
-//        id = aDecoder.decodeObject(forKey: "id") as? NSString
-//        name = aDecoder.decodeObject(forKey: "nickname") as? NSString
-//        mobile = aDecoder.decodeObject(forKey: "mobile") as? NSString
-//        province = aDecoder.decodeObject(forKey: "province") as? NSString
-//        school = aDecoder.decodeObject(forKey: "school") as? NSString
-//        series = aDecoder.decodeObject(forKey: "series") as? NSString
-//        city = aDecoder.decodeObject(forKey: "city") as? NSString
-//    }
-//
-//    func encodeWithCoder(aCoder:NSCoder) {
-//        aCoder.encode(id, forKey: "id")
-//        aCoder.encode(name, forKey: "name")
-//        aCoder.encode(mobile, forKey: "mobile")
-//        aCoder.encode(province, forKey: "province")
-//        aCoder.encode(school, forKey: "school")
-//        aCoder.encode(series, forKey: "series")
-//        aCoder.encode(city, forKey: "city")
-//    }
 
 }

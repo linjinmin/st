@@ -9,6 +9,7 @@
 import UIKit
 import swiftScan
 import SDWebImage
+import MJRefresh
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -21,10 +22,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var schoolLabel: UILabel!
     // 活动tableView
     weak var activeTableView: UITableView!
+    // cellview的背景颜色 4色循环
+    fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
+    // cellview的背景颜色， 透明度, 4色循环
+    fileprivate lazy var cellColorsAlpha: [UIColor] = [ UIColor(red:87/255, green:113/255, blue:250/255, alpha:0.8), UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 0.8), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 0.8), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 0.8)]
+
     
     lazy var leftVc = {() -> LeftViewController in
         let leftVc = LeftViewController()
-        leftVc.view.frame = CGRect(x: 0, y: 20, width: Constant.screenW, height: Constant.screenH)
+        leftVc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
         return leftVc
     }()
     
@@ -44,6 +50,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupHeadView()
         setupScrollView()
         setupScrollViewDetail()
+        setupRefresh()
         
     }
     
@@ -64,41 +71,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // 用户头像
         let headImageView = UIImageView()
-        let url = Api.host + "/" + ((AccountTool.getUser()?.mobile)! as String )
+        let url = Api.host + "/" + ((AccountTool.getUser()?.head_pic)! as String )
         headImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "image_placeholder"))
         headImageView.layer.cornerRadius = 37
         headImageView.layer.masksToBounds = true
         scrollView.addSubview(headImageView)
         self.headImageView = headImageView
-        headImageView.frame = CGRect(x:30, y:35, width:74, height:74)
+        headImageView.frame = CGRect(x:30, y:20, width:74, height:74)
         
         // 用户姓名
         let nameLabel = UILabel()
-//        nameLabel.text = ((AccountTool.getUser()?.name)! as String)
-        nameLabel.text = "测试测试测试"
+        nameLabel.text = ((AccountTool.getUser()?.name)! as String )
         nameLabel.font = UIFont.systemFont(ofSize: 18)
         scrollView.addSubview(nameLabel)
         self.nameLabel = nameLabel
-        nameLabel.frame = CGRect(x:130, y:47, width:160, height:25)
+        nameLabel.frame = CGRect(x:130, y:32, width:160, height:25)
         
         // 用户学校
         let schoolLabel = UILabel()
-        schoolLabel.text = ((AccountTool.getUser()?.school)! as String)
+        schoolLabel.text = ((AccountTool.getUser()?.school_name)! as String)
         schoolLabel.font = UIFont.systemFont(ofSize: 16)
         schoolLabel.textColor = UIColor.gray
         scrollView.addSubview(schoolLabel)
         self.schoolLabel = schoolLabel
-        schoolLabel.frame = CGRect(x:130, y:75, width:160, height:20)
+        schoolLabel.frame = CGRect(x:130, y:60, width:160, height:20)
         
         // 常用功能label
         let killsLabel = UILabel()
         killsLabel.text = "常用功能"
         killsLabel.font = UIFont.systemFont(ofSize: 18)
         scrollView.addSubview(killsLabel)
-        killsLabel.frame = CGRect(x:30, y:145, width:100, height:20)
+        killsLabel.frame = CGRect(x:30, y:120, width:100, height:20)
         
         // 我的社团
-        let teamBtn = BomButton(frame: CGRect(x:30, y:175, width:50, height:70))
+        let teamBtn = BomButton(frame: CGRect(x:30, y:150, width:50, height:70))
         teamBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         teamBtn.setTitle("我的社团", for: .normal)
         teamBtn.setTitleColor(UIColor.black, for: .normal)
@@ -108,7 +114,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollView.addSubview(teamBtn)
         
         // 活动广场
-        let activeBtn = BomButton(frame: CGRect(x:110, y:175, width:50, height:70))
+        let activeBtn = BomButton(frame: CGRect(x:110, y:150, width:50, height:70))
         activeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         activeBtn.setTitle("活动广场", for: .normal)
         activeBtn.setTitleColor(UIColor.black, for: .normal)
@@ -118,7 +124,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollView.addSubview(activeBtn)
         
         // 活动群聊
-        let contactBtn = BomButton(frame: CGRect(x:190, y:175, width:50, height:70))
+        let contactBtn = BomButton(frame: CGRect(x:190, y:150, width:50, height:70))
         contactBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         contactBtn.setTitle("活动群聊", for: .normal)
         contactBtn.setTitleColor(UIColor.black, for: .normal)
@@ -128,7 +134,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollView.addSubview(contactBtn)
         
         // 历史活动
-        let recentBtn = BomButton(frame: CGRect(x:270, y:175, width:50, height:70))
+        let recentBtn = BomButton(frame: CGRect(x:270, y:150, width:50, height:70))
         recentBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         recentBtn.setTitle("历史活动", for: .normal)
         recentBtn.setTitleColor(UIColor.black, for: .normal)
@@ -143,16 +149,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         activeLabel.font = UIFont.systemFont(ofSize: 18)
         activeLabel.textColor = UIColor.black
         scrollView.addSubview(activeLabel)
-        activeLabel.frame = CGRect(x:30, y:260, width:100, height:20)
+        activeLabel.frame = CGRect(x:30, y:245, width:100, height:20)
         
         // 设置tableView
         let tableView = UITableView()
-        //        tableView.delegate = self
-        //        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
+        tableView.showsHorizontalScrollIndicator = false
+        tableView.showsVerticalScrollIndicator = false
         scrollView.addSubview(tableView)
-        tableView.frame = CGRect(x:30, y:290, width:Constant.screenW - 60, height:312)
+        activeTableView = tableView
+        tableView.frame = CGRect(x:30, y:275, width:Constant.screenW - 60, height:327)
         
     }
     
@@ -201,18 +210,53 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    func setupRefresh() {
+        let header = MJRefreshStateHeader(refreshingTarget: self, refreshingAction: #selector(loadNewActive))
+        header?.stateLabel.textColor = UIColor.gray
+        header?.lastUpdatedTimeLabel.textColor = UIColor.gray
+        activeTableView.mj_header = header
+        let footer = MJRefreshBackStateFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreActive))
+        footer?.stateLabel.textColor = UIColor.gray
+        activeTableView.mj_footer = footer
+    }
+    
+    @objc func loadNewActive() {
+        print("new")
+        activeTableView.mj_header.endRefreshing()
+    }
+    
+    @objc func loadMoreActive() {
+        print("more")
+        activeTableView.mj_footer.endRefreshing()
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = ActiveTableViewCell()
+        let cellColorIndex = indexPath.row % 4
+        let leftColor = cellColors[cellColorIndex]
+        let rightColor = cellColorsAlpha[cellColorIndex]
+        let gradientColors = [leftColor.cgColor, rightColor.cgColor]
+        let gradientLocations:[NSNumber] = [0.0, 1.0]
+        //创建CAGradientLayer对象并设置参数
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = gradientColors
+        gradientLayer.frame = cell.contentView.frame
+        gradientLayer.frame.size.height = 100
+        gradientLayer.locations = gradientLocations
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.type = kCAGradientLayerAxial;
+        cell.contentView.layer.insertSublayer(gradientLayer, at: 0)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 115
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        print(1)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

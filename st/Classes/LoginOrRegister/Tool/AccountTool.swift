@@ -117,7 +117,7 @@ class AccountTool: NSObject {
         // 刷新token
         let params = NSMutableDictionary()
         params["method"] = Api.refreshTokenMethod
-        params["token"] = getAccount()?.token
+        params["token"] = getAccount()?.token!
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             let response = JSON(response as Any)
             if response["code"].intValue == 200 {
@@ -135,7 +135,7 @@ class AccountTool: NSObject {
             }
             
         }) { (task, error) in
-            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+            
         }
         
     }

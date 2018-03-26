@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import SVProgressHUD
+import SDWebImage
 
 class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SingleKeyBoardDelegate {
     
@@ -22,12 +23,23 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     weak var schoolField: UITextField!
     // 系院
     weak var seriesField: UITextField!
+    // 选中的city id
+    var cityId: String!
+    // 选中的school id
+    var schoolId: String!
+    // 选中的系
+    var seriesId: String!
     
     fileprivate lazy var textFields: [UITextField] = [self.nameField, self.cityField, self.schoolField, self.seriesField]
     
-    
     // 省数据
-    var cityData: NSMutableDictionary!
+    var cityData: NSDictionary!
+    // 所有学校数据
+    var allSchoolData: [NSDictionary]!
+    // 当前省份学校数据
+    var citySchoolData: [NSDictionary]!
+    // 当前学校系数据
+    var seriesData: [[String: Any]]!
     
     // 省市pickerview
     lazy var cityPickerView = {() -> UIPickerView in
@@ -62,27 +74,26 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        SVProgressHUD.showError(withStatus: "请先认证")
-        self.navigationItem.title = "认证信息"
+        self.navigationItem.title = "个人信息"
         view.backgroundColor = Constant.viewBackgroundColor
         // 初始化
         setup()
         setupKeyBoardNotification()
         // 获取data数据
         getCityData()
+        getSchoolData()
         
     }
     
     // 初始化
     func setup() {
         
-        
         let schoolView = setupBackView()
         view.addSubview(schoolView)
         schoolView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
             make.height.equalTo(80)
-            make.centerY.equalTo(view).offset(75)
+            make.centerY.equalTo(view).offset(60)
         }
         
         // 学校text
@@ -98,6 +109,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         // 学校field
         let schoolField = setupField(placeholder: "学校", inputView: self.schoolPickerView)
+        schoolField.text = ((AccountTool.getUser()?.school_name)! as String)
         schoolView.addSubview(schoolField)
         self.schoolField = schoolField
         schoolField.snp.makeConstraints { (make) in
@@ -111,11 +123,10 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         schoolView.addSubview(schoolHen)
         schoolHen.snp.makeConstraints { (make) in
             make.left.equalTo(schoolView).offset(30)
-            make.right.equalTo(schoolView).offset(-10)
+            make.right.equalTo(schoolView)
             make.height.equalTo(1)
             make.bottom.equalTo(schoolView)
         }
-        
         
         let cityView = setupBackView()
         view.addSubview(cityView)
@@ -137,6 +148,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         // 省市field
         let cityField = setupField(placeholder: "省份", inputView: self.cityPickerView)
+        cityField.text = ((AccountTool.getUser()?.province_name)! as String)
         cityView.addSubview(cityField)
         self.cityField = cityField
         cityField.snp.makeConstraints { (make) in
@@ -150,7 +162,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         cityView.addSubview(cityHen)
         cityHen.snp.makeConstraints { (make) in
             make.left.equalTo(cityView).offset(30)
-            make.right.equalTo(cityView).offset(-10)
+            make.right.equalTo(cityView)
             make.height.equalTo(1)
             make.bottom.equalTo(cityView)
         }
@@ -175,6 +187,16 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         // 系field
         let seriesField = setupField(placeholder: "系院", inputView: seriesPickerView)
+        seriesField.text = ((AccountTool.getUser()?.series_name)! as String)
+        let seriesBtn = UIButton()
+        seriesBtn.backgroundColor = Constant.viewBackgroundColor
+        seriesBtn.setTitle("新增系院", for: .normal)
+        seriesBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        seriesBtn.setTitleColor(Constant.viewColor, for: .normal)
+        seriesBtn.frame = CGRect(x: 0, y: 0, width: 85, height: 42)
+        seriesBtn.addTarget(self, action: #selector(addSeriesBtn), for: .touchDown)
+        seriesField.rightView = seriesBtn
+        seriesField.rightViewMode = .always
         seriesView.addSubview(seriesField)
         self.seriesField = seriesField
         seriesField.snp.makeConstraints { (make) in
@@ -188,7 +210,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         seriesView.addSubview(seriesHen)
         seriesHen.snp.makeConstraints { (make) in
             make.left.equalTo(seriesView).offset(30)
-            make.right.equalTo(seriesView).offset(-10)
+            make.right.equalTo(seriesView)
             make.height.equalTo(1)
             make.bottom.equalTo(seriesView)
         }
@@ -216,6 +238,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let namefield = ConfirmField()
         namefield.placeholder = "姓名"
         namefield.textColor = UIColor.black
+        namefield.text = ((AccountTool.getUser()?.name)! as String)
         namefield.font = UIFont.systemFont(ofSize: 18)
         namefield.inputAccessoryView = singleKeyBoard
         nameView.addSubview(namefield)
@@ -231,20 +254,22 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         nameView.addSubview(nameHen)
         nameHen.snp.makeConstraints { (make) in
             make.left.equalTo(nameView).offset(30)
-            make.right.equalTo(nameView).offset(-10)
+            make.right.equalTo(nameView)
             make.height.equalTo(1)
             make.bottom.equalTo(nameView)
         }
         
         // 头像
-        let iconImageView = UIImageView(image: UIImage(named: "user"))
+        let iconImageView = UIImageView()
+        let url = Api.host + "/" + ((AccountTool.getUser()?.head_pic)! as String )
+        iconImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "image_placeholder"))
         iconImageView.layer.cornerRadius = 50
         iconImageView.layer.masksToBounds = true
         view.addSubview(iconImageView)
         iconImageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
             make.height.width.equalTo(100)
-            make.bottom.equalTo(nameView.snp.top).offset(-30)
+            make.bottom.equalTo(nameView.snp.top).offset(-20)
         }
         
         // 确认按钮
@@ -268,10 +293,10 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             make.top.equalTo(seriesView.snp.bottom).offset(30)
         }
         
-    }
-    
-    @objc func confirmBtnClick() {
-        
+        // 初始化信息
+        seriesId = ((AccountTool.getUser()?.series)! as String )
+        schoolId = ((AccountTool.getUser()?.school)! as String )
+        cityId = ((AccountTool.getUser()?.province)! as String )
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -279,7 +304,111 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == self.cityPickerView {
+            return self.cityData.count
+        } else if pickerView == self.schoolPickerView {
+            return self.citySchoolData.count
+        } else if pickerView == self.seriesPickerView {
+            if self.seriesData != nil {
+                return self.seriesData.count
+            } else {
+                SVProgressHUD.showError(withStatus: "请先选择学校")
+                return 0
+            }
+        }
         return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        var count = 0
+        
+        if pickerView == self.cityPickerView {
+            
+            for dictItem in self.cityData {
+                if count == row {
+                    return (dictItem.value as! String)
+                }
+                
+                count += 1
+            }
+            
+        } else if pickerView == self.schoolPickerView {
+            
+            for dictItem in self.citySchoolData {
+                
+                if count == row {
+                    return (dictItem["school"] as! String)
+                }
+                
+                count += 1
+            }
+            
+        } else if pickerView == self.seriesPickerView {
+            
+            for dictItem in self.seriesData {
+                
+                if count == row {
+                    return (dictItem["name"] as! String)
+                }
+                
+                count += 1
+                
+            }
+            
+        }
+        
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        var count = 0
+        
+        if pickerView == self.cityPickerView {
+            for dictItem in self.cityData {
+                if count == row {
+                    self.cityField.text = (dictItem.value as! String)
+                    self.cityId = (dictItem.key as! String)
+                    // 修改学校数据
+                    self.citySchoolData.removeAll()
+                    let key = (dictItem.key as! String)
+                    for schoolItem in self.allSchoolData {
+                        if (schoolItem["provinceid"] as! String) == key {
+                            self.citySchoolData.append(schoolItem)
+                        }
+                    }
+                }
+                
+                count += 1
+            }
+        } else if pickerView == self.schoolPickerView {
+            for dictItem in self.citySchoolData {
+                if count == row {
+                    self.schoolField.text = (dictItem["school"] as! String)
+                    self.schoolId = (dictItem["id"] as! String)
+                    // 自动选择城市
+                    for city in self.cityData {
+                        if (city.key as! String) == (dictItem["provinceid"] as! String) {
+                            self.cityField.text = (city.value as! String)
+                            self.cityId = (city.key as! String)
+                        }
+                    }
+                    getSeriesData()
+                }
+                count += 1
+            }
+        } else if pickerView == self.seriesPickerView {
+            
+            for dictItem in self.seriesData {
+                if count == row {
+                    self.seriesField.text = (dictItem["name"] as! String)
+                    self.seriesId = (dictItem["id"] as! String)
+                }
+                
+                count += 1
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -291,15 +420,89 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // 获取省数据
     func getCityData() {
         
+        let path:String = Bundle.main.path(forResource: "city", ofType: "plist")!
+        self.cityData = NSDictionary(contentsOfFile: path)
+        
+    }
+    
+    // 获取学校数据
+    func getSchoolData() {
+        let path:String = Bundle.main.path(forResource: "school", ofType: "plist")!
+        self.allSchoolData = NSArray(contentsOfFile: path) as! [NSDictionary]
+        self.citySchoolData = self.allSchoolData
+    }
+    
+    // 获取系院数据
+    func getSeriesData() {
+        
+        if self.schoolId == nil {
+            SVProgressHUD.showError(withStatus: "请先选择学校")
+            return
+        }
+        
         let params = NSMutableDictionary()
-        params["method"] = Api.provinceMethod
+        params["method"] = Api.seriesMethod
+        params["school"] = self.schoolId
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             
             let response = JSON(response as Any)
-            //            self.cityData = response["data"].dictionaryValue as! NSMutableDictionary
+            
+            if response["code"].intValue == 200 {
+                self.seriesData = response["data"].arrayObject as! [[String : Any]]
+            } else {
+                SVProgressHUD.showError(withStatus: "获取系院数据失败:" + response["msg"].stringValue)
+            }
             
         }) { (task, error) in
-            SVProgressHUD.showError(withStatus: "获取省信息失败")
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
+    }
+    
+    // 认证按钮
+    @objc func confirmBtnClick() {
+        
+        if self.cityId == nil {
+            SVProgressHUD.showError(withStatus: "请选择城市")
+            return
+        }
+        
+        if self.schoolId == nil {
+            SVProgressHUD.showError(withStatus: "请选择学校")
+            return
+        }
+        
+        if self.nameField.text == "" {
+            SVProgressHUD.showError(withStatus: "请输入姓名")
+            return
+        }
+        
+        if self.seriesField.text == "" {
+            SVProgressHUD.showError(withStatus: "请选择系院")
+            return
+        }
+        
+        let params = NSMutableDictionary()
+        params["method"] = Api.editUserInfoMethod
+        params["province_id"] = self.cityId
+        params["school_id"]  = self.schoolId
+        params["series_id"] = self.seriesId
+        params["name"] = self.nameField.text
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                // 认证成功， 记录认证信息
+                AccountTool.saveAuth()
+                self.navigationController?.dismiss(animated: true, completion: nil)
+                SVProgressHUD.showSuccess(withStatus: "修改信息成功")
+                UIApplication.shared.keyWindow?.rootViewController = HomeViewController()
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
         
     }
@@ -316,6 +519,55 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return view
     }
     
+    // 新增系院按钮点击
+    @objc func addSeriesBtn() {
+        
+        if self.schoolId == nil {
+            SVProgressHUD.showError(withStatus: "请先选择学校")
+            return
+        }
+        
+        let alertController = UIAlertController(title: "提示", message: "请输入您的系院", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = "系院"
+        }
+        
+        let confirmAction = UIAlertAction.init(title: "确认", style: .destructive) { (action) in
+            let textField = alertController.textFields?.first
+            if textField?.text == "" {
+                SVProgressHUD.showError(withStatus: "系院不能为空")
+                return
+            }
+            
+            let params = NSMutableDictionary()
+            params["method"] = Api.addSeriesMethod
+            params["school_id"] = self.schoolId
+            params["name"] = textField?.text
+            Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+                
+                let response = JSON(response as Any)
+                
+                if response["code"].intValue == 200 {
+                    SVProgressHUD.showSuccess(withStatus: "新增系院成功")
+                    // 重新获取系院数据
+                    self.getSeriesData()
+                } else {
+                    SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+                }
+                
+            }, failure: { (task, error) in
+                SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+            })
+            
+        }
+        
+        let cancelAction = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(confirmAction)
+        UIApplication.shared.keyWindow?.rootViewController?.presentedViewController?.present(alertController, animated: true, completion: nil)
+    }
     
     func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
         view.endEditing(true)

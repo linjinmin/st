@@ -27,6 +27,7 @@ class LeftViewController: UIViewController {
         setupGesture()
         // 设置左侧功能条详细内容
         setupDetailView()
+
         
     }
     
@@ -49,7 +50,7 @@ class LeftViewController: UIViewController {
         
         // 设置左侧功能条view
         let leftViewTmp = UIView()
-        leftViewTmp.frame = CGRect(x: -Constant.functionListViewWidth, y: 0, width: Constant.functionListViewWidth, height: Constant.screenH - 20)
+        leftViewTmp.frame = CGRect(x: -Constant.functionListViewWidth, y: 0, width: Constant.functionListViewWidth, height: Constant.screenH)
         leftViewTmp.backgroundColor = Constant.viewBackgroundColor
         view.addSubview(leftViewTmp)
         self.leftView = leftViewTmp
@@ -150,7 +151,10 @@ class LeftViewController: UIViewController {
     
     // 个人信息按钮点击
     @objc func infoBtnClick() {
-        
+        let vc = UserInfoViewController()
+        vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
+        let nav = NavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
     }
     
     // 修改密码按钮点击
@@ -165,7 +169,10 @@ class LeftViewController: UIViewController {
     
     // 意见反馈按钮点击
     @objc func feedbackBtnClick() {
-        
+        let vc = SuggesViewController()
+        vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
+        let nav = NavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
     }
     
     // 关于我们按钮点击
@@ -238,7 +245,7 @@ class LeftViewController: UIViewController {
     
 
     @objc func leftViewBtnTouchDown(sender: UIButton) {
-        sender.backgroundColor = UIColor.gray
+//        sender.backgroundColor = UIColor.gray
     }
     
     @objc func leftViewBtnTouchCancel(sender: UIButton) {
