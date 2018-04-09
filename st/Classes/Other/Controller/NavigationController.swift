@@ -8,14 +8,27 @@
 
 import UIKit
 
-class NavigationController: UINavigationController {
+class NavigationController: UINavigationController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+//        let _sysTarget = self.navigationController?.interactivePopGestureRecognizer?.delegate
+//        //0.2.1 "handleNavigationTransition:" 是存在于_sysTarget中的方法，导航控制器侧滑返回就是调用该方法
+//        let _newGesture = UIPanGestureRecognizer.init(target: _sysTarget, action:Selector(("handleNavigationTransition:")))
+//
+//        self.view.addGestureRecognizer(_newGesture)
+        
+        //0.3 禁用系统自带的边缘侧滑手势
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        //0.4 以上全屏滑动返回功能已经实现了，但还有一个细节
+        //需要在导航控制器中的根控制器中设置手势代理，拦截手势触发,因为根控制器已经没有可以再返回的View。而再触发会卡屏
+//        _newGesture.delegate = self
+        
+        self.interactivePopGestureRecognizer!.delegate = self
+        
     }
-    
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         
@@ -26,9 +39,11 @@ class NavigationController: UINavigationController {
         button.addTarget(self, action: #selector(back), for: .touchUpInside)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: button)
         viewController.hidesBottomBarWhenPushed = true
+        
         super.pushViewController(viewController, animated: animated)
         
     }
+    
     
     @objc func back() {
         if childViewControllers.count > 1 {
@@ -37,21 +52,16 @@ class NavigationController: UINavigationController {
             dismiss(animated: true, completion: nil)
         }
     }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        back()
+        return true
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

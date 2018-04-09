@@ -34,13 +34,26 @@
 		6E98A14C2046E43F00AA2E99 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98A14B2046E43F00AA2E99 /* LoginViewController.swift */; };
 		6E98A14E2046F1AE00AA2E99 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98A14D2046F1AE00AA2E99 /* Api.swift */; };
 		6E98A1502046F75F00AA2E99 /* LoginOrRegisterField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98A14F2046F75F00AA2E99 /* LoginOrRegisterField.swift */; };
+		6EA551DF206A35B500E2EC3B /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551DE206A35B500E2EC3B /* NoticeTableViewController.swift */; };
+		6EA551E1206A382000E2EC3B /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551E0206A382000E2EC3B /* NoticeTableViewCell.swift */; };
+		6EA551E3206A45AB00E2EC3B /* ChangePwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551E2206A45AB00E2EC3B /* ChangePwdViewController.swift */; };
+		6EA551E5206B82B900E2EC3B /* HomeActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551E4206B82B900E2EC3B /* HomeActive.swift */; };
+		6EA551E7206D407D00E2EC3B /* MyActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551E6206D407D00E2EC3B /* MyActiveViewController.swift */; };
+		6EA551E9206D413700E2EC3B /* MyActiveTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA551E8206D413700E2EC3B /* MyActiveTableViewController.swift */; };
+		6EAAFA64207A7CF000F90DA5 /* SearchSociety.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAAFA63207A7CF000F90DA5 /* SearchSociety.swift */; };
+		6EAAFA66207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAAFA65207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift */; };
 		6EAC80D3204A4C3300D26642 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80D2204A4C3300D26642 /* NavigationController.swift */; };
 		6EAC80D5204A4D5600D26642 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80D4204A4D5600D26642 /* Navigation+Extension.swift */; };
 		6EAC80D7204A6B7F00D26642 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80D6204A6B7F00D26642 /* RegisterViewController.swift */; };
 		6EAC80D9204A709400D26642 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80D8204A709400D26642 /* HomeViewController.swift */; };
 		6EAC80E2204BA20600D26642 /* ForgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80E1204BA20600D26642 /* ForgetViewController.swift */; };
 		6EAC80EC204D6E7600D26642 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80EB204D6E7600D26642 /* Networking.swift */; };
-		6EC6185B206650FF00C6A51A /* TeamDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC6185A206650FF00C6A51A /* TeamDetailViewController.swift */; };
+		6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */; };
+		6EDBDC262073831700EB65F9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC252073831700EB65F9 /* SearchViewController.swift */; };
+		6EDBDC282073A11500EB65F9 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC272073A11500EB65F9 /* SearchField.swift */; };
+		6EDBDC2A2073AFF700EB65F9 /* SocietyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */; };
+		6EDBDC2C2073BBE300EB65F9 /* SocietyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */; };
+		6EDBDC2E207623D300EB65F9 /* BriefSociety.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */; };
 		6EED6CDD2064FE83005B89D3 /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED6CDC2064FE83005B89D3 /* ActiveTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,13 +108,26 @@
 		6E98A14B2046E43F00AA2E99 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = st/Classes/LoginOrRegister/Controller/LoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		6E98A14D2046F1AE00AA2E99 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		6E98A14F2046F75F00AA2E99 /* LoginOrRegisterField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOrRegisterField.swift; sourceTree = "<group>"; };
+		6EA551DE206A35B500E2EC3B /* NoticeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
+		6EA551E0206A382000E2EC3B /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
+		6EA551E2206A45AB00E2EC3B /* ChangePwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwdViewController.swift; sourceTree = "<group>"; };
+		6EA551E4206B82B900E2EC3B /* HomeActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActive.swift; sourceTree = "<group>"; };
+		6EA551E6206D407D00E2EC3B /* MyActiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActiveViewController.swift; sourceTree = "<group>"; };
+		6EA551E8206D413700E2EC3B /* MyActiveTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActiveTableViewController.swift; sourceTree = "<group>"; };
+		6EAAFA63207A7CF000F90DA5 /* SearchSociety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSociety.swift; sourceTree = "<group>"; };
+		6EAAFA65207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSocietyTableViewCell.swift; sourceTree = "<group>"; };
 		6EAC80D2204A4C3300D26642 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		6EAC80D4204A4D5600D26642 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
 		6EAC80D6204A6B7F00D26642 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		6EAC80D8204A709400D26642 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6EAC80E1204BA20600D26642 /* ForgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetViewController.swift; sourceTree = "<group>"; };
 		6EAC80EB204D6E7600D26642 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
-		6EC6185A206650FF00C6A51A /* TeamDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailViewController.swift; sourceTree = "<group>"; };
+		6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyDetailViewController.swift; sourceTree = "<group>"; };
+		6EDBDC252073831700EB65F9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		6EDBDC272073A11500EB65F9 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
+		6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyViewController.swift; sourceTree = "<group>"; };
+		6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyTableViewCell.swift; sourceTree = "<group>"; };
+		6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefSociety.swift; sourceTree = "<group>"; };
 		6EED6CDC2064FE83005B89D3 /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTableViewCell.swift; sourceTree = "<group>"; };
 		754A57FC0FF44B49BEEBD454 /* Pods_st.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_st.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E74149F16B4177957CDC43 /* Pods-st.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-st.debug.xcconfig"; path = "Pods/Target Support Files/Pods-st/Pods-st.debug.xcconfig"; sourceTree = "<group>"; };
@@ -205,7 +231,7 @@
 		6E0978872044442900319404 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				6EC6185620664CE900C6A51A /* Team */,
+				6EC6185620664CE900C6A51A /* Society */,
 				6E90AA74205FAB8900B3966B /* User */,
 				6E98A1462046E34100AA2E99 /* LoginOrRegister */,
 				6E98A1422045928900AA2E99 /* Home */,
@@ -277,6 +303,10 @@
 			isa = PBXGroup;
 			children = (
 				6E90AA75205FB35F00B3966B /* UserInfoViewController.swift */,
+				6EA551E2206A45AB00E2EC3B /* ChangePwdViewController.swift */,
+				6EA551E6206D407D00E2EC3B /* MyActiveViewController.swift */,
+				6EA551E8206D413700E2EC3B /* MyActiveTableViewController.swift */,
+				6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -284,6 +314,7 @@
 		6E90AA78205FB39000B3966B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -291,6 +322,7 @@
 		6E90AA79205FB39500B3966B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -308,6 +340,7 @@
 		6E98A1432045938000AA2E99 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6EA551E4206B82B900E2EC3B /* HomeActive.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,6 +352,7 @@
 				6E83B8B5205405A9005C2022 /* LeftViewController.swift */,
 				6E2B9551205EA6EE00332C63 /* ScanViewController.swift */,
 				6E8AF1DD2068940C00D7A81B /* SuggesViewController.swift */,
+				6EA551DE206A35B500E2EC3B /* NoticeTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -328,6 +362,7 @@
 			children = (
 				6E40F876206409E7004400B8 /* BomButton.swift */,
 				6EED6CDC2064FE83005B89D3 /* ActiveTableViewCell.swift */,
+				6EA551E0206A382000E2EC3B /* NoticeTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -382,20 +417,21 @@
 			path = Tool;
 			sourceTree = "<group>";
 		};
-		6EC6185620664CE900C6A51A /* Team */ = {
+		6EC6185620664CE900C6A51A /* Society */ = {
 			isa = PBXGroup;
 			children = (
 				6EC6185920664D0100C6A51A /* Model */,
 				6EC6185820664CFC00C6A51A /* View */,
 				6EC6185720664CF400C6A51A /* Controller */,
 			);
-			path = Team;
+			path = Society;
 			sourceTree = "<group>";
 		};
 		6EC6185720664CF400C6A51A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6EC6185A206650FF00C6A51A /* TeamDetailViewController.swift */,
+				6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */,
+				6EDBDC252073831700EB65F9 /* SearchViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -403,6 +439,8 @@
 		6EC6185820664CFC00C6A51A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6EDBDC272073A11500EB65F9 /* SearchField.swift */,
+				6EAAFA65207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -410,6 +448,7 @@
 		6EC6185920664D0100C6A51A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6EAAFA63207A7CF000F90DA5 /* SearchSociety.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -621,30 +660,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E98A14E2046F1AE00AA2E99 /* Api.swift in Sources */,
+				6EA551E9206D413700E2EC3B /* MyActiveTableViewController.swift in Sources */,
 				6EAC80D7204A6B7F00D26642 /* RegisterViewController.swift in Sources */,
 				6E90AA71205F910C00B3966B /* SingleKeyBoard.swift in Sources */,
 				6E2B954E205AC9BE00332C63 /* ConfirmField.swift in Sources */,
 				6E09788E2044466A00319404 /* UIImage+Original.swift in Sources */,
 				6E90AA76205FB35F00B3966B /* UserInfoViewController.swift in Sources */,
-				6EC6185B206650FF00C6A51A /* TeamDetailViewController.swift in Sources */,
+				6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */,
 				6EAC80EC204D6E7600D26642 /* Networking.swift in Sources */,
 				6E09785A2044421800319404 /* AppDelegate.swift in Sources */,
 				6E83B8B2205186DB005C2022 /* Account.swift in Sources */,
 				6E8AF1E02068CCB100D7A81B /* NoticeViewController.swift in Sources */,
 				6E2B9552205EA6EE00332C63 /* ScanViewController.swift in Sources */,
 				6E0978902044474600319404 /* UIView+Extension.swift in Sources */,
+				6EDBDC2C2073BBE300EB65F9 /* SocietyTableViewCell.swift in Sources */,
 				6EAC80D3204A4C3300D26642 /* NavigationController.swift in Sources */,
+				6EDBDC2E207623D300EB65F9 /* BriefSociety.swift in Sources */,
+				6EDBDC262073831700EB65F9 /* SearchViewController.swift in Sources */,
 				6E40F877206409E7004400B8 /* BomButton.swift in Sources */,
 				6E8AF1DE2068940C00D7A81B /* SuggesViewController.swift in Sources */,
+				6EDBDC282073A11500EB65F9 /* SearchField.swift in Sources */,
+				6EA551E5206B82B900E2EC3B /* HomeActive.swift in Sources */,
 				6E98A14C2046E43F00AA2E99 /* LoginViewController.swift in Sources */,
+				6EAAFA66207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift in Sources */,
+				6EA551E7206D407D00E2EC3B /* MyActiveViewController.swift in Sources */,
 				6E83B8B6205405AA005C2022 /* LeftViewController.swift in Sources */,
 				6EED6CDD2064FE83005B89D3 /* ActiveTableViewCell.swift in Sources */,
 				6EAC80D9204A709400D26642 /* HomeViewController.swift in Sources */,
 				6E09788B2044456B00319404 /* Constant.swift in Sources */,
+				6EAAFA64207A7CF000F90DA5 /* SearchSociety.swift in Sources */,
 				6EAC80D5204A4D5600D26642 /* Navigation+Extension.swift in Sources */,
+				6EA551E3206A45AB00E2EC3B /* ChangePwdViewController.swift in Sources */,
 				6E2B9548205A66DB00332C63 /* User.swift in Sources */,
+				6EDBDC2A2073AFF700EB65F9 /* SocietyViewController.swift in Sources */,
+				6EA551E1206A382000E2EC3B /* NoticeTableViewCell.swift in Sources */,
 				6E98A1502046F75F00AA2E99 /* LoginOrRegisterField.swift in Sources */,
 				6E2B954C205AA00200332C63 /* ConfirmViewController.swift in Sources */,
+				6EA551DF206A35B500E2EC3B /* NoticeTableViewController.swift in Sources */,
 				6EAC80E2204BA20600D26642 /* ForgetViewController.swift in Sources */,
 				6E40F8752063F3B9004400B8 /* UIButton+Extension.swift in Sources */,
 				6E83B8B020517E13005C2022 /* AccountTool.swift in Sources */,

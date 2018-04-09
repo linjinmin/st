@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeamDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     // 社团头像
     weak var imageView: UIImageView!

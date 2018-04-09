@@ -144,48 +144,34 @@ class AccountTool: NSObject {
     class func checkToken(window: UIWindow) {
         let tokenDict = UserDefaults.standard.dictionary(forKey: "token")
         if (tokenDict == nil || (tokenDict?.isEmpty)!) {
-            window.rootViewController = LoginViewController()
+            let vc = LoginViewController()
+//            vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+//            let navi = NavigationController(rootViewController:vc)
+            window.rootViewController = vc
+            
             return
         }
         
         // 获取本地用户信息
         getUserInfoLocal()
+        let account = Account(dict: tokenDict! as [String : AnyObject])
+        setAccount(account)
+        Networking.setHeader()
         
-        // 刷新token
-        let params = NSMutableDictionary()
-        params["method"] = Api.refreshTokenMethod
-        params["token"] = tokenDict?["token"]
-        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
-            let response = JSON(response as Any)
-            if response["code"].intValue == 200 {
-                let token = response["data"]["token"].stringValue
-                // 保存token对象
-                let dict = NSMutableDictionary()
-                dict["token"] = token
-                let date = NSDate()
-                let timeInterval = Int(date.timeIntervalSince1970 * 1000)
-                dict["time"] = timeInterval
-                let account = Account(dict: dict as! [String : AnyObject])
-                setAccount(account)
-                saveToken(dict: dict)
-                Networking.setHeader()
-                // 判断是否认证
-                self.checkAuth(window: window)
-                // 获取用户信息
-                if self.getUser() == nil {
-                    self.getUserInfo()
-                }
-            } else {
-                window.rootViewController = LoginViewController()
-            }
-            
-        }) { (task, error) in
-            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
-        }
+        let vc = HomeViewController()
+//        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+//        let navi = NavigationController(rootViewController:vc)
         
-        window.rootViewController = HomeViewController()
+        window.rootViewController = vc
     }
     
+    class func clearUser() {
+        UserDefaults.standard.removeObject(forKey: "user")
+    }
+    
+    class func clearAccount() {
+        UserDefaults.standard.removeObject(forKey: "token")
+    }
     
     class func judgeNeedLogin() -> Bool {
         

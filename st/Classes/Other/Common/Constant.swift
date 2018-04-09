@@ -36,7 +36,8 @@ struct Constant {
     static let functionListBtnOffset = 20
     // 主色调， 蓝色
     static let viewColor = UIColor(red:87/255, green:113/255, blue:250/255, alpha:1)
-    
+    // 每页数量
+    static let page = 15
     
     
 }

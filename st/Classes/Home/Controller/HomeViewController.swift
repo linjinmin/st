@@ -10,6 +10,8 @@ import UIKit
 import swiftScan
 import SDWebImage
 import MJRefresh
+import SVProgressHUD
+import SwiftyJSON
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -22,6 +24,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var schoolLabel: UILabel!
     // 活动tableView
     weak var activeTableView: UITableView!
+    
     // cellview的背景颜色 4色循环
     fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
     // cellview的背景颜色， 透明度, 4色循环
@@ -32,6 +35,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let leftVc = LeftViewController()
         leftVc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
         return leftVc
+    }()
+    
+    lazy var activeArr = {() -> NSMutableArray in
+        let arr = NSMutableArray()
+        return arr
     }()
     
     lazy var scanVc = {() -> NavigationController in
@@ -51,6 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupScrollView()
         setupScrollViewDetail()
         setupRefresh()
+        refreshToken()
         
     }
     
@@ -111,10 +120,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         teamBtn.setImage(UIImage(named: "team"), for: .normal)
         teamBtn.titleLabel?.textAlignment = .center
         teamBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
+        teamBtn.addTarget(self, action: #selector(societyBtnClick), for: .touchUpInside)
         scrollView.addSubview(teamBtn)
         
+        // 我的活动
+        let myactiveBtn = BomButton(frame: CGRect(x:110, y:150, width:50, height:70))
+        myactiveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        myactiveBtn.setTitle("我的活动", for: .normal)
+        myactiveBtn.setTitleColor(UIColor.black, for: .normal)
+        myactiveBtn.setImage(UIImage(named: "recent"), for: .normal)
+        myactiveBtn.titleLabel?.textAlignment = .center
+        myactiveBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
+        myactiveBtn.addTarget(self, action: #selector(myActiveBtnClick), for: .touchUpInside)
+        scrollView.addSubview(myactiveBtn)
+        
         // 活动广场
-        let activeBtn = BomButton(frame: CGRect(x:110, y:150, width:50, height:70))
+        let activeBtn = BomButton(frame: CGRect(x:190, y:150, width:50, height:70))
         activeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         activeBtn.setTitle("活动广场", for: .normal)
         activeBtn.setTitleColor(UIColor.black, for: .normal)
@@ -124,7 +145,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollView.addSubview(activeBtn)
         
         // 活动群聊
-        let contactBtn = BomButton(frame: CGRect(x:190, y:150, width:50, height:70))
+        let contactBtn = BomButton(frame: CGRect(x:270, y:150, width:50, height:70))
         contactBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         contactBtn.setTitle("活动群聊", for: .normal)
         contactBtn.setTitleColor(UIColor.black, for: .normal)
@@ -132,16 +153,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         contactBtn.titleLabel?.textAlignment = .center
         contactBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
         scrollView.addSubview(contactBtn)
-        
-        // 历史活动
-        let recentBtn = BomButton(frame: CGRect(x:270, y:150, width:50, height:70))
-        recentBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        recentBtn.setTitle("历史活动", for: .normal)
-        recentBtn.setTitleColor(UIColor.black, for: .normal)
-        recentBtn.setImage(UIImage(named: "recent"), for: .normal)
-        recentBtn.titleLabel?.textAlignment = .center
-        recentBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
-        scrollView.addSubview(recentBtn)
         
         // 社团活动label
         let activeLabel = UILabel()
@@ -215,20 +226,80 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         header?.stateLabel.textColor = UIColor.gray
         header?.lastUpdatedTimeLabel.textColor = UIColor.gray
         activeTableView.mj_header = header
-        let footer = MJRefreshBackStateFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreActive))
-        footer?.stateLabel.textColor = UIColor.gray
-        activeTableView.mj_footer = footer
+//        let footer = MJRefreshBackStateFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreActive))
+//        footer?.stateLabel.textColor = UIColor.gray
+//        activeTableView.mj_footer = footer
     }
     
     @objc func loadNewActive() {
-        print("new")
-        activeTableView.mj_header.endRefreshing()
+        let params = NSMutableDictionary()
+        params["method"] = Api.homeActive
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            if response["code"].intValue == 200 {
+                self.activeArr.removeAllObjects()
+                let dict = response["data"].arrayObject as! [NSDictionary]
+                for item in dict {
+                    let homeActive = HomeActive(dict: item as! [String : AnyObject])
+                    self.activeArr.add(homeActive)
+                }
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+            self.activeTableView.mj_header.endRefreshing()
+            self.activeTableView.mj_header.endRefreshing()
+            self.activeTableView.reloadData()
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+            self.activeTableView.mj_header.endRefreshing()
+        }
+        
     }
     
-    @objc func loadMoreActive() {
-        print("more")
-        activeTableView.mj_footer.endRefreshing()
+    
+    // 刷新token
+    func refreshToken() {
+        // 刷新token
+        let params = NSMutableDictionary()
+        params["method"] = Api.refreshTokenMethod
+        params["token"] = AccountTool.getAccount()?.token!
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            let response = JSON(response as Any)
+            if response["code"].intValue == 200 {
+                let token = response["data"]["token"].stringValue
+                // 保存token对象
+                let dict = NSMutableDictionary()
+                dict["token"] = token
+                let date = NSDate()
+                let timeInterval = Int(date.timeIntervalSince1970 * 1000)
+                dict["time"] = timeInterval
+                let account = Account(dict: dict as! [String : AnyObject])
+                AccountTool.setAccount(account)
+                AccountTool.saveToken(dict: dict)
+                Networking.setHeader()
+                // 判断是否认证
+                AccountTool.checkAuth(window:  (UIApplication.shared.keyWindow)!)
+                // 获取用户信息
+                if AccountTool.getUser() == nil {
+                    AccountTool.getUserInfo()
+                }
+                self.activeTableView.mj_header.beginRefreshing()
+            } else {
+                UIApplication.shared.keyWindow!.rootViewController = LoginViewController()
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
     }
+    
+//    @objc func loadMoreActive() {
+//        print("more")
+//        activeTableView.mj_footer.endRefreshing()
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ActiveTableViewCell()
@@ -247,7 +318,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         gradientLayer.endPoint = CGPoint(x: 1, y: 0)
         gradientLayer.type = kCAGradientLayerAxial;
         cell.contentView.layer.insertSublayer(gradientLayer, at: 0)
-        
+        let homeActive = activeArr[indexPath.row]
+        cell.homeActive = homeActive as! HomeActive
         return cell
     }
     
@@ -260,7 +332,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return activeArr.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -276,6 +348,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func scanBtnClick() {
         present(scanVc, animated: true, completion: nil)
     }
+    
+    @objc func myActiveBtnClick() {
+        let vc = MyActiveViewController()
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        let navi = NavigationController(rootViewController:vc)
+        present(navi, animated: true, completion: nil)
+    }
+    
+    @objc func societyBtnClick() {
+        let vc = SocietyViewController()
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        let navi = NavigationController(rootViewController:vc)
+        present(navi, animated: true, completion: nil)
+    }
+    
+    
    
 
 }

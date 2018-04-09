@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 
 
-class RegisterViewController: UIViewController, UITextFieldDelegate {
+class RegisterViewController: UIViewController, UITextFieldDelegate, SingleKeyBoardDelegate {
     
     // 账号field
     weak var mobileField: UITextField!
@@ -30,6 +30,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     // code timer
     var timer: Timer!
     var timeCount: Int = 0
+    
+    // field 辅助
+    lazy var singleKeyBoard = {() -> SingleKeyBoard in
+        let keyBoard = SingleKeyBoard.keyBoardTool()
+        keyBoard.singleDelegate = self
+        return keyBoard
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -325,6 +332,10 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         return codeTest.evaluate(with: codeField.text)
     }
     
+    func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
+        view.endEditing(true)
+    }
+    
     func setupTextField(placeHolder: String, tintColor: UIColor, textColor: UIColor, backgroundColor: UIColor, keyboardType: UIKeyboardType, font: CGFloat, leftView: String) -> UITextField {
         
         let textField = LoginOrRegisterField()
@@ -346,6 +357,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         textField.layer.shadowOpacity = 0.2
         textField.layer.shadowOffset = CGSize(width: 0, height: 21)
         textField.delegate = self
+        textField.inputAccessoryView = singleKeyBoard
         return textField
     }
 

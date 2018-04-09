@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyJSON
+import SVProgressHUD
 
 class LeftViewController: UIViewController {
     
@@ -131,7 +133,15 @@ class LeftViewController: UIViewController {
         leftView.addSubview(aboutBtn)
         aboutBtn.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(infoBtn)
-            make.top.equalTo(feedbackBtn.snp.bottom).offset(Constant.functionListBtnOffset)
+        make.top.equalTo(feedbackBtn.snp.bottom).offset(Constant.functionListBtnOffset)
+        }
+        
+        // 登出
+        let logoutBtn = setupBtn("账号注销", normalImage: "logout", normalColor: Constant.functionListFontColor, font: 16, selector: #selector(logoutBtnClick))
+        leftView.addSubview(logoutBtn)
+        logoutBtn.snp.makeConstraints { (make) in
+            make.left.right.height.equalTo(infoBtn)
+            make.top.equalTo(aboutBtn.snp.bottom).offset(Constant.functionListBtnOffset)
         }
         
         // 优社团 标识
@@ -144,7 +154,6 @@ class LeftViewController: UIViewController {
             make.centerX.equalTo(leftView)
             make.bottom.equalTo(leftView).offset(-25)
         }
-        
         
     }
     
@@ -159,7 +168,10 @@ class LeftViewController: UIViewController {
     
     // 修改密码按钮点击
     @objc func pwdBtnClick() {
-        
+        let vc = ChangePwdViewController()
+        vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
+        let nav = NavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
     }
     
     // 消息公告按钮点击
@@ -210,6 +222,32 @@ class LeftViewController: UIViewController {
     // 隐藏按钮点击退出当前视图
     @objc func backBtnClick() {
         hideAnimation()
+    }
+    
+    // 登出
+    @objc func logoutBtnClick() {
+        
+        let params = NSMutableDictionary()
+        params["method"] = Api.logout
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                SVProgressHUD.showSuccess(withStatus: "登出成功")
+                // 删除本地缓存
+                AccountTool.clearUser()
+                AccountTool.clearAccount()
+                UIApplication.shared.keyWindow?.rootViewController = LoginViewController()
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
     }
     
     // 设置滑动手势

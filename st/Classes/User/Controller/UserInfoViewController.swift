@@ -11,7 +11,7 @@ import SwiftyJSON
 import SVProgressHUD
 import SDWebImage
 
-class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SingleKeyBoardDelegate {
+class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SingleKeyBoardDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // 头像
     weak var iconImageView: UIImageView!
@@ -23,14 +23,20 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     weak var schoolField: UITextField!
     // 系院
     weak var seriesField: UITextField!
+    // 性别
+    weak var sexField: UITextField!
     // 选中的city id
     var cityId: String!
     // 选中的school id
     var schoolId: String!
     // 选中的系
     var seriesId: String!
+    // 上传的头像类型
+    var mimeType: String!
+    // 选中的性别
+    var sexId: String!
     
-    fileprivate lazy var textFields: [UITextField] = [self.nameField, self.cityField, self.schoolField, self.seriesField]
+    fileprivate lazy var textFields: [UITextField] = [self.nameField, self.sexField, self.cityField, self.schoolField, self.seriesField]
     
     // 省数据
     var cityData: NSDictionary!
@@ -40,6 +46,8 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     var citySchoolData: [NSDictionary]!
     // 当前学校系数据
     var seriesData: [[String: Any]]!
+    // 性别数据
+    var sexData: [String: String] = ["0":"男", "1":"女"]
     
     // 省市pickerview
     lazy var cityPickerView = {() -> UIPickerView in
@@ -51,6 +59,14 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // 学校
     lazy var schoolPickerView = {() -> UIPickerView in
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        return pickerView
+    }()
+    
+    // 性别
+    lazy var sexPickerView = {() -> UIPickerView in
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -92,8 +108,8 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         view.addSubview(schoolView)
         schoolView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
-            make.height.equalTo(80)
-            make.centerY.equalTo(view).offset(60)
+            make.height.equalTo(70)
+            make.centerY.equalTo(view).offset(75)
         }
         
         // 学校text
@@ -104,7 +120,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         schoolView.addSubview(schoolLabel)
         schoolLabel.snp.makeConstraints { (make) in
             make.left.equalTo(schoolView).offset(30)
-            make.top.equalTo(schoolView).offset(10)
+            make.top.equalTo(schoolView).offset(5)
         }
         
         // 学校field
@@ -113,7 +129,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         schoolView.addSubview(schoolField)
         self.schoolField = schoolField
         schoolField.snp.makeConstraints { (make) in
-            make.top.equalTo(schoolLabel.snp.bottom).offset(10)
+            make.top.equalTo(schoolLabel.snp.bottom).offset(5)
             make.height.equalTo(32)
             make.left.equalTo(schoolView).offset(30)
             make.right.equalTo(schoolView).offset(-30)
@@ -143,7 +159,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         cityView.addSubview(cityLabel)
         cityLabel.snp.makeConstraints { (make) in
             make.left.equalTo(cityView).offset(30)
-            make.top.equalTo(cityView).offset(10)
+            make.top.equalTo(cityView).offset(5)
         }
         
         // 省市field
@@ -152,7 +168,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         cityView.addSubview(cityField)
         self.cityField = cityField
         cityField.snp.makeConstraints { (make) in
-            make.top.equalTo(cityLabel.snp.bottom).offset(10)
+            make.top.equalTo(cityLabel.snp.bottom).offset(5)
             make.height.equalTo(32)
             make.left.equalTo(cityView).offset(30)
             make.right.equalTo(cityView).offset(-30)
@@ -182,7 +198,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         seriesView.addSubview(seriesLabel)
         seriesLabel.snp.makeConstraints { (make) in
             make.left.equalTo(seriesView).offset(30)
-            make.top.equalTo(seriesView).offset(10)
+            make.top.equalTo(seriesView).offset(5)
         }
         
         // 系field
@@ -200,7 +216,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         seriesView.addSubview(seriesField)
         self.seriesField = seriesField
         seriesField.snp.makeConstraints { (make) in
-            make.top.equalTo(seriesLabel.snp.bottom).offset(10)
+            make.top.equalTo(seriesLabel.snp.bottom).offset(5)
             make.height.equalTo(32)
             make.left.equalTo(seriesView).offset(30)
             make.right.equalTo(seriesView).offset(-30)
@@ -215,12 +231,52 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             make.bottom.equalTo(seriesView)
         }
         
+        // 性别
+        let sexView = setupBackView()
+        view.addSubview(sexView)
+        sexView.snp.makeConstraints { (make) in
+            make.left.right.height.equalTo(schoolView)
+            make.bottom.equalTo(cityView.snp.top)
+        }
+        
+        // 性别label
+        let sexLabel = UILabel()
+        sexLabel.text = "性别:"
+        sexLabel.textColor = UIColor.black
+        sexLabel.font = UIFont.systemFont(ofSize: 16)
+        sexView.addSubview(sexLabel)
+        sexLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(sexView).offset(30)
+            make.top.equalTo(sexView).offset(5)
+        }
+        
+        // 性别field
+        let sexField = setupField(placeholder: "性别", inputView: self.sexPickerView)
+//        sexField.text = sexData[((AccountTool.getUser()?.sex)! as String)]
+        sexView.addSubview(sexField)
+        self.sexField = sexField
+        sexField.snp.makeConstraints { (make) in
+            make.top.equalTo(sexLabel.snp.bottom).offset(5)
+            make.height.equalTo(32)
+            make.left.equalTo(sexView).offset(30)
+            make.right.equalTo(sexView).offset(-30)
+        }
+        
+        let sexHen = setupHenView()
+        sexView.addSubview(sexHen)
+        sexHen.snp.makeConstraints { (make) in
+            make.left.equalTo(sexView).offset(30)
+            make.right.equalTo(sexView)
+            make.height.equalTo(1)
+            make.bottom.equalTo(sexView)
+        }
+        
         // 名称
         let nameView = setupBackView()
         view.addSubview(nameView)
         nameView.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(schoolView)
-            make.bottom.equalTo(cityView.snp.top)
+            make.bottom.equalTo(sexView.snp.top)
         }
         
         // 姓名text
@@ -231,7 +287,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         nameView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameView).offset(30)
-            make.top.equalTo(nameView).offset(10)
+            make.top.equalTo(nameView).offset(5)
         }
         
         // 姓名field
@@ -244,7 +300,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         nameView.addSubview(namefield)
         self.nameField = namefield
         namefield.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel.snp.bottom).offset(10)
+            make.top.equalTo(nameLabel.snp.bottom).offset(5)
             make.height.equalTo(32)
             make.left.equalTo(nameView).offset(30)
             make.right.equalTo(nameView).offset(-30)
@@ -269,7 +325,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         iconImageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
             make.height.width.equalTo(100)
-            make.bottom.equalTo(nameView.snp.top).offset(-20)
+            make.bottom.equalTo(nameView.snp.top).offset(-15)
         }
         
         // 确认按钮
@@ -293,10 +349,75 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             make.top.equalTo(seriesView.snp.bottom).offset(30)
         }
         
+        // 修改头像按钮
+        let headBtn = UIButton()
+        headBtn.backgroundColor = UIColor.clear
+        headBtn.addTarget(self, action: #selector(headBtnClick), for: .touchUpInside)
+        view.addSubview(headBtn)
+        headBtn.snp.makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(iconImageView)
+        }
+        
         // 初始化信息
         seriesId = ((AccountTool.getUser()?.series)! as String )
         schoolId = ((AccountTool.getUser()?.school)! as String )
         cityId = ((AccountTool.getUser()?.province)! as String )
+    }
+    
+    @objc func headBtnClick() {
+        SVProgressHUD.show(withStatus: "正在打开相册")
+        localPhoto()
+    }
+    
+    // 打开本地相册
+    func localPhoto() {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        present(picker, animated: true, completion: nil)
+        SVProgressHUD.dismiss()
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        SVProgressHUD.show(withStatus: "正在加载图片")
+        let type = info[UIImagePickerControllerMediaType] as! String
+        if type == "public.image" {
+            let image: UIImage! = (info[UIImagePickerControllerOriginalImage] as! UIImage)
+            var data:NSData!
+            if UIImagePNGRepresentation(image) == nil {
+                data = (UIImageJPEGRepresentation(image, 1.0)! as NSData)
+                mimeType = "image/jpeg"
+            } else {
+                data = (UIImagePNGRepresentation(image)! as NSData)
+                mimeType = "image/png"
+            }
+            
+            if  data.length > 3145728 {
+                SVProgressHUD.showError(withStatus: "图片应小于3M")
+                return
+            }
+            
+            postHeadImage(data: data)
+        }
+        
+    }
+    
+    // 上传照片
+    func postHeadImage(data: NSData) {
+        
+        SVProgressHUD.show(withStatus: "正在上传")
+        let params = NSMutableDictionary()
+        params["method"] = Api.uploadHeadPic
+        Networking.share().post(Api.host, parameters: params, constructingBodyWith: { (formData) in
+            let fileName = NSUUID().uuidString + "." + self.mimeType
+            formData.appendPart(withFileData: data as Data, name: "file", fileName: fileName, mimeType: self.mimeType)
+        }, progress: nil, success: { (task, response) in
+            let response = JSON(response as Any)
+            print(response)
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -315,6 +436,8 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
                 SVProgressHUD.showError(withStatus: "请先选择学校")
                 return 0
             }
+        } else if pickerView == self.sexPickerView {
+            return self.sexData.count
         }
         return 1
     }
@@ -356,6 +479,9 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
                 
             }
             
+        } else if pickerView == self.sexPickerView {
+            
+            return self.sexData[String(row)]
         }
         
         return ""
@@ -408,6 +534,9 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
                 
                 count += 1
             }
+        } else if pickerView == self.sexPickerView {
+            self.sexField.text = self.sexData[String(row)]
+            self.sexId = String(row)
         }
     }
     
@@ -415,7 +544,6 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     // 获取省数据
     func getCityData() {
@@ -488,15 +616,16 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         params["school_id"]  = self.schoolId
         params["series_id"] = self.seriesId
         params["name"] = self.nameField.text
+        params["sex"] = self.sexId
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             let response = JSON(response as Any)
             
             if response["code"].intValue == 200 {
                 // 认证成功， 记录认证信息
                 AccountTool.saveAuth()
-                self.navigationController?.dismiss(animated: true, completion: nil)
                 SVProgressHUD.showSuccess(withStatus: "修改信息成功")
-                UIApplication.shared.keyWindow?.rootViewController = HomeViewController()
+                // 更新信息
+                AccountTool.getUserInfo()
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }

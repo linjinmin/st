@@ -10,8 +10,6 @@ import UIKit
 
 class BomButton: UIButton {
 
-    
-    
     override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
         return CGRect(x:0, y:contentRect.size.width, width: contentRect.size.width, height: contentRect.size.height - contentRect.size.width)
     }

@@ -22,9 +22,7 @@ extension NavigationController {
         appearence.shadowImage = UIImage()
     UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font : UIFont.systemFont(ofSize: 18)], for: UIControlState())
         
-        
     }
-    
     
 }
 

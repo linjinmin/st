@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SVProgressHUD
+import SwiftyJSON
 
 class SuggesViewController: UIViewController, SingleKeyBoardDelegate {
     
@@ -92,6 +94,24 @@ class SuggesViewController: UIViewController, SingleKeyBoardDelegate {
     
     
     @objc func confirmBtnClick() {
+        SVProgressHUD.show(withStatus: Constant.loadingTitle)
+        
+        let params = NSMutableDictionary()
+        params["string"] = textView.text
+        params["method"] = Api.feedback
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            if response["code"].intValue == 200 {
+                SVProgressHUD.showSuccess(withStatus: "谢谢您的反馈，我们尽力做的更好")
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
         
     }
     

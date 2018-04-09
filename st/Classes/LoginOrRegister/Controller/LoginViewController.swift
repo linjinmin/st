@@ -11,13 +11,20 @@ import SnapKit
 import SVProgressHUD
 import SwiftyJSON
 
-class LoginViewController: UIViewController, UITextFieldDelegate{
+class LoginViewController: UIViewController, UITextFieldDelegate, SingleKeyBoardDelegate{
     
     
     // 手机号field
     weak var mobileField: UITextField!
     // 密码field
     weak var passwordField: UITextField!
+    
+    // field 辅助
+    lazy var singleKeyBoard = {() -> SingleKeyBoard in
+        let keyBoard = SingleKeyBoard.keyBoardTool()
+        keyBoard.singleDelegate = self
+        return keyBoard
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,9 +153,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         textField.layer.shadowOpacity = 0.2
         textField.layer.shadowOffset = CGSize(width: 0, height: 5)
         textField.delegate = self
+        textField.inputAccessoryView = singleKeyBoard
         return textField
     }
     
+    func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
+        view.endEditing(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

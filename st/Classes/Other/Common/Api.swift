@@ -39,6 +39,20 @@ class Api {
     static let addSeriesMethod = "User/Config/addSeries"
     // 获取系院信息
     static let seriesMethod = "User/Config/getSeriesByKeyWord"
+    // 上传头像
+    static let uploadHeadPic = "User/User/uploadHeadPic"
+    // 用户修改密码
+    static let alterPassword = "User/User/alterPassword"
+    // 我的社团活动 首页
+    static let homeActive = "Active/User/myTissueActive"
+    // 用户反馈
+    static let feedback = "User/Config/feedBack"
+    // 登出
+    static let logout = "User/User/userLoginOut"
+    // 社团模糊搜索
+    static let tissueByName = "Tissue/Config/getTissueByName"
+    // 我的社团列表
+    static let myTissue = "Tissue/User/myTissue"
     
     
 }

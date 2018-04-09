@@ -9,7 +9,7 @@
 import UIKit
 
 class ActiveTableViewCell: UITableViewCell {
-
+    
     // 活动名称
     weak var activeNameLabel: UILabel!
     // 报名人数
@@ -18,6 +18,16 @@ class ActiveTableViewCell: UITableViewCell {
     weak var timeLabel: UILabel!
     // 社团名称
     weak var teamLabel: UILabel!
+    
+    var homeActive: HomeActive! {
+        didSet {
+            
+            self.activeNameLabel.text = (homeActive.name! as String)
+            self.peopleLabel.text = (homeActive.join_num! as String) + "/" + (homeActive.num! as String)
+            self.timeLabel.text = (homeActive.begin! as String) + "-" + (homeActive.end! as String)
+            self.teamLabel.text = (homeActive.tissue_name! as String)
+        }
+    }
     
     override var frame:CGRect{
         didSet {

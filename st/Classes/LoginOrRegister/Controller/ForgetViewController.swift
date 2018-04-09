@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import SVProgressHUD
 
-class ForgetViewController: UIViewController, UITextFieldDelegate {
+class ForgetViewController: UIViewController, UITextFieldDelegate, SingleKeyBoardDelegate {
 
     // 账号field
     weak var mobileField: UITextField!
@@ -30,7 +30,12 @@ class ForgetViewController: UIViewController, UITextFieldDelegate {
     var timer: Timer!
     var timeCount: Int = 0
     
-    
+    // field 辅助
+    lazy var singleKeyBoard = {() -> SingleKeyBoard in
+        let keyBoard = SingleKeyBoard.keyBoardTool()
+        keyBoard.singleDelegate = self
+        return keyBoard
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -289,6 +294,10 @@ class ForgetViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
+        view.endEditing(true)
+    }
+    
     func setupTextField(placeHolder: String, tintColor: UIColor, textColor: UIColor, backgroundColor: UIColor, keyboardType: UIKeyboardType, font: CGFloat, leftView: String) -> UITextField {
         
         let textField = LoginOrRegisterField()
@@ -310,6 +319,7 @@ class ForgetViewController: UIViewController, UITextFieldDelegate {
         textField.layer.shadowOpacity = 0.2
         textField.layer.shadowOffset = CGSize(width: 0, height: 21)
         textField.delegate = self
+        textField.inputAccessoryView = singleKeyBoard
         return textField
     }
 }

@@ -27,7 +27,8 @@ class User: NSObject {
     @objc var series: NSString!
     // 头像
     @objc var head_pic: NSString!
-    
+    // 性别
+    @objc var sex: NSString!
     
     init(dict: [String: AnyObject]) {
         super.init()
