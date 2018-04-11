@@ -19,6 +19,8 @@
 		6E2B954C205AA00200332C63 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B954B205AA00200332C63 /* ConfirmViewController.swift */; };
 		6E2B954E205AC9BE00332C63 /* ConfirmField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B954D205AC9BE00332C63 /* ConfirmField.swift */; };
 		6E2B9552205EA6EE00332C63 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B9551205EA6EE00332C63 /* ScanViewController.swift */; };
+		6E356EE8207DB8E6009A51B2 /* MyActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E356EE7207DB8E6009A51B2 /* MyActiveTableViewCell.swift */; };
+		6E356EEA207DBE59009A51B2 /* MyActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E356EE9207DBE59009A51B2 /* MyActive.swift */; };
 		6E40F8752063F3B9004400B8 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E40F8742063F3B9004400B8 /* UIButton+Extension.swift */; };
 		6E40F877206409E7004400B8 /* BomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E40F876206409E7004400B8 /* BomButton.swift */; };
 		6E78D10E2060F3B300672FB0 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E78D10D2060F3B200672FB0 /* city.plist */; };
@@ -51,7 +53,7 @@
 		6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */; };
 		6EDBDC262073831700EB65F9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC252073831700EB65F9 /* SearchViewController.swift */; };
 		6EDBDC282073A11500EB65F9 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC272073A11500EB65F9 /* SearchField.swift */; };
-		6EDBDC2A2073AFF700EB65F9 /* SocietyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */; };
+		6EDBDC2A2073AFF700EB65F9 /* MySocietyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC292073AFF700EB65F9 /* MySocietyViewController.swift */; };
 		6EDBDC2C2073BBE300EB65F9 /* SocietyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */; };
 		6EDBDC2E207623D300EB65F9 /* BriefSociety.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */; };
 		6EED6CDD2064FE83005B89D3 /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED6CDC2064FE83005B89D3 /* ActiveTableViewCell.swift */; };
@@ -93,6 +95,8 @@
 		6E2B954B205AA00200332C63 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		6E2B954D205AC9BE00332C63 /* ConfirmField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmField.swift; sourceTree = "<group>"; };
 		6E2B9551205EA6EE00332C63 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		6E356EE7207DB8E6009A51B2 /* MyActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActiveTableViewCell.swift; sourceTree = "<group>"; };
+		6E356EE9207DBE59009A51B2 /* MyActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActive.swift; sourceTree = "<group>"; };
 		6E40F8742063F3B9004400B8 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		6E40F876206409E7004400B8 /* BomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BomButton.swift; sourceTree = "<group>"; };
 		6E78D10D2060F3B200672FB0 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
@@ -125,7 +129,7 @@
 		6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyDetailViewController.swift; sourceTree = "<group>"; };
 		6EDBDC252073831700EB65F9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6EDBDC272073A11500EB65F9 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
-		6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyViewController.swift; sourceTree = "<group>"; };
+		6EDBDC292073AFF700EB65F9 /* MySocietyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySocietyViewController.swift; sourceTree = "<group>"; };
 		6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyTableViewCell.swift; sourceTree = "<group>"; };
 		6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BriefSociety.swift; sourceTree = "<group>"; };
 		6EED6CDC2064FE83005B89D3 /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTableViewCell.swift; sourceTree = "<group>"; };
@@ -306,7 +310,7 @@
 				6EA551E2206A45AB00E2EC3B /* ChangePwdViewController.swift */,
 				6EA551E6206D407D00E2EC3B /* MyActiveViewController.swift */,
 				6EA551E8206D413700E2EC3B /* MyActiveTableViewController.swift */,
-				6EDBDC292073AFF700EB65F9 /* SocietyViewController.swift */,
+				6EDBDC292073AFF700EB65F9 /* MySocietyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -315,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				6EDBDC2B2073BBE300EB65F9 /* SocietyTableViewCell.swift */,
+				6E356EE7207DB8E6009A51B2 /* MyActiveTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */,
+				6E356EE9207DBE59009A51B2 /* MyActive.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -672,7 +678,9 @@
 				6E83B8B2205186DB005C2022 /* Account.swift in Sources */,
 				6E8AF1E02068CCB100D7A81B /* NoticeViewController.swift in Sources */,
 				6E2B9552205EA6EE00332C63 /* ScanViewController.swift in Sources */,
+				6E356EE8207DB8E6009A51B2 /* MyActiveTableViewCell.swift in Sources */,
 				6E0978902044474600319404 /* UIView+Extension.swift in Sources */,
+				6E356EEA207DBE59009A51B2 /* MyActive.swift in Sources */,
 				6EDBDC2C2073BBE300EB65F9 /* SocietyTableViewCell.swift in Sources */,
 				6EAC80D3204A4C3300D26642 /* NavigationController.swift in Sources */,
 				6EDBDC2E207623D300EB65F9 /* BriefSociety.swift in Sources */,
@@ -692,7 +700,7 @@
 				6EAC80D5204A4D5600D26642 /* Navigation+Extension.swift in Sources */,
 				6EA551E3206A45AB00E2EC3B /* ChangePwdViewController.swift in Sources */,
 				6E2B9548205A66DB00332C63 /* User.swift in Sources */,
-				6EDBDC2A2073AFF700EB65F9 /* SocietyViewController.swift in Sources */,
+				6EDBDC2A2073AFF700EB65F9 /* MySocietyViewController.swift in Sources */,
 				6EA551E1206A382000E2EC3B /* NoticeTableViewCell.swift in Sources */,
 				6E98A1502046F75F00AA2E99 /* LoginOrRegisterField.swift in Sources */,
 				6E2B954C205AA00200332C63 /* ConfirmViewController.swift in Sources */,

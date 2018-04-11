@@ -128,7 +128,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         myactiveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         myactiveBtn.setTitle("我的活动", for: .normal)
         myactiveBtn.setTitleColor(UIColor.black, for: .normal)
-        myactiveBtn.setImage(UIImage(named: "recent"), for: .normal)
+        myactiveBtn.setImage(UIImage(named: "myactive"), for: .normal)
         myactiveBtn.titleLabel?.textAlignment = .center
         myactiveBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
         myactiveBtn.addTarget(self, action: #selector(myActiveBtnClick), for: .touchUpInside)
@@ -357,7 +357,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func societyBtnClick() {
-        let vc = SocietyViewController()
+        let vc = MySocietyViewController()
         vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
         let navi = NavigationController(rootViewController:vc)
         present(navi, animated: true, completion: nil)

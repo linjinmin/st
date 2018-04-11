@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "st/Classes/Society/Controller/SearchViewController.swift"
-            timestampString = "544986728.3224649"
+            filePath = "st/Classes/User/Controller/SocietyViewController.swift"
+            timestampString = "545036965.927181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "searchBtnClick()"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "loadNew()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -31,19 +31,23 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
     
     func setupChild() {
         
-        // 报名中
-        let joinVc = MyActiveTableViewController()
-        joinVc.title = "报名中"
-        self.addChildViewController(joinVc)
         
         // 进行中
         let startVc = MyActiveTableViewController()
         startVc.title = "进行中"
+        startVc.status = 2
         self.addChildViewController(startVc)
+        
+        // 报名中
+        let joinVc = MyActiveTableViewController()
+        joinVc.title = "已报名"
+        joinVc.status = 1
+        self.addChildViewController(joinVc)
         
         // 已结束
         let endVc = MyActiveTableViewController()
         endVc.title = "已结束"
+        endVc.status = 3
         self.addChildViewController(endVc)
         
     }
@@ -86,7 +90,7 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
     func setupContentView() {
         
         let contentView = UIScrollView()
-        contentView.frame = CGRect(x: 0, y: 44, width: Constant.screenW, height: Constant.screenH - 44)
+        contentView.frame = CGRect(x: 0, y: 64, width: Constant.screenW, height: Constant.screenH - 64)
         contentView.contentSize = CGSize(width: 3 * Constant.screenW, height: 0)
         contentView.delegate = self
         contentView.bounces = false

@@ -130,7 +130,7 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
         let params = NSMutableDictionary()
         params["method"] = Api.tissueByName
         params["page"] = curPage
-        params["size"] = Constant.page
+        params["size"] = Constant.size
         params["name"] = field.text
         
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in

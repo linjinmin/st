@@ -22,7 +22,7 @@ class SocietyTableViewCell: UITableViewCell {
             
             self.nameLabel.text = (briefSociety.tissue_name! as String)
             self.briefLabel.text = (briefSociety.tissue_describe! as String)
-            if briefSociety.position_name == nil {
+            if briefSociety.position_name != nil {
                 self.jobLabel.text = (briefSociety.position_name! as String)
             }
             
@@ -76,7 +76,7 @@ class SocietyTableViewCell: UITableViewCell {
         self.jobLabel = jobLabel
         jobLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.top.equalTo(nameLabel.snp.bottom).offset(10)
         }
         
         // 简介

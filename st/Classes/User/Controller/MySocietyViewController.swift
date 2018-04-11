@@ -12,7 +12,7 @@ import MJRefresh
 import SVProgressHUD
 import SwiftyJSON
 
-class SocietyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class MySocietyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
     weak var tableView: UITableView!
     // 当前页
@@ -143,7 +143,7 @@ class SocietyViewController: UIViewController, UITableViewDelegate, UITableViewD
         let params = NSMutableDictionary()
         params["method"] = Api.myTissue
         params["page"] = curPage
-        params["size"] = Constant.page
+        params["size"] = Constant.size
         
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             
@@ -190,7 +190,6 @@ class SocietyViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 180
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = SocietyTableViewCell()
         let cellColorIndex = indexPath.row % 4
@@ -220,5 +219,7 @@ class SocietyViewController: UIViewController, UITableViewDelegate, UITableViewD
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+    
     
 }

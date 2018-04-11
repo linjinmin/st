@@ -53,6 +53,7 @@ class Api {
     static let tissueByName = "Tissue/Config/getTissueByName"
     // 我的社团列表
     static let myTissue = "Tissue/User/myTissue"
-    
+    // 我的活动
+    static let myActive = "Active/User/getActiveByStatus"
     
 }
