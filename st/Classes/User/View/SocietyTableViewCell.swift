@@ -20,10 +20,10 @@ class SocietyTableViewCell: UITableViewCell {
     var briefSociety: BriefSociety! {
         didSet {
             
-            self.nameLabel.text = (briefSociety.tissue_name! as String)
-            self.briefLabel.text = (briefSociety.tissue_describe! as String)
+            self.nameLabel.text = "\(briefSociety.tissue_name ?? "")"
+            self.briefLabel.text = "\(briefSociety.tissue_describe ?? "")"
             if briefSociety.position_name != nil {
-                self.jobLabel.text = (briefSociety.position_name! as String)
+                self.jobLabel.text = "\(briefSociety.position_name ?? "")"
             }
             
         }

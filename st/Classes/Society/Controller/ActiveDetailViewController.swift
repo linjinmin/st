@@ -1,0 +1,294 @@
+//
+//  ActiveDetailViewController.swift
+//  st
+//
+//  Created by 林劲民 on 2018/4/12.
+//  Copyright © 2018年 林劲民. All rights reserved.
+//
+
+import UIKit
+import SwiftyJSON
+import SVProgressHUD
+
+class ActiveDetailViewController: UIViewController {
+
+    // 活动id
+    var activeId: NSString!
+    // 活动名称label
+    weak var activeNameLabel: UILabel!
+    // 活动状态
+    weak var statusLabel: UILabel!
+    // 报名时间
+    weak var signTimeLabel: UILabel!
+    // 活动开始时间
+    weak var activeTimeLabel: UILabel!
+    // 地点
+    weak var addressLabel: UILabel!
+    // 社团名称按钮
+    weak var tissueBtn: UIButton!
+    // 活动详情
+    weak var detailLabel: UILabel!
+    // 参与人数
+    weak var joinLabel: UILabel!
+    // 成员scrollview
+    weak var memberScrollview: UIScrollView!
+    
+    var activeDetail: ActiveDetail! {
+        didSet{
+            
+            activeNameLabel.text = "\(activeDetail.active_name ?? "")"
+            signTimeLabel.text = "报名时间：\(activeDetail.sign_begin ?? "")-\(activeDetail.sign_end ?? "")"
+            activeTimeLabel.text = "活动时间：\(activeDetail.active_begin ?? "")-\(activeDetail.active_end ?? "")"
+            addressLabel.text = "地点：\(activeDetail.address ?? "暂无")"
+            tissueBtn.setTitle("\(activeDetail.tissue_name ?? "")", for: .normal)
+//            tissueNameLabel.text = "社团：\(activeDetail.tissue_name ?? "")"
+            detailLabel.text = "活动详情：\(activeDetail.describe ?? "暂无")"
+            joinLabel.text = "\(activeDetail.member_join ?? "")/\(activeDetail.member_count ?? "")"
+            
+            if activeDetail.users.count > 0 {
+                let width = activeDetail.users.count * 80
+                memberScrollview.contentSize = CGSize(width: width, height: 60)
+                
+                var count = 0
+                // 活动成员
+                for item in activeDetail.users {
+                    
+                    let item = item as! [String: AnyObject]
+                    
+                    let teamBtn = BomButton(frame: CGRect(x:count * 80, y:0, width:60, height:80))
+                    teamBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+                    teamBtn.setTitle("\(item["name"] as! String)", for: .normal)
+                    teamBtn.setTitleColor(UIColor.black, for: .normal)
+                    teamBtn.sd_setImage(with: URL(string: item["head_pic"] as! String), for: .normal)
+                    teamBtn.sd_setImage(with: URL(string: item["head_pic"] as! String), for: .normal, placeholderImage: UIImage(named: "image_placeholder"))
+                    teamBtn.titleLabel?.textAlignment = .center
+                    teamBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
+                    teamBtn.tag = ((item["id"] as? NSString)?.integerValue)!
+                    teamBtn.addTarget(self, action: #selector(userBtnClick(sender:)), for: .touchUpInside)
+                    memberScrollview.addSubview(teamBtn)
+                    count = count + 1
+                }
+            }
+            
+        }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "优社团"
+        view.backgroundColor = Constant.viewBackgroundColor
+        
+        setup()
+        getData()
+        
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func setup() {
+        
+        // 大的scrollview
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = UIColor.clear
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(view)
+        }
+        
+        // 活动名称
+        let activeNameLabel = setupLabel(font: 22)
+        scrollView.addSubview(activeNameLabel)
+        self.activeNameLabel = activeNameLabel
+        activeNameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(scrollView).offset(20)
+            make.top.equalTo(scrollView).offset(20)
+        }
+        
+        // 状态label
+        let statusLabel = setupLabel(font: 16)
+        scrollView.addSubview(statusLabel)
+        self.statusLabel = statusLabel
+        statusLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(activeNameLabel)
+            make.left.equalTo(activeNameLabel.snp.right).offset(15)
+        }
+        
+        // 报名时间label
+        let signTimeLabel = setupLabel(font: 16)
+        scrollView.addSubview(signTimeLabel)
+        self.signTimeLabel = signTimeLabel
+        signTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(activeNameLabel.snp.bottom).offset(20)
+        }
+        
+        // 活动时间
+        let activeTimeLabel = setupLabel(font: 16)
+        scrollView.addSubview(activeTimeLabel)
+        self.activeTimeLabel = activeTimeLabel
+        activeTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(signTimeLabel.snp.bottom).offset(10)
+        }
+        
+        // 地点
+        let addressLabel = setupLabel(font: 16)
+        scrollView.addSubview(addressLabel)
+        self.addressLabel = addressLabel
+        addressLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(activeTimeLabel.snp.bottom).offset(10)
+        }
+        
+        // 社团
+        let tissueNameLabel = setupLabel(font: 16)
+        tissueNameLabel.text = "社团："
+        scrollView.addSubview(tissueNameLabel)
+        tissueNameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(addressLabel.snp.bottom).offset(10)
+        }
+        
+        // 社团按钮
+        let tissueBtn = UIButton()
+        tissueBtn.setTitleColor(Constant.viewColor, for: .normal)
+        tissueBtn.backgroundColor = UIColor.clear
+        tissueBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        tissueBtn.addTarget(self, action: #selector(tissueBtnClick), for: .touchUpInside)
+        scrollView.addSubview(tissueBtn)
+        self.tissueBtn = tissueBtn
+        tissueBtn.snp.makeConstraints { (make) in
+            make.centerY.equalTo(tissueNameLabel)
+            make.left.equalTo(tissueNameLabel.snp.right).offset(1)
+        }
+        
+        // 活动详情
+        let detailLabel = setupLabel(font: 16)
+        scrollView.addSubview(detailLabel)
+        detailLabel.numberOfLines = 0
+        self.detailLabel = detailLabel
+        detailLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.width.equalTo(Constant.screenW - 40)
+            make.top.equalTo(tissueNameLabel.snp.bottom).offset(10)
+        }
+        
+        // 活动成员
+        let memberLabel = setupLabel(font: 20)
+        memberLabel.text = "活动成员"
+        scrollView.addSubview(memberLabel)
+        memberLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(detailLabel.snp.bottom).offset(30)
+        }
+        
+        // 参与人员
+        let joinLabel = setupLabel(font: 16)
+        scrollView.addSubview(joinLabel)
+        self.joinLabel = joinLabel
+        joinLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(memberLabel)
+            make.left.equalTo(scrollView).offset(Constant.screenW - 70)
+        }
+        
+        // 参与人员logo
+        let joinImageView = UIImageView(image: UIImage(named:"user"))
+        scrollView.addSubview(joinImageView)
+        joinImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(joinLabel.snp.right).offset(1)
+            make.centerY.equalTo(joinLabel)
+            make.height.width.equalTo(18)
+        }
+        
+        // 成员scroview
+        let memberScrollView = UIScrollView()
+        scrollView.addSubview(memberScrollView)
+        self.memberScrollview = memberScrollView
+        memberScrollView.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.width.equalTo(Constant.screenW - 40)
+            make.height.equalTo(90)
+            make.top.equalTo(memberLabel.snp.bottom).offset(10)
+        }
+        
+        // 报名button
+        let btn = UIButton()
+        btn.backgroundColor = Constant.viewColor
+        btn.setTitle("报名", for: .normal)
+        btn.setTitleColor(UIColor.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.addTarget(self, action: #selector(btnClick), for: .touchDown)
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.shadowOpacity = 0.2
+        btn.layer.shadowColor = UIColor.black.cgColor
+        btn.layer.shadowOffset = CGSize(width: 0, height: 5)
+        btn.layer.shadowRadius = 5
+        btn.layer.cornerRadius = 21
+        scrollView.addSubview(btn)
+        btn.snp.makeConstraints { (make) in
+            make.left.equalTo(scrollView).offset(30)
+            make.width.equalTo(Constant.screenW - 60)
+            make.top.equalTo(memberScrollview.snp.bottom).offset(20)
+            make.height.equalTo(50)
+            make.bottom.equalTo(scrollView)
+        }
+        
+    }
+    
+    func getData() {
+        
+        let params = NSMutableDictionary()
+        params["active_id"] = activeId
+        params["method"] = Api.ActiveDetail
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"] == 200 {
+                
+                let activeDetail = ActiveDetail(dict: response["data"].dictionaryObject! as [String : AnyObject])
+                
+                self.activeDetail = activeDetail
+                
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
+    }
+    
+    @objc func btnClick() {
+        
+    }
+    
+    @objc func tissueBtnClick() {
+        
+        let vc = SocietyDetailViewController()
+        vc.tissue_id = activeDetail.tissue_id!
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    @objc func userBtnClick(sender: UIButton) {
+        
+        print(sender.tag)
+        
+    }
+    
+    func setupLabel(font: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: font)
+        label.textColor = UIColor.black
+        return label
+    }
+
+}

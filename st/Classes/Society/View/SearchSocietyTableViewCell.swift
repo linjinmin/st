@@ -18,8 +18,8 @@ class SearchSocietyTableViewCell: UITableViewCell {
     var briefSociety: SearchSociety! {
         didSet {
             
-            self.nameLabel.text = (briefSociety.name! as String)
-            self.briefLabel.text = (briefSociety.describe! as String)
+            self.nameLabel.text = "\(briefSociety.name ?? "")"
+            self.briefLabel.text = "\(briefSociety.describe ?? "")"
            
         }
     }

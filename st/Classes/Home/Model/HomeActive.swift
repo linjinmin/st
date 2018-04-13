@@ -11,6 +11,8 @@ import UIKit
 
 class HomeActive: NSObject {
     
+    // 活动id
+    @objc var id: NSString!
     // 活动名称
     @objc var name: NSString!
     // 是否需要审核 0不需要 1需要

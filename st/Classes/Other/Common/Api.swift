@@ -55,5 +55,9 @@ class Api {
     static let myTissue = "Tissue/User/myTissue"
     // 我的活动
     static let myActive = "Active/User/getActiveByStatus"
+    // 社团详情
+    static let tissueDetail = "Tissue/School/getTissueDetail"
+    // 活动详情
+    static let ActiveDetail = "Active/Active/getActiveDetail"
     
 }

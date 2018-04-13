@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActiveTableViewCell: UITableViewCell {
+class HomeActiveTableViewCell: UITableViewCell {
     
     // 活动名称
     weak var activeNameLabel: UILabel!
@@ -22,10 +22,10 @@ class ActiveTableViewCell: UITableViewCell {
     var homeActive: HomeActive! {
         didSet {
             
-            self.activeNameLabel.text = (homeActive.name! as String)
-            self.peopleLabel.text = (homeActive.join_num! as String) + "/" + (homeActive.num! as String)
-            self.timeLabel.text = (homeActive.begin! as String) + "-" + (homeActive.end! as String)
-            self.teamLabel.text = (homeActive.tissue_name! as String)
+            self.activeNameLabel.text = "\(homeActive.name ?? "")"
+            self.peopleLabel.text = "\(homeActive.join_num ?? "")/\(homeActive.num ?? "")"
+            self.timeLabel.text = "\(homeActive.begin ?? "")-\(homeActive.end ?? "")"
+            self.teamLabel.text = "\(homeActive.tissue_name ?? "")"
         }
     }
     

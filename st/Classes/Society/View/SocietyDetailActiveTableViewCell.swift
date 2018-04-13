@@ -1,19 +1,17 @@
 //
-//  MyActiveTableViewCell.swift
+//  SocietyDetailActiveTableViewCell.swift
 //  st
 //
-//  Created by 林劲民 on 2018/4/11.
+//  Created by 林劲民 on 2018/4/12.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
 
-class MyActiveTableViewCell: UITableViewCell {
+class SocietyDetailActiveTableViewCell: UITableViewCell {
 
     // 活动名称
     weak var activeNameLabel: UILabel!
-    // 时间
-    weak var timeLabel: UILabel!
     // 地点
     weak var addressLabel: UILabel!
     // 社团名称
@@ -23,24 +21,12 @@ class MyActiveTableViewCell: UITableViewCell {
     // 状态
     var status: NSInteger!
     
-    var myActive: MyActive! {
+    var active: SocietyDetailActive! {
         didSet {
             
-            activeNameLabel.text = "\(myActive.tissue_name ?? "")"
-            
-            switch status {
-            case 1:
-                timeLabel.text = "报名时间：\(myActive.sign_begin ?? "")-\(myActive.sign_end ?? "")"
-            case 2:
-                timeLabel.text = "开始时间：\(myActive.active_begin ?? "")-\(myActive.active_end ?? "")"
-            default:
-                timeLabel.text = "结束时间：\(myActive.active_end ?? "")"
-            }
-            
-            addressLabel.text = "地点：\(myActive.address ?? "")"
-            societyLabel.text = "社团：\(myActive.tissue_name ?? "")"
-            detailLabel.text = "详情：\(myActive.detail ?? "")"
-            
+            activeNameLabel.text = "\(active.active_name ?? "")"
+            addressLabel.text = "地点：\(active.address ?? "")"
+            detailLabel.text = "详情：\(active.detail ?? "")"
         }
     }
     
@@ -48,8 +34,6 @@ class MyActiveTableViewCell: UITableViewCell {
         didSet {
             var newFrame = frame
             newFrame.size.height -= 15
-            newFrame.origin.x += 30
-            newFrame.size.width -= 60
             super.frame = newFrame
         }
     }
@@ -58,8 +42,8 @@ class MyActiveTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-
+    
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -94,41 +78,15 @@ class MyActiveTableViewCell: UITableViewCell {
             make.bottom.equalTo(contentView).offset(-10)
         }
         
-        // 发起社团
-        let societyLabel = setupLabel(font: 16)
-        contentView.addSubview(societyLabel)
-        self.societyLabel = societyLabel
-        societyLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(detailLabel.snp.top).offset(-7)
-        }
-        
         // 地点
         let addressLabel = setupLabel(font: 16)
         contentView.addSubview(addressLabel)
         self.addressLabel = addressLabel
         addressLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(societyLabel.snp.top).offset(-3)
+            make.bottom.equalTo(detailLabel.snp.top).offset(-3)
         }
         
-        // 时间label
-        let timeLabel = setupLabel(font: 16)
-        contentView.addSubview(timeLabel)
-        self.timeLabel = timeLabel
-        timeLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(addressLabel.snp.top).offset(-3)
-        }
-        
-    }
-    
-    func test() {
-        activeNameLabel.text = "撕名牌"
-        timeLabel.text = "时间：2018/5/6-5/8"
-        addressLabel.text = "地址：福州白马院"
-        societyLabel.text = "发起社团：闽江学院红十字会"
-        detailLabel.text = "1级阿斯顿发生的范德萨发生对抗感觉的撒看个家的是就过撒第噶死哦的就过撒就的个"
     }
     
     func setupLabel(font: CGFloat) -> UILabel {
@@ -140,7 +98,7 @@ class MyActiveTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
 

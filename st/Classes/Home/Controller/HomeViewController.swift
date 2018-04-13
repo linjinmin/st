@@ -302,7 +302,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = ActiveTableViewCell()
+        let cell = HomeActiveTableViewCell()
         let cellColorIndex = indexPath.row % 4
         let leftColor = cellColors[cellColorIndex]
         let rightColor = cellColorsAlpha[cellColorIndex]
@@ -328,7 +328,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(1)
+        let vc = ActiveDetailViewController()
+        let homeActive = activeArr[indexPath.row] as! HomeActive
+        vc.activeId = homeActive.id!
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        let navi = NavigationController(rootViewController:vc)
+        present(navi, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -362,8 +367,5 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let navi = NavigationController(rootViewController:vc)
         present(navi, animated: true, completion: nil)
     }
-    
-    
-   
 
 }
