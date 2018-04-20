@@ -24,6 +24,8 @@
 		6E1D00FA20808C31002B6119 /* UserShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D00F920808C31002B6119 /* UserShowViewController.swift */; };
 		6E1D00FC2080A920002B6119 /* MyTissueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D00FB2080A920002B6119 /* MyTissueView.swift */; };
 		6E1D00FE2080AE04002B6119 /* MyActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D00FD2080AE04002B6119 /* MyActiveView.swift */; };
+		6E1D01002081E0D9002B6119 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D00FF2081E0D9002B6119 /* UserInfo.swift */; };
+		6E1D010220826116002B6119 /* MyTissue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1D010120826116002B6119 /* MyTissue.swift */; };
 		6E2B9548205A66DB00332C63 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B9547205A66DB00332C63 /* User.swift */; };
 		6E2B954C205AA00200332C63 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B954B205AA00200332C63 /* ConfirmViewController.swift */; };
 		6E2B954E205AC9BE00332C63 /* ConfirmField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2B954D205AC9BE00332C63 /* ConfirmField.swift */; };
@@ -60,6 +62,9 @@
 		6EAC80E2204BA20600D26642 /* ForgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80E1204BA20600D26642 /* ForgetViewController.swift */; };
 		6EAC80EC204D6E7600D26642 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC80EB204D6E7600D26642 /* Networking.swift */; };
 		6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */; };
+		6ECC93DA20885E2900ECC2B8 /* ActiveSquareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC93D920885E2900ECC2B8 /* ActiveSquareViewController.swift */; };
+		6ECC93DC208866C700ECC2B8 /* TeamJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC93DB208866C700ECC2B8 /* TeamJoinViewController.swift */; };
+		6ECC93E02089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECC93DF2089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift */; };
 		6EDBDC262073831700EB65F9 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC252073831700EB65F9 /* SearchViewController.swift */; };
 		6EDBDC282073A11500EB65F9 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC272073A11500EB65F9 /* SearchField.swift */; };
 		6EDBDC2A2073AFF700EB65F9 /* MySocietyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDBDC292073AFF700EB65F9 /* MySocietyViewController.swift */; };
@@ -109,6 +114,8 @@
 		6E1D00F920808C31002B6119 /* UserShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShowViewController.swift; sourceTree = "<group>"; };
 		6E1D00FB2080A920002B6119 /* MyTissueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTissueView.swift; sourceTree = "<group>"; };
 		6E1D00FD2080AE04002B6119 /* MyActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActiveView.swift; sourceTree = "<group>"; };
+		6E1D00FF2081E0D9002B6119 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		6E1D010120826116002B6119 /* MyTissue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTissue.swift; sourceTree = "<group>"; };
 		6E2B9547205A66DB00332C63 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6E2B954B205AA00200332C63 /* ConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
 		6E2B954D205AC9BE00332C63 /* ConfirmField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmField.swift; sourceTree = "<group>"; };
@@ -145,6 +152,9 @@
 		6EAC80E1204BA20600D26642 /* ForgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetViewController.swift; sourceTree = "<group>"; };
 		6EAC80EB204D6E7600D26642 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyDetailViewController.swift; sourceTree = "<group>"; };
+		6ECC93D920885E2900ECC2B8 /* ActiveSquareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSquareViewController.swift; sourceTree = "<group>"; };
+		6ECC93DB208866C700ECC2B8 /* TeamJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamJoinViewController.swift; sourceTree = "<group>"; };
+		6ECC93DF2089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSquareTableViewCell.swift; sourceTree = "<group>"; };
 		6EDBDC252073831700EB65F9 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6EDBDC272073A11500EB65F9 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		6EDBDC292073AFF700EB65F9 /* MySocietyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySocietyViewController.swift; sourceTree = "<group>"; };
@@ -350,6 +360,8 @@
 			children = (
 				6EDBDC2D207623D300EB65F9 /* BriefSociety.swift */,
 				6E356EE9207DBE59009A51B2 /* MyActive.swift */,
+				6E1D00FF2081E0D9002B6119 /* UserInfo.swift */,
+				6E1D010120826116002B6119 /* MyTissue.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -460,6 +472,8 @@
 				6EC6185A206650FF00C6A51A /* SocietyDetailViewController.swift */,
 				6EDBDC252073831700EB65F9 /* SearchViewController.swift */,
 				6E1D00F3207FAFAE002B6119 /* ActiveDetailViewController.swift */,
+				6ECC93D920885E2900ECC2B8 /* ActiveSquareViewController.swift */,
+				6ECC93DB208866C700ECC2B8 /* TeamJoinViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -470,6 +484,7 @@
 				6EDBDC272073A11500EB65F9 /* SearchField.swift */,
 				6EAAFA65207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift */,
 				6E1D00EF207F7A6C002B6119 /* SocietyDetailActiveTableViewCell.swift */,
+				6ECC93DF2089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -692,6 +707,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E1D010220826116002B6119 /* MyTissue.swift in Sources */,
 				6E98A14E2046F1AE00AA2E99 /* Api.swift in Sources */,
 				6E1D00FC2080A920002B6119 /* MyTissueView.swift in Sources */,
 				6EA551E9206D413700E2EC3B /* MyActiveTableViewController.swift in Sources */,
@@ -699,6 +715,7 @@
 				6E90AA71205F910C00B3966B /* SingleKeyBoard.swift in Sources */,
 				6E1D00FA20808C31002B6119 /* UserShowViewController.swift in Sources */,
 				6E2B954E205AC9BE00332C63 /* ConfirmField.swift in Sources */,
+				6ECC93E02089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift in Sources */,
 				6E09788E2044466A00319404 /* UIImage+Original.swift in Sources */,
 				6E90AA76205FB35F00B3966B /* UserInfoViewController.swift in Sources */,
 				6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */,
@@ -736,11 +753,14 @@
 				6EA551E3206A45AB00E2EC3B /* ChangePwdViewController.swift in Sources */,
 				6E2B9548205A66DB00332C63 /* User.swift in Sources */,
 				6EDBDC2A2073AFF700EB65F9 /* MySocietyViewController.swift in Sources */,
+				6ECC93DC208866C700ECC2B8 /* TeamJoinViewController.swift in Sources */,
+				6E1D01002081E0D9002B6119 /* UserInfo.swift in Sources */,
 				6EA551E1206A382000E2EC3B /* NoticeTableViewCell.swift in Sources */,
 				6E98A1502046F75F00AA2E99 /* LoginOrRegisterField.swift in Sources */,
 				6E2B954C205AA00200332C63 /* ConfirmViewController.swift in Sources */,
 				6EA551DF206A35B500E2EC3B /* NoticeTableViewController.swift in Sources */,
 				6E1D00F6208053F7002B6119 /* ActiveDetail.swift in Sources */,
+				6ECC93DA20885E2900ECC2B8 /* ActiveSquareViewController.swift in Sources */,
 				6EAC80E2204BA20600D26642 /* ForgetViewController.swift in Sources */,
 				6E40F8752063F3B9004400B8 /* UIButton+Extension.swift in Sources */,
 				6E83B8B020517E13005C2022 /* AccountTool.swift in Sources */,

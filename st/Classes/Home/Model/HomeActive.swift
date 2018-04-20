@@ -35,6 +35,8 @@ class HomeActive: NSObject {
     @objc var tissue_name: NSString!
     // 已报名人数
     @objc var join_num: NSString!
+    // 报名状态
+    @objc var join_status: NSString!
     
     init(dict: [String: AnyObject]) {
         super.init()

@@ -55,7 +55,7 @@ class NavigationController: UINavigationController, UIGestureRecognizerDelegate 
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         back()
-        return true
+        return false
     }
 
 

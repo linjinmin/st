@@ -34,6 +34,8 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
     var activeArr: [NSDictionary]!
     // 社团活动label
     weak var activeLabel: UILabel!
+    // 社团label
+    weak var shetuanLabel: UILabel!
     
     // societydetail model
     var societyDetail: SocietyDetail! {
@@ -63,17 +65,25 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
                     scrollView.addSubview(imageView)
                     count = count + 1
                 }
+                
+                activeLabel.snp.makeConstraints { (make) in
+                    make.left.equalTo(shetuanLabel)
+                    make.top.equalTo(scrollView.snp.bottom).offset(20)
+                }
 
             } else {
                 // 隐藏照片墙
                 photoLabel.isHidden = true
                 scrollView.isHidden = true
-                activeLabel.snp.updateConstraints { (make) in
+                activeLabel.snp.makeConstraints { (make) in
                     make.top.equalTo(describeLabel.snp.bottom).offset(20)
+                    make.left.equalTo(shetuanLabel)
                 }
             }
             
             activeTableView.reloadData()
+            
+            view.layoutIfNeeded()
         }
         
     }
@@ -89,11 +99,9 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         
         view.backgroundColor = Constant.viewBackgroundColor
         navigationItem.title = "优社团"
-        
         // 初始化
         setup()
         getDetail()
-//        SVProgressHUD.showError(withStatus: Constant.loadingTitle)
     }
     
     func setup() {
@@ -147,6 +155,7 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         shetuanLabel.textColor = UIColor.black
         shetuanLabel.text = "社团简介"
         backScrollView.addSubview(shetuanLabel)
+        self.shetuanLabel = shetuanLabel
         shetuanLabel.snp.makeConstraints { (make) in
             make.left.equalTo(backScrollView).offset(20)
             make.top.equalTo(memberLabel.snp.bottom).offset(20)
@@ -197,10 +206,10 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         activeLabel.textColor = UIColor.black
         backScrollView.addSubview(activeLabel)
         self.activeLabel = activeLabel
-        activeLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(shetuanLabel)
-            make.top.equalTo(scrollView.snp.bottom).offset(20)
-        }
+//        activeLabel.snp.makeConstraints { (make) in
+//            make.left.equalTo(shetuanLabel)
+//            make.top.equalTo(scrollView.snp.bottom).offset(20)
+//        }
 
         // 设置tableView
         let tableView = UITableView()
@@ -219,7 +228,6 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
             make.top.equalTo(activeLabel.snp.bottom).offset(5)
             make.bottom.equalTo(backScrollView)
         }
-        
     }
     
     // 获取详情

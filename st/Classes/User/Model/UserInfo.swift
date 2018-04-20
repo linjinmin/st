@@ -1,37 +1,39 @@
 //
-//  User.swift
+//  UserInfo.swift
 //  st
 //
-//  Created by 林劲民 on 2018/3/15.
+//  Created by 林劲民 on 2018/4/14.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
 
-class User: NSObject {
+class UserInfo: NSObject {
     
+    
+    // 用户id
     @objc var id: NSString!
+    // 用户昵称
     @objc var name: NSString!
+    // 手机号
     @objc var mobile: NSString!
-    // 省份名称
-    @objc var province_name: NSString!
-    // 省份id
-    @objc var province: NSString!
-    // 学校名称
-    @objc var school_name: NSString!
-    // 学校id
-    @objc var school: NSString!
-    // 系名称
-    @objc var series_name: NSString!
-    // 系id
-    @objc var series: NSString!
     // 头像
     @objc var head_pic: NSString!
+    // 省份
+    @objc var province: NSString!
+    // 学校
+    @objc var school: NSString!
+    // 系
+    @objc var series: NSString!
     // 性别
     @objc var sex: NSString!
-    // 性别名称
-    @objc var sex_name: NSString!
-    
+    // 是否有权限查看手机号
+    @objc var apply_mobile: NSString!
+    // 社团
+    @objc var tissue: NSArray!
+    // 活动
+    @objc var active: NSArray!
+   
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeys(dict)
@@ -44,5 +46,5 @@ class User: NSObject {
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
         
     }
-
+    
 }

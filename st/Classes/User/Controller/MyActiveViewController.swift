@@ -26,11 +26,11 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
         setupChild()
         setupContentView()
         setupHeadView()
+        scrollViewDidEndScrollingAnimation(contentView)
         
     }
     
     func setupChild() {
-        
         
         // 进行中
         let startVc = MyActiveTableViewController()
@@ -97,7 +97,7 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
         contentView.isPagingEnabled = true
         view.addSubview(contentView)
         self.contentView = contentView
-        scrollViewDidEndScrollingAnimation(contentView)
+        
         
     }
 
@@ -118,6 +118,8 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollViewDidEndScrollingAnimation(scrollView)
+        headBtnClick(btn: view.viewWithTag(Int((scrollView.contentOffset.x / Constant.screenW) + 1)) as! UIButton)
+        contentView.isUserInteractionEnabled = true
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

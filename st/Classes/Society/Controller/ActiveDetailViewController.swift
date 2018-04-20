@@ -16,6 +16,8 @@ class ActiveDetailViewController: UIViewController {
     var activeId: NSString!
     // 活动名称label
     weak var activeNameLabel: UILabel!
+    // 报名状态label
+    weak var joinStatusLabel: UILabel!
     // 活动状态
     weak var statusLabel: UILabel!
     // 报名时间
@@ -32,11 +34,18 @@ class ActiveDetailViewController: UIViewController {
     weak var joinLabel: UILabel!
     // 成员scrollview
     weak var memberScrollview: UIScrollView!
+    // 照片墙scrollview
+    weak var photoScrollview: UIScrollView!
+    // 照片强label
+    weak var photoLabel: UILabel!
+    // 报名btn
+    weak var btn: UIButton!
     
     var activeDetail: ActiveDetail! {
         didSet{
             
             activeNameLabel.text = "\(activeDetail.active_name ?? "")"
+            joinStatusLabel.text = "\(activeDetail.join_status ?? "")"
             signTimeLabel.text = "报名时间：\(activeDetail.sign_begin ?? "")-\(activeDetail.sign_end ?? "")"
             activeTimeLabel.text = "活动时间：\(activeDetail.active_begin ?? "")-\(activeDetail.active_end ?? "")"
             addressLabel.text = "地点：\(activeDetail.address ?? "暂无")"
@@ -68,6 +77,38 @@ class ActiveDetailViewController: UIViewController {
                     memberScrollview.addSubview(teamBtn)
                     count = count + 1
                 }
+            }
+            
+            // 照片墙
+            if activeDetail.photo.count > 0 {
+
+                let width = activeDetail.photo.count * 80
+                photoScrollview.contentSize = CGSize(width: width, height: 60)
+                var count = 0;
+                for item in activeDetail.photo {
+
+                    let item = item as! [String: AnyObject]
+
+                    let imageView = UIImageView()
+                    imageView.frame = CGRect(x: count * 80, y: 0, width: 60, height: 60)
+                    imageView.layer.cornerRadius = 10
+                    imageView.layer.masksToBounds = true
+                    imageView.sd_setImage(with: URL(string: item["detail"] as! String), placeholderImage: UIImage(named: "image_placeholder"))
+                    photoScrollview.addSubview(imageView)
+                    count = count + 1
+                }
+
+            } else {
+                // 隐藏照片墙
+                photoLabel.isHidden = true
+                photoScrollview.isHidden = true
+            }
+            
+            view.layoutIfNeeded()
+            
+            
+            if activeDetail.is_team == "1" {
+                btn.setTitle("组队报名", for: .normal)
             }
             
         }
@@ -109,6 +150,16 @@ class ActiveDetailViewController: UIViewController {
             make.top.equalTo(scrollView).offset(20)
         }
         
+        // 添加报名状态label
+        let joinStatusLabel = setupLabel(font: 14)
+        joinStatusLabel.textColor = UIColor.gray
+        scrollView.addSubview(joinStatusLabel)
+        self.joinStatusLabel = joinStatusLabel
+        joinStatusLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel.snp.right).offset(5)
+            make.centerY.equalTo(activeNameLabel)
+        }
+        
         // 状态label
         let statusLabel = setupLabel(font: 16)
         scrollView.addSubview(statusLabel)
@@ -147,7 +198,7 @@ class ActiveDetailViewController: UIViewController {
         
         // 社团
         let tissueNameLabel = setupLabel(font: 16)
-        tissueNameLabel.text = "社团："
+        tissueNameLabel.text = "发起社团："
         scrollView.addSubview(tissueNameLabel)
         tissueNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
@@ -216,6 +267,29 @@ class ActiveDetailViewController: UIViewController {
             make.top.equalTo(memberLabel.snp.bottom).offset(10)
         }
         
+        // 照片label
+        let photoLabel = setupLabel(font: 16)
+        photoLabel.text = "照片墙"
+        scrollView.addSubview(photoLabel)
+        self.photoLabel = photoLabel
+        photoLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(memberScrollView.snp.bottom).offset(20)
+        }
+        
+        // 照片墙
+        let photoScrollView = UIScrollView()
+        photoScrollView.showsHorizontalScrollIndicator = false
+        photoScrollView.backgroundColor = UIColor.clear
+        scrollView.addSubview(photoScrollView)
+        self.photoScrollview = photoScrollView
+        photoScrollView.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(photoLabel.snp.bottom).offset(10)
+            make.height.equalTo(80)
+            make.width.equalTo(Constant.screenW-40)
+        }
+        
         // 报名button
         let btn = UIButton()
         btn.backgroundColor = Constant.viewColor
@@ -230,10 +304,11 @@ class ActiveDetailViewController: UIViewController {
         btn.layer.shadowRadius = 5
         btn.layer.cornerRadius = 21
         scrollView.addSubview(btn)
+        self.btn = btn
         btn.snp.makeConstraints { (make) in
             make.left.equalTo(scrollView).offset(30)
             make.width.equalTo(Constant.screenW - 60)
-            make.top.equalTo(memberScrollview.snp.bottom).offset(20)
+            make.top.equalTo(photoScrollView.snp.bottom).offset(20)
             make.height.equalTo(50)
             make.bottom.equalTo(scrollView)
         }
@@ -266,7 +341,19 @@ class ActiveDetailViewController: UIViewController {
         
     }
     
+    
+    // 报名按钮点击
     @objc func btnClick() {
+        
+        if activeDetail.is_team.intValue == 1 {
+            // 组队报名
+            let vc = TeamJoinViewController()
+            vc.active_id = activeId
+            vc.max = activeDetail.max
+            vc.min = activeDetail.min
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
         
     }
     
@@ -280,8 +367,13 @@ class ActiveDetailViewController: UIViewController {
     
     @objc func userBtnClick(sender: UIButton) {
         
-        print(sender.tag)
+        let user_id = sender.tag
         
+        let vc = UserShowViewController()
+        vc.user_id = ((user_id as NSNumber).stringValue as NSString)
+        vc.active_id = activeId
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupLabel(font: CGFloat) -> UILabel {

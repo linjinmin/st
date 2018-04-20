@@ -18,6 +18,8 @@ class HomeActiveTableViewCell: UITableViewCell {
     weak var timeLabel: UILabel!
     // 社团名称
     weak var teamLabel: UILabel!
+    // 参与状态label
+    weak var statusLabel: UILabel!
     
     var homeActive: HomeActive! {
         didSet {
@@ -26,6 +28,7 @@ class HomeActiveTableViewCell: UITableViewCell {
             self.peopleLabel.text = "\(homeActive.join_num ?? "")/\(homeActive.num ?? "")"
             self.timeLabel.text = "\(homeActive.begin ?? "")-\(homeActive.end ?? "")"
             self.teamLabel.text = "\(homeActive.tissue_name ?? "")"
+            self.statusLabel.text = "\(homeActive.join_status ?? "")"
         }
     }
     
@@ -72,7 +75,16 @@ class HomeActiveTableViewCell: UITableViewCell {
         activeNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(contentView).offset(10)
             make.top.equalTo(contentView).offset(10)
-            make.width.equalTo(120)
+//            make.width.equalTo(120)
+        }
+        
+        // 活动状态
+        let statusLabel = setupLabel(13)
+        contentView.addSubview(statusLabel)
+        self.statusLabel = statusLabel
+        statusLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel.snp.right).offset(3)
+            make.centerY.equalTo(activeNameLabel)
         }
         
         // 参与人数icon

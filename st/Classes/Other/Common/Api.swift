@@ -59,5 +59,9 @@ class Api {
     static let tissueDetail = "Tissue/School/getTissueDetail"
     // 活动详情
     static let ActiveDetail = "Active/Active/getActiveDetail"
+    // 用户详情
+    static let userDetail = "User/User/getUserShowDetail"
+    // 申请查看手机号
+    static let applyMobile = "Active/User/applyActiveUserMobile"
     
 }

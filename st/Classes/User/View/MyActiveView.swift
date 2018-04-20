@@ -21,6 +21,19 @@ class MyActiveView: UIView {
     // 发起社团
     weak var tissueLabel: UILabel!
     
+
+    var myActive: MyActive! {
+        
+        didSet {
+            active_id = myActive.id
+            nameLabel.text = "\(myActive.active_name ?? "")"
+            tissueLabel.text = "\(myActive.name ?? "")"
+            signTimeLabel.text = "报名时间：\(myActive.sign_begin ?? "")-\(myActive.sign_end ?? "")"
+            activeTimeLabel.text = "活动时间：\(myActive.active_begin ?? "")-\(myActive.active_end ?? "")"
+        }
+        
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -42,7 +55,7 @@ class MyActiveView: UIView {
         }
         
         // 活动时间
-        let activeTimeLabel = setupLabel(font: 16)
+        let activeTimeLabel = setupLabel(font: 14)
         addSubview(activeTimeLabel)
         self.activeTimeLabel = activeTimeLabel
         activeTimeLabel.snp.makeConstraints { (make) in
@@ -51,12 +64,12 @@ class MyActiveView: UIView {
         }
         
         // 报名时间
-        let signTimeLabel = setupLabel(font: 16)
+        let signTimeLabel = setupLabel(font: 14)
         addSubview(signTimeLabel)
         self.signTimeLabel = signTimeLabel
         signTimeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
-            make.bottom.equalTo(activeTimeLabel.snp.top).offset(5)
+            make.bottom.equalTo(activeTimeLabel.snp.top).offset(-5)
         }
         
         // 社团
@@ -65,7 +78,7 @@ class MyActiveView: UIView {
         self.tissueLabel = tissueLabel
         tissueLabel.snp.makeConstraints { (make) in
             make.right.equalTo(self).offset(-10)
-            make.bottom.equalTo(self).offset(-10)
+            make.top.equalTo(self).offset(10)
         }
         
         // 点击btn
@@ -90,7 +103,15 @@ class MyActiveView: UIView {
         
         let vc = ActiveDetailViewController()
         vc.activeId = active_id
-    UIApplication.shared.keyWindow?.rootViewController?.presentedViewController?.navigationController?.pushViewController(vc, animated: true)
+        
+        var object = self.next
+        while !(object?.isKind(of: UIViewController.classForCoder()))! && object != nil {
+            object = object?.next
+        }
+        
+        let superController = object as! UIViewController
+        superController.navigationController?.pushViewController(vc, animated: true)
+
     }
 
 }

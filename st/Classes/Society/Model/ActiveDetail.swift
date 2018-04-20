@@ -30,10 +30,23 @@ class ActiveDetail: NSObject {
     @objc var tissue_name: NSString!
     // 用户组
     @objc var users: NSArray!
+    // 照片
+    @objc var photo: NSArray!
     // 参与人数
     @objc var member_join: NSString!
     // 总人数
     @objc var member_count: NSString!
+    // 是否团队
+    @objc var is_team: NSString!
+    // 最少报名人数
+    @objc var min: NSString!
+    // 最多报名人数
+    @objc var max: NSString!
+    // 报名状态
+    @objc var join_status: NSString!
+    // 报名上限人数
+    @objc var num: NSString!
+    
     
     init(dict: [String: AnyObject]) {
         super.init()

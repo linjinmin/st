@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MyTissueView: UIView {
     
@@ -19,6 +20,17 @@ class MyTissueView: UIView {
     // 职务label
     weak var jobLabel: UILabel!
     
+    var myTissue: MyTissue! {
+        
+        didSet {
+            tissue_id = myTissue.id
+            tissueImageView.sd_setImage(with: URL(string: myTissue.pic! as String), placeholderImage: UIImage(named:"image_placeholder"))
+            tissueNameLabel.text = "\(myTissue.name ?? "")"
+            jobLabel.text = "\(myTissue.job ?? "")"
+        }
+        
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -28,14 +40,15 @@ class MyTissueView: UIView {
     func setup() {
         
         // 社团头像
-        let tissueIamgeView = UIImageView()
-        tissueIamgeView.layer.masksToBounds = true
-        tissueImageView.layer.cornerRadius = 20
+        let tissueImageView = UIImageView()
+        tissueImageView.layer.masksToBounds = true
+        tissueImageView.layer.cornerRadius = 25
         addSubview(tissueImageView)
+        self.tissueImageView = tissueImageView
         tissueImageView.snp.makeConstraints { (make) in
             make.centerY.equalTo(self)
             make.left.equalTo(self)
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(50)
         }
         
         // 社团label
@@ -43,9 +56,10 @@ class MyTissueView: UIView {
         tissueNameLabel.font = UIFont.systemFont(ofSize: 18)
         tissueNameLabel.textColor = UIColor.black
         addSubview(tissueNameLabel)
+        self.tissueNameLabel = tissueNameLabel
         tissueNameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(self)
-            make.left.equalTo(tissueIamgeView.snp.right).offset(10)
+            make.left.equalTo(tissueImageView.snp.right).offset(10)
         }
         
         // 职务label
@@ -74,7 +88,14 @@ class MyTissueView: UIView {
         
         let vc = SocietyDetailViewController()
         vc.tissue_id = tissue_id
-        UIApplication.shared.keyWindow?.rootViewController?.presentedViewController?.navigationController?.pushViewController(vc, animated: true)
+        
+        var object = self.next
+        while !(object?.isKind(of: UIViewController.classForCoder()))! && object != nil {
+            object = object?.next
+        }
+        
+        let superController = object as! UIViewController
+        superController.navigationController?.pushViewController(vc, animated: true)
     }
     
     required init?(coder aDecoder: NSCoder) {

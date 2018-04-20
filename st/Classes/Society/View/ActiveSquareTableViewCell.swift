@@ -1,14 +1,14 @@
 //
-//  MyActiveTableViewCell.swift
+//  ActiveSquareTableViewCell.swift
 //  st
 //
-//  Created by 林劲民 on 2018/4/11.
+//  Created by 林劲民 on 2018/4/20.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
 
-class MyActiveTableViewCell: UITableViewCell {
+class ActiveSquareTableViewCell: UITableViewCell {
 
     // 活动名称
     weak var activeNameLabel: UILabel!
@@ -18,41 +18,15 @@ class MyActiveTableViewCell: UITableViewCell {
     weak var addressLabel: UILabel!
     // 社团名称
     weak var societyLabel: UILabel!
-    // 活动详情
-    weak var detailLabel: UILabel!
     // 参加状态
     weak var statusLabel: UILabel!
     // 状态
     var status: NSInteger!
     
-    
-    var myActive: MyActive! {
-        didSet {
-            
-            activeNameLabel.text = "\(myActive.tissue_name ?? "")"
-            
-            switch status {
-            case 1:
-                timeLabel.text = "报名时间：\(myActive.sign_begin ?? "")-\(myActive.sign_end ?? "")"
-            case 2:
-                timeLabel.text = "开始时间：\(myActive.active_begin ?? "")-\(myActive.active_end ?? "")"
-            default:
-                timeLabel.text = "结束时间：\(myActive.active_end ?? "")"
-            }
-            
-            addressLabel.text = "地点：\(myActive.address ?? "")"
-            societyLabel.text = "社团：\(myActive.tissue_name ?? "")"
-            detailLabel.text = "详情：\(myActive.detail ?? "")"
-            statusLabel.text = "\(myActive.join_status ?? "")"
-        }
-    }
-    
     override var frame:CGRect{
         didSet {
             var newFrame = frame
             newFrame.size.height -= 15
-            newFrame.origin.x += 30
-            newFrame.size.width -= 60
             super.frame = newFrame
         }
     }
@@ -61,8 +35,8 @@ class MyActiveTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-
+    
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
@@ -70,10 +44,6 @@ class MyActiveTableViewCell: UITableViewCell {
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor.white
         setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func setup() {
@@ -96,23 +66,13 @@ class MyActiveTableViewCell: UITableViewCell {
             make.centerY.equalTo(activeNameLabel)
         }
         
-        // 活动详情
-        let detailLabel = setupLabel(font: 16)
-        contentView.addSubview(detailLabel)
-        self.detailLabel = detailLabel
-        detailLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(activeNameLabel)
-            make.right.equalTo(contentView).offset(-10)
-            make.bottom.equalTo(contentView).offset(-10)
-        }
-        
         // 发起社团
         let societyLabel = setupLabel(font: 16)
         contentView.addSubview(societyLabel)
         self.societyLabel = societyLabel
         societyLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(detailLabel.snp.top).offset(-7)
+            make.bottom.equalTo(contentView.snp.top).offset(-10)
         }
         
         // 地点
@@ -135,13 +95,16 @@ class MyActiveTableViewCell: UITableViewCell {
         
     }
     
-    func test() {
-        activeNameLabel.text = "撕名牌"
-        timeLabel.text = "时间：2018/5/6-5/8"
-        addressLabel.text = "地址：福州白马院"
-        societyLabel.text = "发起社团：闽江学院红十字会"
-        detailLabel.text = "1级阿斯顿发生的范德萨发生对抗感觉的撒看个家的是就过撒第噶死哦的就过撒就的个"
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+
     
     func setupLabel(font: CGFloat) -> UILabel {
         let label = UILabel()
@@ -150,10 +113,5 @@ class MyActiveTableViewCell: UITableViewCell {
         return label
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 }

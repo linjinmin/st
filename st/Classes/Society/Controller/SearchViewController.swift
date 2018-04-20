@@ -13,16 +13,10 @@ import MJRefresh
 
 class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    
     weak var field: UITextField!
     weak var tableView: UITableView!
     // 当前页
     var curPage: NSInteger!
-    
-    // cellview的背景颜色 4色循环
-    fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
-    // cellview的背景颜色， 透明度, 4色循环
-    fileprivate lazy var cellColorsAlpha: [UIColor] = [ UIColor(red:87/255, green:113/255, blue:250/255, alpha:0.8), UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 0.8), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 0.8), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 0.8)]
     
     lazy var arr = {() -> NSMutableArray in
         let arr = NSMutableArray()
@@ -95,7 +89,6 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
             make.height.equalTo(field)
             make.right.equalTo(bgview).offset(-5)
         }
-        
         
         // tableView
         let tableView = UITableView()
@@ -174,11 +167,13 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
             return
         }
         
-        SVProgressHUD.show(withStatus: Constant.loadingTitle)
+        curPage = 1
         
         let params = NSMutableDictionary()
         params["method"] = Api.tissueByName
         params["name"] = field.text
+        params["size"] = Constant.size
+        params["page"] = curPage
 
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             
@@ -212,34 +207,27 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = SearchSocietyTableViewCell()
-        let cellColorIndex = indexPath.row % 4
-        let leftColor = cellColors[cellColorIndex]
-        let rightColor = cellColorsAlpha[cellColorIndex]
-        let gradientColors = [leftColor.cgColor, rightColor.cgColor]
-        let gradientLocations:[NSNumber] = [0.0, 1.0]
-        //创建CAGradientLayer对象并设置参数
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = gradientColors
-        gradientLayer.frame = cell.contentView.frame
-        gradientLayer.frame.size.height = 180
-        gradientLayer.locations = gradientLocations
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
-        gradientLayer.type = kCAGradientLayerAxial;
-        cell.contentView.layer.insertSublayer(gradientLayer, at: 0)
+        cell.backgroundColor = UIColor.clear
         let briefSociety = arr[indexPath.row]
         cell.briefSociety = briefSociety as! SearchSociety
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        return 60
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arr.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let briefSociety = arr[indexPath.row] as! SearchSociety
+        let vc = SocietyDetailViewController()
+        vc.tissue_id = briefSociety.id!
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
         view.endEditing(true)

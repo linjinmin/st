@@ -114,19 +114,19 @@ class MySocietyViewController: UIViewController, UITableViewDelegate, UITableVie
             if response["code"].intValue == 200 {
                 
                 self.arr.removeAllObjects()
-                let dict = response["data"].arrayObject as! [NSDictionary]
-                
-                if dict.count != 0 {
+                if response["data"].arrayObject != nil {
+                    let dict = response["data"].arrayObject as! [NSDictionary]
                     for item in dict {
                         let briefSociety = BriefSociety(dict: item as! [String : AnyObject])
                         self.arr.add(briefSociety)
                     }
-                    
                     self.tableView.reloadData()
                 } else {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
+                
                 self.tableView.mj_header.endRefreshing()
+                
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }
@@ -151,9 +151,9 @@ class MySocietyViewController: UIViewController, UITableViewDelegate, UITableVie
             
             if response["code"].intValue == 200 {
                 
-                let dict = response["data"].arrayObject as! [NSDictionary]
-                
-                if dict.count != 0 {
+                if response["data"].arrayObject != nil {
+                    let dict = response["data"].arrayObject as! [NSDictionary]
+                    
                     for item in dict {
                         let briefSociety = BriefSociety(dict: item as! [String : AnyObject])
                         self.arr.add(briefSociety)
@@ -161,6 +161,7 @@ class MySocietyViewController: UIViewController, UITableViewDelegate, UITableVie
                     
                     self.curPage = self.curPage + 1
                     self.tableView.reloadData()
+                    
                 } else {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }

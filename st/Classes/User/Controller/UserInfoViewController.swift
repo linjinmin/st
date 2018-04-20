@@ -203,7 +203,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         // 系field
         let seriesField = setupField(placeholder: "系院", inputView: seriesPickerView)
-        seriesField.text = ((AccountTool.getUser()?.series_name)! as String)
+        seriesField.text = "\(AccountTool.getUser()?.series_name ?? "")"
         let seriesBtn = UIButton()
         seriesBtn.backgroundColor = Constant.viewBackgroundColor
         seriesBtn.setTitle("新增系院", for: .normal)
@@ -252,7 +252,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         // 性别field
         let sexField = setupField(placeholder: "性别", inputView: self.sexPickerView)
-//        sexField.text = sexData[((AccountTool.getUser()?.sex)! as String)]
+        sexField.text = "\(AccountTool.getUser()?.sex_name ?? "")"
         sexView.addSubview(sexField)
         self.sexField = sexField
         sexField.snp.makeConstraints { (make) in
@@ -359,9 +359,10 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
         
         // 初始化信息
-        seriesId = ((AccountTool.getUser()?.series)! as String )
-        schoolId = ((AccountTool.getUser()?.school)! as String )
-        cityId = ((AccountTool.getUser()?.province)! as String )
+        seriesId = "\(AccountTool.getUser()?.series ?? "")"
+        schoolId = "\(AccountTool.getUser()?.school ?? "")"
+        cityId = "\(AccountTool.getUser()?.province ?? "")"
+        sexId = "\(AccountTool.getUser()?.sex ?? "")"
     }
     
     @objc func headBtnClick() {

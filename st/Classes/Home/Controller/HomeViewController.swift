@@ -29,7 +29,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
     // cellview的背景颜色， 透明度, 4色循环
     fileprivate lazy var cellColorsAlpha: [UIColor] = [ UIColor(red:87/255, green:113/255, blue:250/255, alpha:0.8), UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 0.8), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 0.8), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 0.8)]
-
     
     lazy var leftVc = {() -> LeftViewController in
         let leftVc = LeftViewController()
@@ -63,16 +62,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let url = Api.host + "/" + ((AccountTool.getUser()?.head_pic)! as String )
+        headImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "image_placeholder"))
+        nameLabel.text = ((AccountTool.getUser()?.name)! as String )
+        schoolLabel.text = ((AccountTool.getUser()?.school_name)! as String)
+    }
+    
     // 设置主滑动视图
     func setupScrollView() {
      
         let scrollView = UIScrollView(frame: CGRect(x:0, y:65, width:Constant.screenW, height:Constant.screenH - 65))
         scrollView.backgroundColor = Constant.viewBackgroundColor
-        scrollView.contentSize = CGSize(width: Constant.screenW, height: 602)
+//        scrollView.contentSize = CGSize(width: Constant.screenW, height: 602)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.bounces = false
+        scrollView.isScrollEnabled = false
         view.addSubview(scrollView)
         self.scrollView = scrollView
+        scrollView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(view)
+            make.top.equalTo(view).offset(65)
+        }
     }
     
     // 设置主滑动视图内部视图
@@ -86,7 +98,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         headImageView.layer.masksToBounds = true
         scrollView.addSubview(headImageView)
         self.headImageView = headImageView
-        headImageView.frame = CGRect(x:30, y:20, width:74, height:74)
+        headImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(scrollView).offset(30)
+            make.top.equalTo(scrollView).offset(20)
+            make.width.height.equalTo(74)
+        }
+//        headImageView.frame = CGRect(x:30, y:20, width:74, height:74)
         
         // 用户姓名
         let nameLabel = UILabel()
@@ -94,7 +111,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         nameLabel.font = UIFont.systemFont(ofSize: 18)
         scrollView.addSubview(nameLabel)
         self.nameLabel = nameLabel
-        nameLabel.frame = CGRect(x:130, y:32, width:160, height:25)
+        nameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(headImageView.snp.right).offset(25)
+            make.top.equalTo(scrollView).offset(32)
+        }
+//        nameLabel.frame = CGRect(x:130, y:32, width:160, height:25)
         
         // 用户学校
         let schoolLabel = UILabel()
@@ -103,17 +124,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         schoolLabel.textColor = UIColor.gray
         scrollView.addSubview(schoolLabel)
         self.schoolLabel = schoolLabel
-        schoolLabel.frame = CGRect(x:130, y:60, width:160, height:20)
+        schoolLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel)
+            make.top.equalTo(nameLabel.snp.bottom).offset(3)
+        }
+//        schoolLabel.frame = CGRect(x:130, y:60, width:160, height:20)
         
         // 常用功能label
         let killsLabel = UILabel()
         killsLabel.text = "常用功能"
         killsLabel.font = UIFont.systemFont(ofSize: 18)
         scrollView.addSubview(killsLabel)
-        killsLabel.frame = CGRect(x:30, y:120, width:100, height:20)
+        killsLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(headImageView)
+            make.top.equalTo(headImageView.snp.bottom).offset(20)
+        }
+//        killsLabel.frame = CGRect(x:30, y:120, width:100, height:20)
         
         // 我的社团
-        let teamBtn = BomButton(frame: CGRect(x:30, y:150, width:50, height:70))
+//        let teamBtn = BomButton(frame: CGRect(x:30, y:150, width:50, height:70))
+        let teamBtn = BomButton()
         teamBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         teamBtn.setTitle("我的社团", for: .normal)
         teamBtn.setTitleColor(UIColor.black, for: .normal)
@@ -122,9 +152,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         teamBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
         teamBtn.addTarget(self, action: #selector(societyBtnClick), for: .touchUpInside)
         scrollView.addSubview(teamBtn)
+        teamBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(killsLabel)
+            make.top.equalTo(killsLabel.snp.bottom).offset(10)
+            make.width.equalTo(50)
+            make.height.equalTo(70)
+        }
         
         // 我的活动
-        let myactiveBtn = BomButton(frame: CGRect(x:110, y:150, width:50, height:70))
+//        let myactiveBtn = BomButton(frame: CGRect(x:110, y:150, width:50, height:70))
+        let myactiveBtn = BomButton()
         myactiveBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         myactiveBtn.setTitle("我的活动", for: .normal)
         myactiveBtn.setTitleColor(UIColor.black, for: .normal)
@@ -133,19 +170,32 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         myactiveBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
         myactiveBtn.addTarget(self, action: #selector(myActiveBtnClick), for: .touchUpInside)
         scrollView.addSubview(myactiveBtn)
+        myactiveBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(teamBtn)
+            make.left.equalTo(teamBtn.snp.right).offset(30)
+            make.width.height.equalTo(teamBtn)
+        }
         
         // 活动广场
-        let activeBtn = BomButton(frame: CGRect(x:190, y:150, width:50, height:70))
+//        let activeBtn = BomButton(frame: CGRect(x:190, y:150, width:50, height:70))
+        let activeBtn = BomButton()
         activeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         activeBtn.setTitle("活动广场", for: .normal)
         activeBtn.setTitleColor(UIColor.black, for: .normal)
         activeBtn.setImage(UIImage(named: "active"), for: .normal)
         activeBtn.titleLabel?.textAlignment = .center
         activeBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
+        activeBtn.addTarget(self, action: #selector(squareBtnClick), for: .touchUpInside)
         scrollView.addSubview(activeBtn)
+        activeBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(teamBtn)
+            make.left.equalTo(myactiveBtn.snp.right).offset(30)
+            make.width.height.equalTo(teamBtn)
+        }
         
         // 活动群聊
-        let contactBtn = BomButton(frame: CGRect(x:270, y:150, width:50, height:70))
+//        let contactBtn = BomButton(frame: CGRect(x:270, y:150, width:50, height:70))
+        let contactBtn = BomButton()
         contactBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         contactBtn.setTitle("活动群聊", for: .normal)
         contactBtn.setTitleColor(UIColor.black, for: .normal)
@@ -153,6 +203,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         contactBtn.titleLabel?.textAlignment = .center
         contactBtn.imageView?.frame = CGRect(x: 0, y: 0, width: teamBtn.frame.width, height: teamBtn.frame.width)
         scrollView.addSubview(contactBtn)
+        contactBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(teamBtn)
+            make.left.equalTo(activeBtn.snp.right).offset(30)
+            make.width.height.equalTo(teamBtn)
+        }
         
         // 社团活动label
         let activeLabel = UILabel()
@@ -160,7 +215,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         activeLabel.font = UIFont.systemFont(ofSize: 18)
         activeLabel.textColor = UIColor.black
         scrollView.addSubview(activeLabel)
-        activeLabel.frame = CGRect(x:30, y:245, width:100, height:20)
+        activeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(headImageView)
+            make.top.equalTo(myactiveBtn.snp.bottom).offset(20)
+        }
+//        activeLabel.frame = CGRect(x:30, y:245, width:100, height:20)
         
         // 设置tableView
         let tableView = UITableView()
@@ -170,9 +229,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.separatorStyle = .none
         tableView.showsHorizontalScrollIndicator = false
         tableView.showsVerticalScrollIndicator = false
+//        tableView.isScrollEnabled = false
+        
         scrollView.addSubview(tableView)
         activeTableView = tableView
-        tableView.frame = CGRect(x:30, y:275, width:Constant.screenW - 60, height:327)
+        tableView.snp.makeConstraints { (make) in
+            make.left.equalTo(headImageView)
+            make.top.equalTo(activeLabel.snp.bottom).offset(10)
+            make.width.equalTo(Constant.screenW - 60)
+            make.height.equalTo(340)
+            make.bottom.equalTo(scrollView)
+        }
+//        tableView.frame = CGRect(x:30, y:275, width:Constant.screenW - 60, height:327)
         
     }
     
@@ -240,11 +308,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let response = JSON(response as Any)
             if response["code"].intValue == 200 {
                 self.activeArr.removeAllObjects()
-                let dict = response["data"].arrayObject as! [NSDictionary]
-                for item in dict {
-                    let homeActive = HomeActive(dict: item as! [String : AnyObject])
-                    self.activeArr.add(homeActive)
+                
+                if response["data"].arrayObject != nil {
+                    let dict = response["data"].arrayObject as! [NSDictionary]
+                    for item in dict {
+                        let homeActive = HomeActive(dict: item as! [String : AnyObject])
+                        self.activeArr.add(homeActive)
+                    }
                 }
+                
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }
@@ -363,6 +435,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func societyBtnClick() {
         let vc = MySocietyViewController()
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        let navi = NavigationController(rootViewController:vc)
+        present(navi, animated: true, completion: nil)
+    }
+    
+    @objc func squareBtnClick() {
+        let vc = ActiveSquareViewController()
         vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
         let navi = NavigationController(rootViewController:vc)
         present(navi, animated: true, completion: nil)

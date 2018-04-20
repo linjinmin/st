@@ -7,28 +7,22 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchSocietyTableViewCell: UITableViewCell {
     
+    
+    // 社团头像
+    weak var headImageView: UIImageView!
     // 社团名称
     weak var nameLabel: UILabel!
-    // 简介
-    weak var briefLabel: UILabel!
     
     var briefSociety: SearchSociety! {
         didSet {
             
-            self.nameLabel.text = "\(briefSociety.name ?? "")"
-            self.briefLabel.text = "\(briefSociety.describe ?? "")"
+            headImageView.sd_setImage(with: URL(string: briefSociety.pic as String), placeholderImage: UIImage(named: "image_placeholder"))
+            nameLabel.text = "\(briefSociety.name ?? "")"
            
-        }
-    }
-    
-    override var frame:CGRect{
-        didSet {
-            var newFrame = frame
-            newFrame.size.height -= 15
-            super.frame = newFrame
         }
     }
     
@@ -52,50 +46,29 @@ class SearchSocietyTableViewCell: UITableViewCell {
     
     func setup() {
         
+        // 社团头像
+        let headImageView = UIImageView()
+        headImageView.layer.cornerRadius = 25
+        headImageView.layer.masksToBounds = true
+        contentView.addSubview(headImageView)
+        self.headImageView = headImageView
+        headImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(contentView)
+            make.centerY.equalTo(contentView)
+            make.height.width.equalTo(50)
+        }
+        
         // 社团名称
         let nameLabel = UILabel()
         nameLabel.font = UIFont.systemFont(ofSize: 20)
-        nameLabel.textColor = UIColor.white
+        nameLabel.textColor = UIColor.black
         contentView.addSubview(nameLabel)
         self.nameLabel = nameLabel
         nameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(contentView).offset(10)
-            make.top.equalTo(contentView).offset(10)
+            make.left.equalTo(headImageView.snp.right).offset(10)
+            make.centerY.equalTo(contentView)
         }
         
-//        // 职务
-//        let jobLabel = UILabel()
-//        jobLabel.font = UIFont.systemFont(ofSize: 16)
-//        jobLabel.textColor = UIColor.white
-//        contentView.addSubview(jobLabel)
-//        self.jobLabel = jobLabel
-//        jobLabel.snp.makeConstraints { (make) in
-//            make.left.equalTo(nameLabel)
-//            make.top.equalTo(nameLabel.snp.bottom).offset(5)
-//        }
-        
-        // 简介
-        let briefLabel = UILabel()
-        briefLabel.font = UIFont.systemFont(ofSize: 13)
-        briefLabel.textColor = UIColor.white
-        briefLabel.numberOfLines = 0
-        briefLabel.contentMode = .left
-        contentView.addSubview(briefLabel)
-        self.briefLabel = briefLabel
-        briefLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel)
-            make.bottom.equalTo(contentView).offset(-10)
-            make.height.equalTo(80)
-            make.width.equalTo(contentView.width * 0.6)
-        }
-        
-        contentView.sizeToFit()
-        
-    }
-    
-    func test() {
-        nameLabel.text = "计算机系红十字会"
-        briefLabel.text = "测试测试测试测试测试测试测试测试测试测试"
     }
     
     

@@ -76,9 +76,9 @@ class MyActiveTableViewController: UITableViewController {
             
             if response["code"].intValue == 200 {
                 
-                let dict = response["data"].arrayObject as! [NSDictionary]
-                
-                if dict.count != 0 {
+                if response["data"].arrayObject != nil {
+                    let dict = response["data"].arrayObject as! [NSDictionary]
+                    
                     for item in dict {
                         let myActive = MyActive(dict: item as! [String : AnyObject])
                         self.arr.add(myActive)
@@ -87,6 +87,7 @@ class MyActiveTableViewController: UITableViewController {
                     self.curPage = self.curPage + 1
                     self.tableView.reloadData()
                     self.tableView.mj_footer.endRefreshing()
+                    
                 } else {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
@@ -117,9 +118,9 @@ class MyActiveTableViewController: UITableViewController {
             
             if response["code"].intValue == 200 {
                 
-                let dict = response["data"].arrayObject as! [NSDictionary]
-                
-                if dict.count != 0 {
+                if response["data"].arrayObject != nil {
+                    let dict = response["data"].arrayObject as! [NSDictionary]
+                    
                     for item in dict {
                         let myActive = MyActive(dict: item as! [String : AnyObject])
                         self.arr.add(myActive)
@@ -127,13 +128,13 @@ class MyActiveTableViewController: UITableViewController {
                     
                     self.curPage = self.curPage + 1
                     self.tableView.reloadData()
+                    
                 } else {
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
                 
             } else {
-                self.tableView.mj_footer.endRefreshingWithNoMoreData()
-//                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }
             
         }) { (task, error) in
@@ -155,7 +156,11 @@ class MyActiveTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let myActive = arr[indexPath.row] as! MyActive
+        let vc = ActiveDetailViewController()
+        vc.activeId = myActive.id
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -183,6 +188,10 @@ class MyActiveTableViewController: UITableViewController {
         let myActive = arr[indexPath.row]
         cell.myActive = myActive as! MyActive
         return cell
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

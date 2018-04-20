@@ -30,6 +30,10 @@ class MyActive: NSObject {
     @objc var active_begin: NSString!
     // 活动结束时间
     @objc var active_end: NSString!
+    // 社团名称
+    @objc var name: NSString!
+    // 参加状态
+    @objc var join_status: NSString!
     
     
     init(dict: [String: AnyObject]) {

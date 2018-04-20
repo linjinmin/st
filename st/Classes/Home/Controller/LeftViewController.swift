@@ -33,6 +33,10 @@ class LeftViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.keyWindow?.rootViewController?.viewWillAppear(animated)
+    }
+    
     
     // 设置背景
     func setupBg() {
@@ -160,7 +164,12 @@ class LeftViewController: UIViewController {
     
     // 个人信息按钮点击
     @objc func infoBtnClick() {
-        let vc = UserInfoViewController()
+//        let vc = UserInfoViewController()
+//        vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
+//        let nav = NavigationController(rootViewController: vc)
+//        present(nav, animated: true, completion: nil)
+        let vc = UserShowViewController()
+        vc.user_id = AccountTool.getUser()?.id!
         vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
         let nav = NavigationController(rootViewController: vc)
         present(nav, animated: true, completion: nil)
