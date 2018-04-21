@@ -12,7 +12,7 @@ class NavigationController: UINavigationController, UIGestureRecognizerDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sss
+        
 //        let _sysTarget = self.navigationController?.interactivePopGestureRecognizer?.delegate
 //        //0.2.1 "handleNavigationTransition:" 是存在于_sysTarget中的方法，导航控制器侧滑返回就是调用该方法
 //        let _newGesture = UIPanGestureRecognizer.init(target: _sysTarget, action:Selector(("handleNavigationTransition:")))

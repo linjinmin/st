@@ -37,6 +37,13 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
     // 社团label
     weak var shetuanLabel: UILabel!
     
+    // 照片
+    lazy var images = {() -> NSMutableArray in
+        let arr = NSMutableArray()
+        return arr
+    }()
+    
+    
     // societydetail model
     var societyDetail: SocietyDetail! {
         
@@ -62,6 +69,16 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
                     imageView.layer.cornerRadius = 10
                     imageView.layer.masksToBounds = true
                     imageView.sd_setImage(with: URL(string: item["detail"] as! String), placeholderImage: UIImage(named: "image_placeholder"))
+                    imageView.tag = count
+                    //                    imageView.contentMode = .scaleAspectFill
+                    //                    imageView.clipsToBounds = true
+                    images.add(item["detail"] as! String)
+                    //添加单击监听
+                    let tapSingle=UITapGestureRecognizer(target:self,
+                                                         action:#selector(imageViewTap(_:)))
+                    tapSingle.numberOfTapsRequired = 1
+                    tapSingle.numberOfTouchesRequired = 1
+                    imageView.addGestureRecognizer(tapSingle)
                     scrollView.addSubview(imageView)
                     count = count + 1
                 }
@@ -302,7 +319,12 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         return 0
     }
 
-    
-    
+    @objc func imageViewTap(_ recognizer:UITapGestureRecognizer){
+        //图片索引
+        let index = recognizer.view!.tag
+        //进入图片全屏展示
+        let previewVC = ImagePreviewVC(images: images as! [String], index: index)
+        self.navigationController?.pushViewController(previewVC, animated: true)
+    }
 
 }
