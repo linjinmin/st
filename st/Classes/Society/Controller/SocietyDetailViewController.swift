@@ -228,6 +228,7 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
 //            make.top.equalTo(scrollView.snp.bottom).offset(20)
 //        }
 
+        
         // 设置tableView
         let tableView = UITableView()
         tableView.delegate = self
