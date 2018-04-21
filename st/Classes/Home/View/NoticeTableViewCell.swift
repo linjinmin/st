@@ -74,7 +74,7 @@ class NoticeTableViewCell: UITableViewCell {
         self.content = content
         content.snp.makeConstraints { (make) in
             make.left.right.equalTo(title)
-            make.top.equalTo(title.snp.bottom).offset(10)
+            make.top.equalTo(title.snp.bottom).offset(20)
         }
         
     }

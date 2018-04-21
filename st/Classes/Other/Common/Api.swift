@@ -63,5 +63,6 @@ class Api {
     static let userDetail = "User/User/getUserShowDetail"
     // 申请查看手机号
     static let applyMobile = "Active/User/applyActiveUserMobile"
-    
+    // 获取消息的
+    static let noticeList = "/User/User/getUserMessage"
 }
