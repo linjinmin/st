@@ -42,13 +42,13 @@ class MyTissueView: UIView {
         // 社团头像
         let tissueImageView = UIImageView()
         tissueImageView.layer.masksToBounds = true
-        tissueImageView.layer.cornerRadius = 25
+        tissueImageView.layer.cornerRadius = 15
         addSubview(tissueImageView)
         self.tissueImageView = tissueImageView
         tissueImageView.snp.makeConstraints { (make) in
             make.centerY.equalTo(self)
             make.left.equalTo(self)
-            make.height.width.equalTo(50)
+            make.height.width.equalTo(30)
         }
         
         // 社团label

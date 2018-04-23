@@ -58,7 +58,7 @@ class HomeActiveTableViewCell: UITableViewCell {
         self.layer.masksToBounds = true
         self.backgroundColor = UIColor.white
         setup()
-        test()
+//        test()
     }
     
     required init?(coder aDecoder: NSCoder) {

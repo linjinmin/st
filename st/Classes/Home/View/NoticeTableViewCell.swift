@@ -7,21 +7,43 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NoticeTableViewCell: UITableViewCell {
 
+    // 头像
+    weak var logo: UIImageView!
     // 标题
     weak var title: UILabel!
     // 内容
     weak var content:UILabel!
     
+    var message: UserMessage! {
+        didSet {
+            
+            if message.head_pic == "" {
+                // 显示社团图标
+                logo.image = UIImage(named: "logo")
+            } else {
+                // 显示用户图标
+                logo.sd_setImage(with: URL(string: message.head_pic as String), placeholderImage: UIImage(named: "image_placeholder"))
+            }
+            
+            title.text = "\(message.title ?? "")"
+            content.text = "\(message.msg ?? "")"
+            
+        }
+    }
+    
     override var frame:CGRect{
         didSet {
             var newFrame = frame
-            newFrame.size.height -= 15
+            newFrame.size.height -= 1
             super.frame = newFrame
         }
     }
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,13 +67,14 @@ class NoticeTableViewCell: UITableViewCell {
     func setup() {
         
         let logo = UIImageView(image: UIImage(named:"logo"))
-        logo.layer.cornerRadius = 15
+        logo.layer.cornerRadius = 20
         logo.layer.masksToBounds = true
         contentView.addSubview(logo)
+        self.logo = logo
         logo.snp.makeConstraints { (make) in
-            make.left.equalTo(contentView).offset(15)
+            make.left.equalTo(contentView).offset(20)
             make.top.equalTo(contentView).offset(15)
-            make.height.width.equalTo(30)
+            make.height.width.equalTo(40)
         }
         
         let title = UILabel()
@@ -63,23 +86,28 @@ class NoticeTableViewCell: UITableViewCell {
         title.snp.makeConstraints { (make) in
             make.left.equalTo(logo.snp.right).offset(10)
             make.centerY.equalTo(logo)
-            make.right.equalTo(contentView).offset(-10)
+            make.right.equalTo(contentView).offset(-20)
         }
         
         let content = UILabel()
-        content.font = UIFont.systemFont(ofSize: 16)
+        content.font = UIFont.systemFont(ofSize: 14)
         content.textColor = UIColor.black
-        content.numberOfLines = 0
+        content.numberOfLines = 2
         contentView.addSubview(content)
         self.content = content
         content.snp.makeConstraints { (make) in
-            make.left.right.equalTo(title)
-            make.top.equalTo(title.snp.bottom).offset(20)
+            make.left.equalTo(title)
+            make.right.equalTo(title).offset(-20)
+            make.top.equalTo(title.snp.bottom).offset(10)
         }
         
-    }
-    
-    func test() {
+        let henBottom = UIView()
+        henBottom.backgroundColor = Constant.littleGray
+        contentView.addSubview(henBottom)
+        henBottom.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(contentView)
+            make.height.equalTo(1)
+        }
         
     }
 

@@ -38,6 +38,8 @@ struct Constant {
     static let viewColor = UIColor(red:87/255, green:113/255, blue:250/255, alpha:1)
     // 每页数量
     static let size = 15
+    // 淡灰色
+    static let littleGray = UIColor(red:230/255, green:230/255, blue:230/255, alpha:1)
     
     
 }

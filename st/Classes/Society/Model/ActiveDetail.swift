@@ -46,6 +46,8 @@ class ActiveDetail: NSObject {
     @objc var join_status: NSString!
     // 报名上限人数
     @objc var num: NSString!
+    // 奖励
+    @objc var award: NSString!
     
     
     init(dict: [String: AnyObject]) {

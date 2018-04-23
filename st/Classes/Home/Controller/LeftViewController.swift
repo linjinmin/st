@@ -121,7 +121,7 @@ class LeftViewController: UIViewController {
         leftView.addSubview(noticeBtn)
         noticeBtn.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(infoBtn)
-            make.top.equalTo(pwdBtn.snp.bottom).offset(Constant.functionListBtnOffset)
+        make.top.equalTo(pwdBtn.snp.bottom).offset(Constant.functionListBtnOffset)
         }
         
         // 意见反馈
@@ -185,7 +185,10 @@ class LeftViewController: UIViewController {
     
     // 消息公告按钮点击
     @objc func noticeBtnClick() {
-        
+        let vc = NoticeTableViewController()
+        vc.view.frame = CGRect(x:0, y:0, width:Constant.screenW, height: Constant.screenH)
+        let nav = NavigationController(rootViewController: vc)
+        present(nav, animated: true, completion: nil)
     }
     
     // 意见反馈按钮点击

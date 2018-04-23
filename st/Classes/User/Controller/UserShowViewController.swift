@@ -178,11 +178,16 @@ class UserShowViewController: UIViewController{
             navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: button)
         }
         
+        SVProgressHUD.show(withStatus: Constant.loadingTitle)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setup() {
@@ -275,31 +280,7 @@ class UserShowViewController: UIViewController{
         tissueView.backgroundColor = UIColor.clear
         scrollView.addSubview(tissueView)
         self.tissueView = tissueView
-//        tissueView.snp.makeConstraints { (make) in
-//            make.left.equalTo(headImageView)
-//            make.top.equalTo(tissueLabel.snp.bottom).offset(5)
-//            make.width.equalTo(Constant.screenW - 40)
-////            make.height.equalTo(0)
-//        }
 
-        
-        // 社团tableView
-//        let tissueTableView = UITableView()
-//        tissueTableView.delegate = self
-//        tissueTableView.dataSource = self
-//        tissueTableView.backgroundColor = UIColor.clear
-//        tissueTableView.separatorStyle = .none
-//        tissueTableView.showsHorizontalScrollIndicator = false
-//        tissueTableView.showsVerticalScrollIndicator = false
-//        scrollView.addSubview(tissueTableView)
-//        self.tissueTableView = tissueTableView
-//        tissueTableView.snp.makeConstraints { (make) in
-//            make.left.equalTo(headImageView)
-//            make.top.equalTo(tissueLabel.snp.bottom).offset(10)
-//            make.width.equalTo(Constant.screenW - 40)
-//            make.height.equalTo(150)
-//        }
-        
         // 活动Label
         let activeLabel = setupLabel(font: 18, color: UIColor.black)
         activeLabel.text = "最近参与"
@@ -315,12 +296,6 @@ class UserShowViewController: UIViewController{
         activeView.backgroundColor = UIColor.clear
         scrollView.addSubview(activeView)
         self.activeView = activeView
-//        activeView.snp.makeConstraints { (make) in
-//            make.left.equalTo(headImageView)
-//            make.top.equalTo(activeLabel.snp.bottom).offset(10)
-//            make.width.equalTo(Constant.screenW - 40)
-//            make.height.equalTo(0)
-//        }
         
     }
     
@@ -337,7 +312,7 @@ class UserShowViewController: UIViewController{
                 let userInfo = UserInfo(dict: response["data"].dictionaryObject! as [String : AnyObject])
                 
                     self.userInfo = userInfo
-                
+                SVProgressHUD.dismiss()
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }

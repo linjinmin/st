@@ -1,20 +1,20 @@
 //
-//  NoticeTableViewController.swift
+//  ApplyMobileTableViewController.swift
 //  st
 //
-//  Created by 林劲民 on 2018/3/27.
+//  Created by 林劲民 on 2018/4/23.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
-import SVProgressHUD
 import MJRefresh
 import SwiftyJSON
+import SVProgressHUD
 
-class NoticeTableViewController: UITableViewController {
-    
+class ApplyMobileTableViewController: UITableViewController {
+
     // cell 标识
-    var reuseId: String! = "notice"
+    var reuseId: String! = "apply"
     
     // 当前页
     var curPage: NSInteger!
@@ -24,12 +24,10 @@ class NoticeTableViewController: UITableViewController {
         return arr
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = "平台公告"
+
+        navigationItem.title = "请求列表"
         // 初始化
         setup()
         setupRefresh()
@@ -40,7 +38,7 @@ class NoticeTableViewController: UITableViewController {
     func setup() {
         tableView.separatorStyle = .none
         tableView.backgroundColor = Constant.viewBackgroundColor
-        tableView.register(NoticeTableViewCell().classForCoder, forCellReuseIdentifier: reuseId)
+        tableView.register(ApplyMobileTableViewCell().classForCoder, forCellReuseIdentifier: reuseId)
     }
     
     func setupRefresh() {
@@ -58,7 +56,7 @@ class NoticeTableViewController: UITableViewController {
         curPage = 1
         
         let params = NSMutableDictionary()
-        params["method"] = Api.noticeList
+        params["method"] = Api.applyMobileList
         params["page"] = curPage
         params["size"] = Constant.size
         
@@ -73,8 +71,8 @@ class NoticeTableViewController: UITableViewController {
                 
                 if dict.count != 0 {
                     for item in dict {
-                        let userMessage = UserMessage(dict: item as! [String : AnyObject])
-                        self.arr.add(userMessage)
+                        let applyMobile = ApplyMobile(dict: item as! [String : AnyObject])
+                        self.arr.add(applyMobile)
                     }
                     
                     self.curPage = self.curPage + 1
@@ -99,9 +97,9 @@ class NoticeTableViewController: UITableViewController {
     }
     
     @objc func loadMore() {
-    
+        
         let params = NSMutableDictionary()
-        params["method"] = Api.noticeList
+        params["method"] = Api.applyMobileList
         params["page"] = curPage
         params["size"] = Constant.size
         
@@ -115,8 +113,8 @@ class NoticeTableViewController: UITableViewController {
                 
                 if dict.count != 0 {
                     for item in dict {
-                        let userMessage = UserMessage(dict: item as! [String : AnyObject])
-                        self.arr.add(userMessage)
+                        let applyMobile = ApplyMobile(dict: item as! [String : AnyObject])
+                        self.arr.add(applyMobile)
                     }
                     
                     self.curPage = self.curPage + 1
@@ -144,37 +142,20 @@ class NoticeTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
         return arr.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId) as! NoticeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId) as! ApplyMobileTableViewCell
         cell.backgroundColor = UIColor.clear
-        let userMessage = arr[indexPath.row]
-        cell.message = userMessage as! UserMessage
+        let apply = arr[indexPath.row]
+        cell.apply = apply as! ApplyMobile
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 115
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let userMessage = arr[indexPath.row] as! UserMessage
-        
-        if userMessage.type == "1" {
-            // 进入好友请求
-            let vc = ApplyMobileTableViewController()
-            vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = NoticeDetailViewController()
-            vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
-            vc.message = userMessage
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        
+        return 100
     }
 
 }

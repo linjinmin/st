@@ -28,6 +28,8 @@ class ActiveDetailViewController: UIViewController {
     weak var addressLabel: UILabel!
     // 社团名称按钮
     weak var tissueBtn: UIButton!
+    // 奖励
+    weak var awardLabel: UILabel!
     // 活动详情
     weak var detailLabel: UILabel!
     // 参与人数
@@ -55,7 +57,7 @@ class ActiveDetailViewController: UIViewController {
             activeTimeLabel.text = "活动时间：\(activeDetail.active_begin ?? "")-\(activeDetail.active_end ?? "")"
             addressLabel.text = "地点：\(activeDetail.address ?? "暂无")"
             tissueBtn.setTitle("\(activeDetail.tissue_name ?? "")", for: .normal)
-//            tissueNameLabel.text = "社团：\(activeDetail.tissue_name ?? "")"
+            awardLabel.text = "\(activeDetail.award ?? "")"
             detailLabel.text = "活动详情：\(activeDetail.describe ?? "暂无")"
             joinLabel.text = "\(activeDetail.member_join ?? "")/\(activeDetail.member_count ?? "")"
             
@@ -140,12 +142,17 @@ class ActiveDetailViewController: UIViewController {
         
         setup()
         getData()
+        SVProgressHUD.show(withStatus: Constant.loadingTitle)
         
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setup() {
@@ -236,6 +243,25 @@ class ActiveDetailViewController: UIViewController {
             make.left.equalTo(tissueNameLabel.snp.right).offset(1)
         }
         
+        // 奖励字段
+        let awardNoticeLabel = setupLabel(font: 16)
+        awardNoticeLabel.text = "活动奖励："
+        scrollView.addSubview(awardNoticeLabel)
+        awardNoticeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.top.equalTo(tissueNameLabel.snp.bottom).offset(10)
+        }
+        
+        
+        let awardLabel = setupLabel(font: 16)
+        awardLabel.numberOfLines = 0
+        scrollView.addSubview(awardLabel)
+        self.awardLabel = awardLabel
+        awardLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(awardNoticeLabel.snp.right)
+            make.top.equalTo(awardNoticeLabel)
+        }
+        
         // 活动详情
         let detailLabel = setupLabel(font: 16)
         scrollView.addSubview(detailLabel)
@@ -244,7 +270,7 @@ class ActiveDetailViewController: UIViewController {
         detailLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
             make.width.equalTo(Constant.screenW - 40)
-            make.top.equalTo(tissueNameLabel.snp.bottom).offset(10)
+            make.top.equalTo(awardLabel.snp.bottom).offset(10)
         }
         
         // 活动成员
@@ -328,7 +354,7 @@ class ActiveDetailViewController: UIViewController {
             make.width.equalTo(Constant.screenW - 60)
             make.top.equalTo(photoScrollView.snp.bottom).offset(20)
             make.height.equalTo(50)
-            make.bottom.equalTo(scrollView)
+            make.bottom.equalTo(scrollView).offset(-20)
         }
         
     }
@@ -348,6 +374,7 @@ class ActiveDetailViewController: UIViewController {
                 let activeDetail = ActiveDetail(dict: response["data"].dictionaryObject! as [String : AnyObject])
                 
                 self.activeDetail = activeDetail
+                SVProgressHUD.dismiss()
                 
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
@@ -356,6 +383,7 @@ class ActiveDetailViewController: UIViewController {
         }) { (task, error) in
             SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
+        
         
     }
     

@@ -99,6 +99,7 @@ class MyActiveTableViewController: UITableViewController {
             self.tableView.mj_header.endRefreshing()
             
         }) { (task, error) in
+            self.tableView.mj_header.endRefreshing()
             SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
         
@@ -136,6 +137,8 @@ class MyActiveTableViewController: UITableViewController {
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }
+            
+            self.tableView.mj_footer.endRefreshing()
             
         }) { (task, error) in
             self.tableView.mj_footer.endRefreshing()

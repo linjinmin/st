@@ -68,6 +68,7 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
                     imageView.frame = CGRect(x: count * 100, y: 0, width: 80, height: 80)
                     imageView.layer.cornerRadius = 10
                     imageView.layer.masksToBounds = true
+                    imageView.isUserInteractionEnabled = true
                     imageView.sd_setImage(with: URL(string: item["detail"] as! String), placeholderImage: UIImage(named: "image_placeholder"))
                     imageView.tag = count
                     //                    imageView.contentMode = .scaleAspectFill
@@ -119,6 +120,12 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         // 初始化
         setup()
         getDetail()
+        
+        SVProgressHUD.show(withStatus: Constant.loadingTitle)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        SVProgressHUD.dismiss()
     }
     
     func setup() {
@@ -266,6 +273,7 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
                 let societyDetail = SocietyDetail(dict: response["data"].dictionaryObject! as [String : AnyObject])
                 
                 self.societyDetail = societyDetail
+                SVProgressHUD.dismiss()
                 
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
@@ -279,7 +287,6 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -309,7 +316,11 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let vc = TemplateActiveDetailViewController()
+        let active = SocietyDetailActive(dict: activeArr[indexPath.row] as! [String : AnyObject])
+        vc.activeId = active.id
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

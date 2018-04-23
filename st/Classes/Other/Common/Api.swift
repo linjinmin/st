@@ -64,5 +64,11 @@ class Api {
     // 申请查看手机号
     static let applyMobile = "Active/User/applyActiveUserMobile"
     // 获取消息的
-    static let noticeList = "/User/User/getUserMessage"
+    static let noticeList = "User/User/getUserMessage"
+    // 获取模版活动详情
+    static let activeTemplate = "Active/Active/getActiveTemplate"
+    // 获取查看手机号列表
+    static let applyMobileList = "User/User/mobileApplyList"
+    // 手机号请求处理
+    static let applyMobileCheck = "User/User/mobileApplyCheck"
 }
