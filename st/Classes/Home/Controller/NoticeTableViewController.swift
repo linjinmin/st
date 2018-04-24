@@ -163,6 +163,21 @@ class NoticeTableViewController: UITableViewController {
         
         let userMessage = arr[indexPath.row] as! UserMessage
         
+        // 请求设置数据已读
+        if userMessage.status == "0" {
+            
+            userMessage.status = "1"
+            arr[indexPath.row] = userMessage
+            self.tableView.reloadData()
+            
+            // 设置已读
+            let params = NSMutableDictionary()
+            params["method"] = Api.updateMessage
+            params["id"] = userMessage.id
+            
+            Networking.share().post(Api.host, parameters: params, progress: nil, success: nil, failure: nil)
+        }
+        
         if userMessage.type == "1" {
             // 进入好友请求
             let vc = ApplyMobileTableViewController()

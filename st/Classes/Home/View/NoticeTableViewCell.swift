@@ -17,6 +17,8 @@ class NoticeTableViewCell: UITableViewCell {
     weak var title: UILabel!
     // 内容
     weak var content:UILabel!
+    // 红色的view
+    weak var red: UIView!
     
     var message: UserMessage! {
         didSet {
@@ -31,6 +33,12 @@ class NoticeTableViewCell: UITableViewCell {
             
             title.text = "\(message.title ?? "")"
             content.text = "\(message.msg ?? "")"
+            
+            if message.status == "0" && message.type != "0" {
+                red.isHidden = false
+            } else {
+                red.isHidden = true
+            }
             
         }
     }
@@ -99,6 +107,17 @@ class NoticeTableViewCell: UITableViewCell {
             make.left.equalTo(title)
             make.right.equalTo(title).offset(-20)
             make.top.equalTo(title.snp.bottom).offset(10)
+        }
+        
+        let red = UIView()
+        red.backgroundColor = UIColor.red
+        red.layer.cornerRadius = 5
+        contentView.addSubview(red)
+        self.red = red
+        red.snp.makeConstraints { (make) in
+            make.centerY.equalTo(title)
+            make.right.equalTo(contentView).offset(-20)
+            make.height.width.equalTo(10)
         }
         
         let henBottom = UIView()

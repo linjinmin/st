@@ -131,6 +131,15 @@ class ActiveDetailViewController: UIViewController {
                 btn.setTitle("组队报名", for: .normal)
             }
             
+            // 显示右上角二维码按钮
+            if activeDetail.is_release == "1" {
+                let button = UIButton()
+                button.frame = CGRect(x:0 ,y:0, width:20, height:32)
+                button.setImage(UIImage(named: "qr"), for: .normal)
+                button.addTarget(self, action: #selector(qrBtnClick), for: .touchUpInside)
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: button)
+            }
+            
         }
     }
     
@@ -142,8 +151,8 @@ class ActiveDetailViewController: UIViewController {
         
         setup()
         getData()
-        SVProgressHUD.show(withStatus: Constant.loadingTitle)
         
+        SVProgressHUD.show(withStatus: Constant.loadingTitle)
     }
     
     
@@ -161,6 +170,7 @@ class ActiveDetailViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.backgroundColor = UIColor.clear
+        scrollView.bounces = false
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { (make) in
             make.left.right.top.bottom.equalTo(view)
@@ -383,8 +393,6 @@ class ActiveDetailViewController: UIViewController {
         }) { (task, error) in
             SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
-        
-        
     }
     
     
@@ -400,6 +408,17 @@ class ActiveDetailViewController: UIViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
         
+        
+    }
+    
+    @objc func qrBtnClick() {
+        
+        let vc = QrViewController()
+        vc.activeId = activeId
+        vc.tissueId = activeDetail.tissue_id
+        vc.name = activeDetail.active_name
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
         
     }
     

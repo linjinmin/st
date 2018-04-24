@@ -24,6 +24,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var schoolLabel: UILabel!
     // 活动tableView
     weak var activeTableView: UITableView!
+    // 红点view
+    weak var redView: UIView!
     
     // cellview的背景颜色 4色循环
     fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
@@ -59,6 +61,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupScrollViewDetail()
         setupRefresh()
         refreshToken()
+        
         
     }
     
@@ -264,6 +267,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             make.height.width.equalTo(35)
         }
         
+        // 红色view
+        let redView = UIView()
+        redView.backgroundColor = UIColor.red
+        redView.layer.cornerRadius = 5
+        redView.isHidden = true
+        headView.addSubview(redView)
+        self.redView = redView
+        redView.snp.makeConstraints { (make) in
+            make.height.width.equalTo(10)
+            make.right.top.equalTo(leftBtn)
+        }
+        
         // 又侧扫一扫
         let rightBtn = UIButton()
         rightBtn.backgroundColor = Constant.viewBackgroundColor
@@ -332,6 +347,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    // 判断是否存在未读消息
+    func checkUnreadMessage() {
+        
+        let params = NSMutableDictionary()
+        params["method"] = Api.unreadMessage
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                
+                if response["data"].stringValue == "1" {
+                    // 说明存在未读的
+                    self.redView.isHidden = false
+                } else {
+                    self.redView.isHidden = true
+                }
+                
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
+        
+    }
+    
     // 刷新token
     func refreshToken() {
         // 刷新token
@@ -359,6 +404,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     AccountTool.getUserInfo()
                 }
                 self.activeTableView.mj_header.beginRefreshing()
+                self.checkUnreadMessage()
             } else {
                 UIApplication.shared.keyWindow!.rootViewController = LoginViewController()
             }

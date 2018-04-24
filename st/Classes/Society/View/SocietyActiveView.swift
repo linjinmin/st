@@ -1,15 +1,15 @@
 //
-//  SocietyDetailActiveTableViewCell.swift
+//  SocietyActive.swift
 //  st
 //
-//  Created by 林劲民 on 2018/4/12.
+//  Created by 林劲民 on 2018/4/23.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
 
-class SocietyDetailActiveTableViewCell: UITableViewCell {
-
+class SocietyActiveView: UIView {
+    
     // 活动名称
     weak var activeNameLabel: UILabel!
     // 地点
@@ -18,8 +18,6 @@ class SocietyDetailActiveTableViewCell: UITableViewCell {
     weak var societyLabel: UILabel!
     // 活动详情
     weak var detailLabel: UILabel!
-    // 状态
-    var status: NSInteger!
     
     var active: SocietyDetailActive! {
         didSet {
@@ -30,26 +28,8 @@ class SocietyDetailActiveTableViewCell: UITableViewCell {
         }
     }
     
-    override var frame:CGRect{
-        didSet {
-            var newFrame = frame
-            newFrame.size.height -= 15
-            super.frame = newFrame
-        }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .none
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
-        self.backgroundColor = UIColor.white
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setup()
     }
     
@@ -61,32 +41,54 @@ class SocietyDetailActiveTableViewCell: UITableViewCell {
         
         // 社团名称
         let activeNameLabel = setupLabel(font: 20)
-        contentView.addSubview(activeNameLabel)
+        self.addSubview(activeNameLabel)
         self.activeNameLabel = activeNameLabel
         activeNameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(contentView).offset(10)
-            make.top.equalTo(contentView).offset(10)
+            make.left.equalTo(self).offset(10)
+            make.top.equalTo(self).offset(10)
         }
         
         // 活动详情
         let detailLabel = setupLabel(font: 16)
-        contentView.addSubview(detailLabel)
+        self.addSubview(detailLabel)
         self.detailLabel = detailLabel
         detailLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.right.equalTo(contentView).offset(-10)
-            make.bottom.equalTo(contentView).offset(-10)
+            make.right.equalTo(self).offset(-10)
+            make.bottom.equalTo(self).offset(-10)
         }
         
         // 地点
         let addressLabel = setupLabel(font: 16)
-        contentView.addSubview(addressLabel)
+        self.addSubview(addressLabel)
         self.addressLabel = addressLabel
         addressLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
             make.bottom.equalTo(detailLabel.snp.top).offset(-3)
         }
         
+        // btn
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(btnClick), for: .touchUpInside)
+        btn.backgroundColor = UIColor.clear
+        addSubview(btn)
+        btn.snp.makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(self)
+        }
+        
+    }
+    
+    @objc func btnClick() {
+        let vc = TemplateActiveDetailViewController()
+        vc.activeId = active.id
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        var object = self.next
+        while !(object?.isKind(of: UIViewController.classForCoder()))! && object != nil {
+            object = object?.next
+        }
+        
+        let superController = object as! UIViewController
+        superController.navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupLabel(font: CGFloat) -> UILabel {
@@ -94,12 +96,6 @@ class SocietyDetailActiveTableViewCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: font)
         label.textColor = UIColor.white
         return label
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
 
 }

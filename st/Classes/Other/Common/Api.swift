@@ -71,4 +71,10 @@ class Api {
     static let applyMobileList = "User/User/mobileApplyList"
     // 手机号请求处理
     static let applyMobileCheck = "User/User/mobileApplyCheck"
+    // 获取二维码
+    static let getQrCode = "Active/Active/createQrCode"
+    // 判断是否存在未读消息
+    static let unreadMessage = "User/User/unReadMessage"
+    // 设置消息已读
+    static let updateMessage = "User/User/updateUserMessage"
 }

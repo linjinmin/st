@@ -48,7 +48,8 @@ class ActiveDetail: NSObject {
     @objc var num: NSString!
     // 奖励
     @objc var award: NSString!
-    
+    // 是否该活动发布人
+    @objc var is_release: NSString!
     
     init(dict: [String: AnyObject]) {
         super.init()

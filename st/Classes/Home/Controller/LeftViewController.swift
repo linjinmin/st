@@ -14,9 +14,10 @@ class LeftViewController: UIViewController {
     
     // 背景view
     weak var bgView: UIView!
-    
     // 左侧功能条view
     weak var leftView: UIView!
+    // 红点view
+    weak var redView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class LeftViewController: UIViewController {
         // 设置左侧功能条详细内容
         setupDetailView()
 
+        checkUnreadMessage()
         
     }
     
@@ -121,7 +123,20 @@ class LeftViewController: UIViewController {
         leftView.addSubview(noticeBtn)
         noticeBtn.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(infoBtn)
-        make.top.equalTo(pwdBtn.snp.bottom).offset(Constant.functionListBtnOffset)
+            make.top.equalTo(pwdBtn.snp.bottom).offset(Constant.functionListBtnOffset)
+        }
+        
+        // 红点
+        let redView = UIView()
+        redView.backgroundColor = UIColor.red
+        redView.layer.cornerRadius = 5
+        redView.isHidden = true
+        leftView.addSubview(redView)
+        self.redView = redView
+        redView.snp.makeConstraints { (make) in
+            make.centerY.equalTo(noticeBtn)
+            make.height.width.equalTo(10)
+            make.right.equalTo(leftView).offset(-20)
         }
         
         // 意见反馈
@@ -229,6 +244,37 @@ class LeftViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    // 判断是否存在未读消息
+    func checkUnreadMessage() {
+        
+        let params = NSMutableDictionary()
+        params["method"] = Api.unreadMessage
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                
+                if response["data"].stringValue == "1" {
+                    // 说明存在未读的
+                    self.redView.isHidden = false
+                } else {
+                    self.redView.isHidden = true
+                }
+                
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+        
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
+        
+        
     }
     
     // 隐藏按钮点击退出当前视图

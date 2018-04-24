@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SVProgressHUD
+import MJRefresh
+import SwiftyJSON
 
 class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
@@ -52,6 +55,15 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         // Dispose of any resources that can be recreated.
     }
     
+    func setupRefresh() {
+        let header = MJRefreshStateHeader(refreshingTarget: self, refreshingAction: #selector(loadNew))
+        header?.stateLabel.textColor = UIColor.gray
+        header?.lastUpdatedTimeLabel.textColor = UIColor.gray
+        tableView.mj_header = header
+        let footer = MJRefreshBackStateFooter(refreshingTarget: self, refreshingAction: #selector(loadMore))
+        footer?.stateLabel.textColor = UIColor.gray
+        tableView.mj_footer = footer
+    }
     
     func setup() {
         
@@ -116,7 +128,7 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         // 主要活动view
         let mainActiveView = UIView()
         mainActiveView.backgroundColor = UIColor.clear
-        mainActiveView.frame = CGRect.init(x: 0, y: 0, width: Constant.screenW, height: 450)
+        mainActiveView.frame = CGRect.init(x: 0, y: 0, width: Constant.screenW, height: 260)
         view.addSubview(mainActiveView)
         
         // 滚动试图
@@ -129,7 +141,8 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         self.photoScrollView = photoScrollView
         photoScrollView.snp.makeConstraints { (make) in
             make.left.right.equalTo(mainActiveView)
-            make.top.equalTo(250)
+            make.top.equalTo(mainActiveView)
+            make.height.equalTo(150)
         }
         
         let activeBottomView = UIView()
@@ -142,17 +155,17 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         
         // 横线1
         let hen1 = UIView()
-        hen1.backgroundColor = UIColor.gray
+        hen1.backgroundColor = Constant.littleGray
         activeBottomView.addSubview(hen1)
         hen1.snp.makeConstraints { (make) in
-            make.top.equalTo(activeBottomView).offset(10)
+            make.top.equalTo(activeBottomView)
             make.left.right.equalTo(activeBottomView)
             make.height.equalTo(1)
         }
         
         // 横线2
         let hen2 = UIView()
-        hen2.backgroundColor = UIColor.gray
+        hen2.backgroundColor = Constant.littleGray
         activeBottomView.addSubview(hen2)
         hen2.snp.makeConstraints { (make) in
             make.bottom.equalTo(activeBottomView)
@@ -209,8 +222,15 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         
     }
     
-    
     @objc func searchBtnClick() {
+        
+    }
+    
+    @objc func loadNew() {
+        
+    }
+    
+    @objc func loadMore() {
         
     }
     

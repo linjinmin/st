@@ -11,7 +11,7 @@ import SVProgressHUD
 import SwiftyJSON
 import SDWebImage
 
-class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SocietyDetailViewController: UIViewController{
 
     // 社团id
     var tissue_id: NSString!
@@ -36,6 +36,8 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
     weak var activeLabel: UILabel!
     // 社团label
     weak var shetuanLabel: UILabel!
+    // 活动view
+    weak var activeView: UIView!
     
     // 照片
     lazy var images = {() -> NSMutableArray in
@@ -99,7 +101,47 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
                 }
             }
             
-            activeTableView.reloadData()
+            if societyDetail.active.count > 0 {
+                
+                activeView.snp.makeConstraints { (make) in
+                    make.left.equalTo(shetuanLabel)
+                    make.height.equalTo(societyDetail.active.count * 125)
+                    make.top.equalTo(activeLabel.snp.bottom).offset(10)
+                    make.width.equalTo(Constant.screenW - 60)
+                }
+                
+                var count = 0
+                
+                for item in societyDetail.active {
+                    
+                    let item = item as! [String : AnyObject]
+                    let active = SocietyDetailActive(dict: item)
+                    let view = SocietyActiveView()
+                    view.frame = CGRect(x: count * 115, y:0, width:Int(Constant.screenW - 60), height: 100)
+                    view.active = active
+                    let colorIndex = count % 4
+                    let leftColor = cellColors[colorIndex]
+                    let rightColor = cellColorsAlpha[colorIndex]
+                    let gradientColors = [leftColor.cgColor, rightColor.cgColor]
+                    let gradientLocations:[NSNumber] = [0.0, 1.0]
+                    //创建CAGradientLayer对象并设置参数
+                    let gradientLayer = CAGradientLayer()
+                    gradientLayer.colors = gradientColors
+                    gradientLayer.frame.size.width = Constant.screenW-60
+                    gradientLayer.frame.size.height = 100
+                    gradientLayer.locations = gradientLocations
+                    gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+                    gradientLayer.endPoint = CGPoint(x: 1, y: 0)
+                    gradientLayer.type = kCAGradientLayerAxial;
+                    view.layer.insertSublayer(gradientLayer, at: 0)
+                    view.layer.cornerRadius = 10
+                    view.layer.masksToBounds = true
+                    activeView.addSubview(view)
+                    count = count + 1
+                    
+                }
+                
+            }
             
             view.layoutIfNeeded()
         }
@@ -134,6 +176,7 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         let backScrollView = UIScrollView()
 //        backScrollView.showsHorizontalScrollIndicator = false
         backScrollView.backgroundColor = UIColor.clear
+        backScrollView.bounces = false
         view.addSubview(backScrollView)
         backScrollView.snp.makeConstraints { (make) in
             make.left.right.top.bottom.equalTo(view)
@@ -230,35 +273,17 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         activeLabel.textColor = UIColor.black
         backScrollView.addSubview(activeLabel)
         self.activeLabel = activeLabel
-//        activeLabel.snp.makeConstraints { (make) in
-//            make.left.equalTo(shetuanLabel)
-//            make.top.equalTo(scrollView.snp.bottom).offset(20)
-//        }
-
         
-        // 设置tableView
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = UIColor.clear
-        tableView.separatorStyle = .none
-        tableView.showsHorizontalScrollIndicator = false
-        tableView.showsVerticalScrollIndicator = false
-        backScrollView.addSubview(tableView)
-        activeTableView = tableView
-        tableView.snp.makeConstraints { (make) in
-            make.left.equalTo(describeLabel)
-            make.height.equalTo(350)
-            make.width.equalTo(Constant.screenW-40)
-            make.top.equalTo(activeLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(backScrollView)
-        }
+        // 活动view
+        let activeView = UIView()
+        activeView.backgroundColor = UIColor.clear
+        backScrollView.addSubview(activeView)
+        self.activeView = activeView
+    
     }
     
     // 获取详情
     func getDetail() {
-        
-//        SVProgressHUD.showError(withStatus: Constant.loadingTitle)
         
         let params = NSMutableDictionary()
         params["tissue_id"] = tissue_id
@@ -289,48 +314,6 @@ class SocietyDetailViewController: UIViewController, UITableViewDelegate, UITabl
         super.didReceiveMemoryWarning()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = SocietyDetailActiveTableViewCell()
-        let cellColorIndex = indexPath.row % 4
-        let leftColor = cellColors[cellColorIndex]
-        let rightColor = cellColorsAlpha[cellColorIndex]
-        let gradientColors = [leftColor.cgColor, rightColor.cgColor]
-        let gradientLocations:[NSNumber] = [0.0, 1.0]
-        //创建CAGradientLayer对象并设置参数
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = gradientColors
-        gradientLayer.frame.size.width = Constant.screenW - 40
-        gradientLayer.frame.size.height = 180
-        gradientLayer.locations = gradientLocations
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
-        gradientLayer.type = kCAGradientLayerAxial;
-        cell.contentView.layer.insertSublayer(gradientLayer, at: 0)
-        let active = SocietyDetailActive(dict: activeArr[indexPath.row] as! [String : AnyObject])
-        cell.active = active
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 115
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = TemplateActiveDetailViewController()
-        let active = SocietyDetailActive(dict: activeArr[indexPath.row] as! [String : AnyObject])
-        vc.activeId = active.id
-        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if activeArr != nil {
-            return activeArr.count
-        }
-        
-        return 0
-    }
-
     @objc func imageViewTap(_ recognizer:UITapGestureRecognizer){
         //图片索引
         let index = recognizer.view!.tag
