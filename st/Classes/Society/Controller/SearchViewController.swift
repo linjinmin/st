@@ -11,7 +11,7 @@ import SVProgressHUD
 import SwiftyJSON
 import MJRefresh
 
-class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableViewDelegate, UITableViewDataSource {
+class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     weak var field: UITextField!
     weak var tableView: UITableView!
@@ -47,7 +47,8 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
         
         // 背景框view
         let bgview = UIView()
-        bgview.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        bgview.backgroundColor = Constant.viewBackgroundColor
+//        bgview.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         view.addSubview(bgview)
         bgview.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(view)
@@ -64,31 +65,32 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
         leftImageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
         field.leftView = leftImageView
         field.leftViewMode = .always
-        field.backgroundColor = UIColor.white
+        field.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         field.layer.cornerRadius = 5
+        field.delegate = self
         bgview.addSubview(field)
         self.field = field
         field.snp.makeConstraints { (make) in
             make.centerY.equalTo(bgview)
-            make.left.equalTo(bgview).offset(5)
+            make.left.equalTo(bgview).offset(10)
             make.height.equalTo(40)
-            make.width.equalTo(Constant.screenW * 0.7)
+            make.right.equalTo(bgview).offset(-10)
         }
         
         // 搜索按钮
-        let btn = UIButton()
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        btn.backgroundColor = Constant.viewColor
-        btn.layer.cornerRadius = 5
-        btn.setTitle("搜索", for: .normal)
-        btn.addTarget(self, action: #selector(searchBtnClick), for: .touchUpInside)
-        bgview.addSubview(btn)
-        btn.snp.makeConstraints { (make) in
-            make.centerY.equalTo(bgview)
-            make.left.equalTo(field.snp.right).offset(5)
-            make.height.equalTo(field)
-            make.right.equalTo(bgview).offset(-5)
-        }
+//        let btn = UIButton()
+//        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//        btn.backgroundColor = Constant.viewColor
+//        btn.layer.cornerRadius = 5
+//        btn.setTitle("搜索", for: .normal)
+//        btn.addTarget(self, action: #selector(searchBtnClick), for: .touchUpInside)
+//        bgview.addSubview(btn)
+//        btn.snp.makeConstraints { (make) in
+//            make.centerY.equalTo(bgview)
+//            make.left.equalTo(field.snp.right).offset(5)
+//            make.height.equalTo(field)
+//            make.right.equalTo(bgview).offset(-5)
+//        }
         
         // tableView
         let tableView = UITableView()
@@ -159,13 +161,8 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
         
     }
     
-    @objc func searchBtnClick() {
-        
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         view.endEditing(true)
-        
-        if field.text == "" {
-            return
-        }
         
         curPage = 1
         
@@ -174,7 +171,7 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
         params["name"] = field.text
         params["size"] = Constant.size
         params["page"] = curPage
-
+        
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             
             let response = JSON(response as Any)
@@ -203,6 +200,7 @@ class SearchViewController: UIViewController, SingleKeyBoardDelegate, UITableVie
             SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
         
+        return true
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

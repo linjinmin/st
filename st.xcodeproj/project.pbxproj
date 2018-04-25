@@ -83,6 +83,9 @@
 		6EF83C2B208D8DCC00AD70B0 /* ApplyMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C2A208D8DCC00AD70B0 /* ApplyMobile.swift */; };
 		6EF83C2D208E142800AD70B0 /* SocietyActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C2C208E142800AD70B0 /* SocietyActiveView.swift */; };
 		6EF83C2F208E2ABE00AD70B0 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C2E208E2ABE00AD70B0 /* QrViewController.swift */; };
+		6EF83C31208F439900AD70B0 /* ActiveSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C30208F439900AD70B0 /* ActiveSquare.swift */; };
+		6EF83C332090B80F00AD70B0 /* ActiveMemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */; };
+		6EF83C352090B82500AD70B0 /* ActiveMemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +188,9 @@
 		6EF83C2A208D8DCC00AD70B0 /* ApplyMobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyMobile.swift; sourceTree = "<group>"; };
 		6EF83C2C208E142800AD70B0 /* SocietyActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyActiveView.swift; sourceTree = "<group>"; };
 		6EF83C2E208E2ABE00AD70B0 /* QrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; };
+		6EF83C30208F439900AD70B0 /* ActiveSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSquare.swift; sourceTree = "<group>"; };
+		6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMemberListTableViewController.swift; sourceTree = "<group>"; };
+		6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMemberListTableViewCell.swift; sourceTree = "<group>"; };
 		754A57FC0FF44B49BEEBD454 /* Pods_st.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_st.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E74149F16B4177957CDC43 /* Pods-st.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-st.debug.xcconfig"; path = "Pods/Target Support Files/Pods-st/Pods-st.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -509,6 +515,7 @@
 				6ECC93DB208866C700ECC2B8 /* TeamJoinViewController.swift */,
 				6EE94E40208CD95B0049D3FC /* TemplateActiveDetailViewController.swift */,
 				6EF83C2E208E2ABE00AD70B0 /* QrViewController.swift */,
+				6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -520,6 +527,7 @@
 				6EAAFA65207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift */,
 				6ECC93DF2089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift */,
 				6EF83C2C208E142800AD70B0 /* SocietyActiveView.swift */,
+				6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -533,6 +541,7 @@
 				6E1D00F5208053F7002B6119 /* ActiveDetail.swift */,
 				6E1D00F7208057CD002B6119 /* ActiveDetailUser.swift */,
 				6EE94E42208CE2500049D3FC /* TemplateActive.swift */,
+				6EF83C30208F439900AD70B0 /* ActiveSquare.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -771,6 +780,7 @@
 				6EF83C2B208D8DCC00AD70B0 /* ApplyMobile.swift in Sources */,
 				6E83B8B2205186DB005C2022 /* Account.swift in Sources */,
 				6EF83C29208D8B8300AD70B0 /* ApplyMobileTableViewCell.swift in Sources */,
+				6EF83C332090B80F00AD70B0 /* ActiveMemberListTableViewController.swift in Sources */,
 				6E1D00F8208057CD002B6119 /* ActiveDetailUser.swift in Sources */,
 				6E2B9552205EA6EE00332C63 /* ScanViewController.swift in Sources */,
 				6E356EE8207DB8E6009A51B2 /* MyActiveTableViewCell.swift in Sources */,
@@ -790,6 +800,8 @@
 				6E1D00F4207FAFAE002B6119 /* ActiveDetailViewController.swift in Sources */,
 				6E98A14C2046E43F00AA2E99 /* LoginViewController.swift in Sources */,
 				6E1D00EE207F0E76002B6119 /* SocietyDetail.swift in Sources */,
+				6EF83C352090B82500AD70B0 /* ActiveMemberListTableViewCell.swift in Sources */,
+				6EF83C31208F439900AD70B0 /* ActiveSquare.swift in Sources */,
 				6EAAFA66207A7D4200F90DA5 /* SearchSocietyTableViewCell.swift in Sources */,
 				6ECC93E7208B322300ECC2B8 /* UserMessage.swift in Sources */,
 				6EA551E7206D407D00E2EC3B /* MyActiveViewController.swift in Sources */,

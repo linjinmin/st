@@ -12,16 +12,33 @@ class ActiveSquareTableViewCell: UITableViewCell {
 
     // 活动名称
     weak var activeNameLabel: UILabel!
-    // 时间
-    weak var timeLabel: UILabel!
+    // 报名时间
+    weak var signTimeLabel: UILabel!
+    // 活动时间
+    weak var activeTimeLabel: UILabel!
     // 地点
     weak var addressLabel: UILabel!
     // 社团名称
     weak var societyLabel: UILabel!
     // 参加状态
     weak var statusLabel: UILabel!
-    // 状态
-    var status: NSInteger!
+    // 人数
+    weak var peopleLabel: UILabel!
+    
+    
+    var active: ActiveSquare! {
+        didSet {
+            
+            activeNameLabel.text = "\(active.name ?? "")"
+            statusLabel.text = "\(active.join_status ?? "")"
+            signTimeLabel.text = "报名时间：\(active.sign_begin ?? "")-\(active.sign_end ?? "")"
+            activeTimeLabel.text = "活动时间：\(active.active_begin ?? "")-\(active.active_end ?? "")"
+            societyLabel.text = "发起社团：\(active.tissue_name ?? "")"
+            addressLabel.text = "活动地点：\(active.address ?? "")"
+            peopleLabel.text = "\(active.join_num ?? "")/\(active.max ?? "")"
+            
+        }
+    }
     
     override var frame:CGRect{
         didSet {
@@ -48,7 +65,7 @@ class ActiveSquareTableViewCell: UITableViewCell {
     
     func setup() {
         
-        // 社团名称
+        // 活动名称
         let activeNameLabel = setupLabel(font: 20)
         contentView.addSubview(activeNameLabel)
         self.activeNameLabel = activeNameLabel
@@ -66,13 +83,33 @@ class ActiveSquareTableViewCell: UITableViewCell {
             make.centerY.equalTo(activeNameLabel)
         }
         
+        // 参与人数icon
+        let peopleIcon = UIImageView(image: UIImage(named: "user_white"))
+        contentView.addSubview(peopleIcon)
+        peopleIcon.snp.makeConstraints { (make) in
+            make.right.equalTo(contentView).offset(-10)
+            make.top.equalTo(activeNameLabel)
+            make.height.width.equalTo(20)
+        }
+        
+        // 参与人数
+        let peopleLabel = setupLabel(font: 16)
+        contentView.addSubview(peopleLabel)
+        peopleLabel.textAlignment = .right
+        self.peopleLabel = peopleLabel
+        peopleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(activeNameLabel)
+            make.right.equalTo(peopleIcon.snp.left).offset(-2)
+            make.width.equalTo(120)
+        }
+        
         // 发起社团
         let societyLabel = setupLabel(font: 16)
         contentView.addSubview(societyLabel)
         self.societyLabel = societyLabel
         societyLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(contentView.snp.top).offset(-10)
+            make.bottom.equalTo(contentView).offset(-10)
         }
         
         // 地点
@@ -81,16 +118,25 @@ class ActiveSquareTableViewCell: UITableViewCell {
         self.addressLabel = addressLabel
         addressLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(societyLabel.snp.top).offset(-3)
+            make.bottom.equalTo(societyLabel.snp.top).offset(-1)
         }
         
-        // 时间label
-        let timeLabel = setupLabel(font: 16)
-        contentView.addSubview(timeLabel)
-        self.timeLabel = timeLabel
-        timeLabel.snp.makeConstraints { (make) in
+        // 活动时间
+        let activeTimeLabel = setupLabel(font: 16)
+        contentView.addSubview(activeTimeLabel)
+        self.activeTimeLabel = activeTimeLabel
+        activeTimeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.bottom.equalTo(addressLabel.snp.top).offset(-3)
+            make.bottom.equalTo(addressLabel.snp.top).offset(-1)
+        }
+        
+        // 报名时间
+        let signTimeLabel = setupLabel(font: 16)
+        contentView.addSubview(signTimeLabel)
+        self.signTimeLabel = signTimeLabel
+        signTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.bottom.equalTo(activeTimeLabel.snp.top).offset(-1)
         }
         
     }

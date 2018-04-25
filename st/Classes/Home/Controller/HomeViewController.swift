@@ -26,6 +26,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var activeTableView: UITableView!
     // 红点view
     weak var redView: UIView!
+    // 没有活动active
+    weak var noActiveLabel: UILabel!
+    
     
     // cellview的背景颜色 4色循环
     fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
@@ -243,6 +246,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             make.height.equalTo(340)
             make.bottom.equalTo(scrollView)
         }
+        
+        
+        // 没有活动label
+        let noActiveLabel = UILabel()
+        noActiveLabel.font = UIFont.systemFont(ofSize: 16)
+        noActiveLabel.textColor = UIColor.lightGray
+        noActiveLabel.text = "没有相关活动, 到活动广场看看吧"
+        noActiveLabel.isHidden = true
+        view.addSubview(noActiveLabel)
+        self.noActiveLabel = noActiveLabel
+        noActiveLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(tableView)
+            make.centerY.equalTo(tableView).offset(-20)
+        }
+        
 //        tableView.frame = CGRect(x:30, y:275, width:Constant.screenW - 60, height:327)
         
     }
@@ -330,13 +348,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         let homeActive = HomeActive(dict: item as! [String : AnyObject])
                         self.activeArr.add(homeActive)
                     }
+                    
+                    self.noActiveLabel.isHidden = true
+                } else {
+                    self.noActiveLabel.isHidden = false
                 }
                 
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }
             
-            self.activeTableView.mj_header.endRefreshing()
             self.activeTableView.mj_header.endRefreshing()
             self.activeTableView.reloadData()
         }) { (task, error) in
@@ -429,8 +450,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //创建CAGradientLayer对象并设置参数
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = gradientColors
-        gradientLayer.frame = cell.contentView.frame
-        gradientLayer.frame.size.height = 100
+        gradientLayer.frame.size.width = Constant.screenW - 60
+        gradientLayer.frame.size.height = 165
         gradientLayer.locations = gradientLocations
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0)
@@ -442,7 +463,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 115
+        return 180
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

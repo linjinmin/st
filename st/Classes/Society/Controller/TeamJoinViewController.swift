@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import SVProgressHUD
+import SwiftyJSON
 
-class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
+class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate, UITextFieldDelegate {
 
     // 活动ID
     var active_id: NSString!
@@ -24,11 +26,16 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
     }()
     
     // textfield 数组
-    lazy var fieldArr = {() -> NSArray in
-        let arr = NSArray()
+    lazy var fieldArr = {() -> NSMutableArray in
+        let arr = NSMutableArray()
         return arr
     }()
     
+    // label 数组
+    lazy var labelArr = {() -> NSMutableArray in
+        let arr = NSMutableArray()
+        return arr
+    }()
     
     
     override func viewDidLoad() {
@@ -75,10 +82,10 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
         view.addSubview(backScrollView)
         backScrollView.snp.makeConstraints { (make) in
             make.left.right.top.equalTo(view)
-            make.bottom.equalTo(btn.snp.top).offset(10)
+            make.bottom.equalTo(btn.snp.top).offset(-10)
         }
         
-        backScrollView.contentSize = CGSize.init(width: Constant.screenW, height: CGFloat(max.intValue * 62 ))
+        backScrollView.contentSize = CGSize(width: Constant.screenW, height: CGFloat(max.intValue * 85 ))
         
         // 提示
         let noticeLabel = setupLabel(font: 16)
@@ -89,14 +96,24 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
     
         for index in 1...max.intValue {
             
-            let y = (index - 1) * 62 + 90
+            let y = (index - 1) * 72 + 90
 
             let need = index<=min.intValue
             
             let field = setupTextField(tintColor: .black, textColor: .black, backgroundColor: .white, keyboardType: .default, font: 17, need: need)
+            field.delegate = self
             field.frame = CGRect(x: 20, y: Int(y), width: Int(Constant.screenW - 40), height: 42)
-            fieldArr.adding(field)
+            fieldArr.add(field)
             backScrollView.addSubview(field)
+            
+            // label
+            let label = setupLabel(font: 14)
+            label.textColor = UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1)
+            let labelY = y + 42 + 8
+            label.frame = CGRect(x: 30, y: Int(labelY), width: Int(Constant.screenW-40), height: 13)
+            labelArr.add(label)
+            backScrollView.addSubview(label)
+            
         }
         
     }
@@ -104,7 +121,6 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
     @objc func btnClick() {
         
     }
-    
     
     func setupLabel(font: CGFloat) -> UILabel {
         let label = UILabel()
@@ -115,6 +131,51 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
     
     func keyBoardDidClickDoneButton(tool: SingleKeyBoard) {
         view.endEditing(true)
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        
+        let index = fieldArr.index(of: textField)
+        
+        if (!validateMobile(text: textField.text)) {
+            let label = (self.labelArr[index] as! UILabel)
+            label.text = ""
+            return true
+        }
+        
+        // 请求获取名称
+        let params = NSMutableDictionary()
+        params["method"] = Api.mobileName
+        params["mobile"] = textField.text
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                let label = (self.labelArr[index] as! UILabel)
+                label.text = response["data"].stringValue
+            }
+            
+        }, failure: nil)
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        var flag = false
+        
+        let index = fieldArr.index(of: textField)
+        
+        if (index + 1) == fieldArr.count {
+            // 说明最后一个了
+            flag = true
+        } else {
+            (fieldArr[index + 1] as! UITextField).becomeFirstResponder()
+        }
+        
+        return flag
     }
     
     
@@ -144,6 +205,13 @@ class TeamJoinViewController: UIViewController, SingleKeyBoardDelegate {
 //        textField.delegate = self
         textField.inputAccessoryView = singleKeyBoard
         return textField
+    }
+    
+    // 手机号检测
+    func validateMobile(text: String!) -> Bool {
+        let phoneRegex: String = "^((13[0-9])|(15[^4,\\D])|(18[0,0-9])|(17[0,0-9]))\\d{8}$"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        return phoneTest.evaluate(with: text)
     }
 
 }

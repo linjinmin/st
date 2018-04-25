@@ -53,7 +53,7 @@ class QrViewController: UIViewController {
         qrImageView.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
             make.top.equalTo(view).offset(50)
-            make.height.width.equalTo(300)
+            make.height.width.equalTo(250)
         }
         
         // 活动label
@@ -62,7 +62,7 @@ class QrViewController: UIViewController {
         view.addSubview(nameLabel)
         self.nameLabel = nameLabel
         nameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(qrImageView)
+            make.centerX.equalTo(qrImageView)
             make.top.equalTo(qrImageView.snp.bottom).offset(10)
         }
         
@@ -71,8 +71,8 @@ class QrViewController: UIViewController {
         noticeLabel.text = "扫一扫二维码，签到活动"
         view.addSubview(noticeLabel)
         noticeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(nameLabel)
-            make.right.equalTo(qrImageView)
+            make.top.equalTo(nameLabel.snp.bottom).offset(10)
+            make.centerX.equalTo(nameLabel)
         }
         
         // 查看人员按钮
@@ -84,7 +84,7 @@ class QrViewController: UIViewController {
         btn.addTarget(self, action: #selector(btnClick), for: .touchUpInside)
         view.addSubview(btn)
         btn.snp.makeConstraints { (make) in
-            make.right.equalTo(qrImageView)
+            make.centerX.equalTo(nameLabel)
             make.top.equalTo(noticeLabel.snp.bottom).offset(1)
         }
         
@@ -105,7 +105,7 @@ class QrViewController: UIViewController {
             if response["code"].intValue == 200 {
                 
                 let qrString = response["data"].stringValue
-                let qrImage = self.createQRForString(qrString: qrString, qrImageName: "logo_clear")
+                let qrImage = self.createQRForString(qrString: qrString, qrImageName: "logo")
                 
                 if qrImage == nil {
                     SVProgressHUD.showError(withStatus: "二维码生成失败，请联系开发人员")
@@ -150,7 +150,7 @@ class QrViewController: UIViewController {
             if let iconImage = UIImage(named: qrImageName!) {
                 let rect = CGRect(x: 0, y: 0, width: codeImage.size.width, height: codeImage.size.height)
                 
-                UIGraphicsBeginImageContext(rect.size)
+                UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.main.scale)
                 codeImage.draw(in: rect)
                 let avatarSize = CGSize(width: rect.size.width*0.25, height: rect.size.height*0.25)
                 

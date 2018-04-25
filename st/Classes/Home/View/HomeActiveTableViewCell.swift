@@ -12,23 +12,31 @@ class HomeActiveTableViewCell: UITableViewCell {
     
     // 活动名称
     weak var activeNameLabel: UILabel!
-    // 报名人数
-    weak var peopleLabel: UILabel!
-    // 日期
-    weak var timeLabel: UILabel!
+    // 报名时间
+    weak var signTimeLabel: UILabel!
+    // 活动时间
+    weak var activeTimeLabel: UILabel!
+    // 地点
+    weak var addressLabel: UILabel!
     // 社团名称
-    weak var teamLabel: UILabel!
-    // 参与状态label
+    weak var societyLabel: UILabel!
+    // 参加状态
     weak var statusLabel: UILabel!
+    // 人数
+    weak var peopleLabel: UILabel!
+    
+    
     
     var homeActive: HomeActive! {
         didSet {
             
-            self.activeNameLabel.text = "\(homeActive.name ?? "")"
-            self.peopleLabel.text = "\(homeActive.join_num ?? "")/\(homeActive.num ?? "")"
-            self.timeLabel.text = "\(homeActive.begin ?? "")-\(homeActive.end ?? "")"
-            self.teamLabel.text = "\(homeActive.tissue_name ?? "")"
-            self.statusLabel.text = "\(homeActive.join_status ?? "")"
+            activeNameLabel.text = "\(homeActive.name ?? "")"
+            statusLabel.text = "\(homeActive.join_status ?? "")"
+            signTimeLabel.text = "报名时间：\(homeActive.sign_begin ?? "")-\(homeActive.sign_end ?? "")"
+            activeTimeLabel.text = "活动时间：\(homeActive.active_begin ?? "")-\(homeActive.active_end ?? "")"
+            societyLabel.text = "发起社团：\(homeActive.tissue_name ?? "")"
+            addressLabel.text = "活动地点：\(homeActive.address ?? "")"
+            peopleLabel.text = "\(homeActive.join_num ?? "")/\(homeActive.max ?? "")"
         }
     }
     
@@ -69,17 +77,16 @@ class HomeActiveTableViewCell: UITableViewCell {
     func setup() {
         
         // 活动名称
-        let activeNameLabel = setupLabel(20)
+        let activeNameLabel = setupLabel(font: 20)
         contentView.addSubview(activeNameLabel)
         self.activeNameLabel = activeNameLabel
         activeNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(contentView).offset(10)
             make.top.equalTo(contentView).offset(10)
-//            make.width.equalTo(120)
         }
         
-        // 活动状态
-        let statusLabel = setupLabel(13)
+        // 参加状态
+        let statusLabel = setupLabel(font: 13)
         contentView.addSubview(statusLabel)
         self.statusLabel = statusLabel
         statusLabel.snp.makeConstraints { (make) in
@@ -97,7 +104,7 @@ class HomeActiveTableViewCell: UITableViewCell {
         }
         
         // 参与人数
-        let peopleLabel = setupLabel(20)
+        let peopleLabel = setupLabel(font: 16)
         contentView.addSubview(peopleLabel)
         peopleLabel.textAlignment = .right
         self.peopleLabel = peopleLabel
@@ -107,37 +114,45 @@ class HomeActiveTableViewCell: UITableViewCell {
             make.width.equalTo(120)
         }
         
-        // 时间label
-        let timeLabel = setupLabel(16)
-        contentView.addSubview(timeLabel)
-        self.timeLabel = timeLabel
-        timeLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(contentView).offset(-10)
+        // 发起社团
+        let societyLabel = setupLabel(font: 16)
+        contentView.addSubview(societyLabel)
+        self.societyLabel = societyLabel
+        societyLabel.snp.makeConstraints { (make) in
             make.left.equalTo(activeNameLabel)
-            make.width.equalTo(120)
+            make.bottom.equalTo(contentView).offset(-10)
         }
         
-        // 社团名称
-        let teamLabel = setupLabel(16)
-        contentView.addSubview(teamLabel)
-        teamLabel.textAlignment = .right
-        self.teamLabel = teamLabel
-        teamLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(timeLabel)
-            make.right.equalTo(peopleIcon)
-            make.width.equalTo(150)
+        // 地点
+        let addressLabel = setupLabel(font: 16)
+        contentView.addSubview(addressLabel)
+        self.addressLabel = addressLabel
+        addressLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.bottom.equalTo(societyLabel.snp.top).offset(-1)
+        }
+        
+        // 活动时间
+        let activeTimeLabel = setupLabel(font: 16)
+        contentView.addSubview(activeTimeLabel)
+        self.activeTimeLabel = activeTimeLabel
+        activeTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.bottom.equalTo(addressLabel.snp.top).offset(-1)
+        }
+        
+        // 报名时间
+        let signTimeLabel = setupLabel(font: 16)
+        contentView.addSubview(signTimeLabel)
+        self.signTimeLabel = signTimeLabel
+        signTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(activeNameLabel)
+            make.bottom.equalTo(activeTimeLabel.snp.top).offset(-1)
         }
         
     }
     
-    func test() {
-        activeNameLabel.text = "献血活动"
-        peopleLabel.text = "15/25"
-        teamLabel.text = "计算机系红十字会"
-        timeLabel.text = "2018/5/6-5/8"
-    }
-    
-    func setupLabel(_ font: CGFloat) -> UILabel{
+    func setupLabel(font: CGFloat) -> UILabel{
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: font)
         label.textColor = UIColor.white

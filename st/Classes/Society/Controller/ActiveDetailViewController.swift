@@ -126,7 +126,6 @@ class ActiveDetailViewController: UIViewController {
             
             view.layoutIfNeeded()
             
-            
             if activeDetail.is_team == "1" {
                 btn.setTitle("组队报名", for: .normal)
             }
@@ -261,7 +260,6 @@ class ActiveDetailViewController: UIViewController {
             make.left.equalTo(activeNameLabel)
             make.top.equalTo(tissueNameLabel.snp.bottom).offset(10)
         }
-        
         
         let awardLabel = setupLabel(font: 16)
         awardLabel.numberOfLines = 0

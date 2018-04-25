@@ -8,6 +8,8 @@
 
 import UIKit
 import swiftScan
+import SwiftyJSON
+import SVProgressHUD
 
 class ScanViewController: LBXScanViewController {
 
@@ -25,7 +27,25 @@ class ScanViewController: LBXScanViewController {
     override func handleCodeResult(arrayResult: [LBXScanResult]) {
         
         let result = arrayResult[0].strScanned
-        print("\(result ?? "")")
+        
+        let params = NSMutableDictionary()
+        params["method"] = Api.qrScan
+        params["identify"] = result
+        
+        Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
+            
+            let response = JSON(response as Any)
+            
+            if response["code"].intValue == 200 {
+                self.navigationController?.dismiss(animated: true, completion: nil)
+                SVProgressHUD.showSuccess(withStatus: response["msg"].stringValue)
+            } else {
+                SVProgressHUD.showError(withStatus: response["msg"].stringValue)
+            }
+            
+        }) { (task, error) in
+            SVProgressHUD.showError(withStatus: Constant.loadFaildText)
+        }
         
     }
 

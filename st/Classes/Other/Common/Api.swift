@@ -77,4 +77,10 @@ class Api {
     static let unreadMessage = "User/User/unReadMessage"
     // 设置消息已读
     static let updateMessage = "User/User/updateUserMessage"
+    // 活动广场
+    static let activeSquare = "Active/User/activeSquare"
+    // 二维码扫描
+    static let qrScan = "Active/Active/activeSign"
+    // 手机号获取名称
+    static let mobileName = "User/User/mobileName"
 }
