@@ -19,7 +19,30 @@ class ActiveMemberListTableViewCell: UITableViewCell {
     // 签到图标
     weak var signImageView: UIImageView!
     
+    var member: SignMember! {
+        didSet {
+            
+            head.sd_setImage(with: URL(string: member.pic as String), placeholderImage: UIImage(named: "image_placeholder"))
+            name.text = "\(member.name ?? "")"
+            
+            if member.sign_status == "1" {
+                self.signLabel.isHidden = false
+                self.signImageView.isHidden = false
+            } else {
+                self.signLabel.isHidden = true
+                self.signImageView.isHidden = true
+            }            
+            
+        }
+    }
     
+    override var frame:CGRect{
+        didSet {
+            var newFrame = frame
+            newFrame.size.height -= 5
+            super.frame = newFrame
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,7 +60,7 @@ class ActiveMemberListTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor.clear
         setup()
     }
     
@@ -55,6 +78,7 @@ class ActiveMemberListTableViewCell: UITableViewCell {
         head.snp.makeConstraints { (make) in
             make.centerY.equalTo(contentView)
             make.left.equalTo(contentView).offset(20)
+            make.width.height.equalTo(50)
         }
         
         // 名称

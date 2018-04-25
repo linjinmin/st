@@ -83,4 +83,7 @@ class Api {
     static let qrScan = "Active/Active/activeSign"
     // 手机号获取名称
     static let mobileName = "User/User/mobileName"
+    // 获取活动签到人员列表
+    static let activeSignMemberList = "Active/Active/getActiveSignPeople"
+    
 }
