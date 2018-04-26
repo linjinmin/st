@@ -20,7 +20,7 @@ class SocietyDetailViewController: UIViewController{
     // 社团名称
     weak var nameLabel: UILabel!
     // 成员人数
-    weak var memberLabel: UILabel!
+    weak var member: UIButton!
     // 简介
     weak var describeLabel: UILabel!
     // 照片墙label
@@ -52,7 +52,7 @@ class SocietyDetailViewController: UIViewController{
         didSet{
             
             nameLabel.text = "\(societyDetail.tissue_name ?? "")"
-            memberLabel.text = "成员：\(societyDetail.member_count ?? "")"
+            member.setTitle("成员：\(societyDetail.member_count ?? "")", for: .normal)
             describeLabel.text = "    \(societyDetail.tissue_describe ?? "")"
             activeArr = (societyDetail.active as! [NSDictionary])
 
@@ -204,14 +204,15 @@ class SocietyDetailViewController: UIViewController{
             make.top.equalTo(imageView.snp.bottom).offset(5)
         }
         
-
-        // 成员人数
-        let memberLabel = UILabel()
-        memberLabel.font = UIFont.systemFont(ofSize: 16)
-        memberLabel.textColor = Constant.viewColor
-        backScrollView.addSubview(memberLabel)
-        self.memberLabel = memberLabel
-        memberLabel.snp.makeConstraints { (make) in
+        // 查看人员按钮
+        let btn = UIButton()
+        btn.backgroundColor = .clear
+        btn.setTitleColor(Constant.viewColor, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        btn.addTarget(self, action: #selector(btnClick), for: .touchUpInside)
+        view.addSubview(btn)
+        self.member = btn
+        btn.snp.makeConstraints { (make) in
             make.centerX.equalTo(backScrollView)
             make.top.equalTo(nameLabel.snp.bottom).offset(2)
         }
@@ -225,7 +226,7 @@ class SocietyDetailViewController: UIViewController{
         self.shetuanLabel = shetuanLabel
         shetuanLabel.snp.makeConstraints { (make) in
             make.left.equalTo(backScrollView).offset(20)
-            make.top.equalTo(memberLabel.snp.bottom).offset(20)
+            make.top.equalTo(member.snp.bottom).offset(20)
         }
 
         // 简介label
@@ -307,6 +308,10 @@ class SocietyDetailViewController: UIViewController{
         }) { (task, error) in
             SVProgressHUD.showError(withStatus: Constant.loadFaildText)
         }
+        
+    }
+    
+    @objc func btnClick() {
         
     }
 

@@ -1,26 +1,23 @@
 //
-//  SignMember.swift
+//  SocietyMember.swift
 //  st
 //
-//  Created by 林劲民 on 2018/4/25.
+//  Created by 林劲民 on 2018/4/26.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
 import UIKit
 
-class SignMember: NSObject {
+
+class SocietyMember : NSObject {
     
     
+    // 用户id
+    weak var id: NSString!
     // 头像
-    @objc var pic: NSString!
-    // 名称
-    @objc var name: NSString!
-    // 签到状态
-    @objc var sign_status: NSString!
-    // 已签到人员
-    @objc var sign: NSString!
-    // 总人数
-    @objc var number: NSString!
+    weak var head_pic: NSString!
+    // 昵称
+    weak var name: NSString!
     
     
     init(dict: [String: AnyObject]) {

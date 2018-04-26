@@ -13,7 +13,6 @@ import MJRefresh
 
 class ActiveMemberListTableViewController: UITableViewController {
 
-    
     // 活动id
     var activeId: NSString!
     // cell 标识
@@ -27,7 +26,7 @@ class ActiveMemberListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "签到"
+        navigationItem.title = "签到人员"
         
         setup()
         setupRefresh()
@@ -64,7 +63,8 @@ class ActiveMemberListTableViewController: UITableViewController {
             if response["code"].intValue == 200 {
                 
                 if response["data"].arrayObject != nil {
-                    let dict = response["data"]["list"].arrayObject as! [NSDictionary]
+                    
+                    let dict = response["data"].arrayObject as! [NSDictionary]
                     
                     for item in dict {
                         let member = SignMember(dict: item as! [String : AnyObject])
@@ -100,12 +100,20 @@ class ActiveMemberListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseId) as! ActiveMemberListTableViewCell
+        
+        if indexPath.row == 0 {
+            cell.is_first = "1"
+        }
+        
         let member = arr[indexPath.row] as! SignMember
         cell.member = member
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 100
+        }
         return 70
     }
 

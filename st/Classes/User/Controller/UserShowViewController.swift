@@ -233,10 +233,12 @@ class UserShowViewController: UIViewController{
         
         // 地址
         let addressLabel = setupLabel(font: 16, color: UIColor.lightGray)
+        addressLabel.numberOfLines = 0
         scrollView.addSubview(addressLabel)
         self.addressLabel = addressLabel
         addressLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
+            make.right.equalTo(view).offset(-10)
             make.top.equalTo(sexLabel.snp.bottom).offset(5)
         }
         
