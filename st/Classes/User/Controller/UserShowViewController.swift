@@ -92,42 +92,44 @@ class UserShowViewController: UIViewController{
             
             count = 0
             
-            if userInfo.active.count > 0 {
-                
-                activeView.snp.makeConstraints { (make) in
-                    make.left.equalTo(headImageView)
-                    make.top.equalTo(activeLabel.snp.bottom).offset(10)
-                    make.width.equalTo(Constant.screenW - 60)
-                    make.height.equalTo(userInfo.active.count * 100)
-                }
-                
-                for item in userInfo.active {
+            if userInfo.active != nil {
+                if userInfo.active.count > 0 {
                     
-                    let item = item as! [String : AnyObject]
-                    let myActive = MyActive(dict: item)
-                    let view = MyActiveView()
-                    view.frame = CGRect(x: count * 100, y:0, width:Int(Constant.screenW - 60), height: 100)
-                    view.myActive = myActive
-                    let colorIndex = count % 4
-                    let leftColor = cellColors[colorIndex]
-                    let rightColor = cellColorsAlpha[colorIndex]
-                    let gradientColors = [leftColor.cgColor, rightColor.cgColor]
-                    let gradientLocations:[NSNumber] = [0.0, 1.0]
-                    //创建CAGradientLayer对象并设置参数
-                    let gradientLayer = CAGradientLayer()
-                    gradientLayer.colors = gradientColors
-                    gradientLayer.frame.size.width = Constant.screenW-60
-                    gradientLayer.frame.size.height = 100
-                    gradientLayer.locations = gradientLocations
-                    gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-                    gradientLayer.endPoint = CGPoint(x: 1, y: 0)
-                    gradientLayer.type = kCAGradientLayerAxial;
-                    view.layer.insertSublayer(gradientLayer, at: 0)
-                    view.layer.cornerRadius = 10
-                    view.layer.masksToBounds = true
-                    activeView.addSubview(view)
+                    activeView.snp.makeConstraints { (make) in
+                        make.left.equalTo(headImageView)
+                        make.top.equalTo(activeLabel.snp.bottom).offset(10)
+                        make.width.equalTo(Constant.screenW - 60)
+                        make.height.equalTo(userInfo.active.count * 100)
+                    }
+                    
+                    for item in userInfo.active {
+                        
+                        let item = item as! [String : AnyObject]
+                        let myActive = MyActive(dict: item)
+                        let view = MyActiveView()
+                        view.frame = CGRect(x: count * 100, y:0, width:Int(Constant.screenW - 60), height: 100)
+                        view.myActive = myActive
+                        let colorIndex = count % 4
+                        let leftColor = cellColors[colorIndex]
+                        let rightColor = cellColorsAlpha[colorIndex]
+                        let gradientColors = [leftColor.cgColor, rightColor.cgColor]
+                        let gradientLocations:[NSNumber] = [0.0, 1.0]
+                        //创建CAGradientLayer对象并设置参数
+                        let gradientLayer = CAGradientLayer()
+                        gradientLayer.colors = gradientColors
+                        gradientLayer.frame.size.width = Constant.screenW-60
+                        gradientLayer.frame.size.height = 100
+                        gradientLayer.locations = gradientLocations
+                        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+                        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
+                        gradientLayer.type = kCAGradientLayerAxial;
+                        view.layer.insertSublayer(gradientLayer, at: 0)
+                        view.layer.cornerRadius = 10
+                        view.layer.masksToBounds = true
+                        activeView.addSubview(view)
+                    }
+                    
                 }
-                
             }
             
             if user_id == AccountTool.getUser()?.id! {

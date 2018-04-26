@@ -85,5 +85,7 @@ class Api {
     static let mobileName = "User/User/mobileName"
     // 获取活动签到人员列表
     static let activeSignMemberList = "Active/Active/getActiveSignPeople"
+    // 社团成员列表
+    static let tissueMember = "Tissue/User/getTissueMember"
     
 }

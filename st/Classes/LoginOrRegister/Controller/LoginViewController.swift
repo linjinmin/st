@@ -210,8 +210,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SingleKeyBoard
                 // 保存数据到本地
                 AccountTool.saveUserInfo(dict: userDict as! NSDictionary)
                 
-                UIApplication.shared.keyWindow?.rootViewController = HomeViewController()
+                let vc = HomeViewController()
+                vc.is_login = "1"
+                UIApplication.shared.keyWindow?.rootViewController = vc
                 AccountTool.checkAuth(window: UIApplication.shared.keyWindow!)
+                SVProgressHUD.dismiss()
             } else {
                 SVProgressHUD.showError(withStatus: response["msg"].stringValue)
             }

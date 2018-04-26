@@ -313,6 +313,11 @@ class SocietyDetailViewController: UIViewController{
     
     @objc func btnClick() {
         
+        let vc = SocietyMemberListTableViewController()
+        vc.tissueId = tissue_id
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 
     override func didReceiveMemoryWarning() {

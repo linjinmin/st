@@ -28,6 +28,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var redView: UIView!
     // 没有活动active
     weak var noActiveLabel: UILabel!
+    // 是否刚登录
+    var is_login: NSString!
     
     
     // cellview的背景颜色 4色循环
@@ -400,6 +402,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // 刷新token
     func refreshToken() {
+        
+        
+        if is_login == "1" {
+            is_login = "0"
+            self.activeTableView.mj_header.beginRefreshing()
+            // 判断是否认证
+            AccountTool.checkAuth(window:  (UIApplication.shared.keyWindow)!)
+            self.checkUnreadMessage()
+            if AccountTool.getUser() == nil {
+                AccountTool.getUserInfo()
+            }
+            return
+        }
+        
         // 刷新token
         let params = NSMutableDictionary()
         params["method"] = Api.refreshTokenMethod

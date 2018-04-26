@@ -476,7 +476,7 @@ class ConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         params["method"] = Api.editUserInfoMethod
         params["province_id"] = self.cityId
         params["school_id"]  = self.schoolId
-        params["series_id"] = self.seriesId
+        params["series"] = self.seriesId
         params["name"] = self.nameField.text
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             let response = JSON(response as Any)
@@ -484,6 +484,7 @@ class ConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             if response["code"].intValue == 200 {
                 // 认证成功， 记录认证信息
                 AccountTool.saveAuth()
+                AccountTool.getUserInfo()
                 self.navigationController?.dismiss(animated: true, completion: nil)
                 SVProgressHUD.showSuccess(withStatus: "认证成功")
                 UIApplication.shared.keyWindow?.rootViewController = HomeViewController()

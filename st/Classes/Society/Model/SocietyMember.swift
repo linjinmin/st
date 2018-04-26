@@ -13,11 +13,11 @@ class SocietyMember : NSObject {
     
     
     // 用户id
-    weak var id: NSString!
+    @objc var id: NSString!
     // 头像
-    weak var head_pic: NSString!
+    @objc var head_pic: NSString!
     // 昵称
-    weak var name: NSString!
+    @objc var name: NSString!
     
     
     init(dict: [String: AnyObject]) {
