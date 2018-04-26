@@ -92,7 +92,7 @@ class AccountTool: NSObject {
             params["method"] = Api.isAuthMethod
             Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
                 let response = JSON(response as Any)
-                if response["code"].floatValue == 200 {
+                if response["code"].intValue == 200 {
                     // 认证过
                     self.saveAuth()
                 } else {

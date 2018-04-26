@@ -1,8 +1,8 @@
 //
-//  ActiveMemberListTableViewController.swift
+//  SocietyMemberListTableViewController.swift
 //  st
 //
-//  Created by 林劲民 on 2018/4/25.
+//  Created by 林劲民 on 2018/4/26.
 //  Copyright © 2018年 林劲民. All rights reserved.
 //
 
@@ -11,10 +11,10 @@ import SVProgressHUD
 import SwiftyJSON
 import MJRefresh
 
-class ActiveMemberListTableViewController: UITableViewController {
+class SocietyMemberListTableViewController: UITableViewController {
 
-    // 活动id
-    var activeId: NSString!
+    // 社团id
+    var tissueId: NSString!
     // cell 标识
     var reuseId: String! = "member"
     // 活动数组
@@ -26,7 +26,7 @@ class ActiveMemberListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "签到人员"
+        navigationItem.title = "成员列表"
         
         setup()
         setupRefresh()
@@ -38,7 +38,7 @@ class ActiveMemberListTableViewController: UITableViewController {
     func setup() {
         tableView.separatorStyle = .none
         tableView.backgroundColor = Constant.viewBackgroundColor
-        tableView.register(ActiveMemberListTableViewCell().classForCoder, forCellReuseIdentifier: reuseId)
+        tableView.register(SocietyMemberListTableViewCell().classForCoder, forCellReuseIdentifier: reuseId)
     }
     
     func setupRefresh() {
@@ -51,8 +51,8 @@ class ActiveMemberListTableViewController: UITableViewController {
     @objc func loadNew() {
         
         let params = NSMutableDictionary()
-        params["active_id"] = activeId
-        params["method"] = Api.activeSignMemberList
+        params["tissue"] = tissueId
+        params["method"] = Api.tissueMember
         
         Networking.share().post(Api.host, parameters: params, progress: nil, success: { (task, response) in
             
@@ -67,7 +67,7 @@ class ActiveMemberListTableViewController: UITableViewController {
                     let dict = response["data"].arrayObject as! [NSDictionary]
                     
                     for item in dict {
-                        let member = SignMember(dict: item as! [String : AnyObject])
+                        let member = SocietyMember(dict: item as! [String : AnyObject])
                         self.arr.add(member)
                     }
                     
@@ -93,19 +93,18 @@ class ActiveMemberListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return arr.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId) as! ActiveMemberListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseId) as! SocietyMemberListTableViewCell
         
         if indexPath.row == 0 {
             cell.is_first = "1"
         }
         
-        let member = arr[indexPath.row] as! SignMember
+        let member = arr[indexPath.row] as! SocietyMember
         cell.member = member
         return cell
     }

@@ -125,7 +125,10 @@ class QrViewController: UIViewController {
     }
     
     @objc func btnClick() {
-        
+        let vc = ActiveMemberListTableViewController()
+        vc.activeId = activeId
+        vc.view.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: Constant.screenH)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func createQRForString(qrString: String?, qrImageName: String?) -> UIImage?{

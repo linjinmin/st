@@ -28,6 +28,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var redView: UIView!
     // 没有活动active
     weak var noActiveLabel: UILabel!
+    // 是否刚登录
+    var is_login: NSString!
     
     
     // cellview的背景颜色 4色循环
@@ -78,7 +80,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // 设置主滑动视图
     func setupScrollView() {
      
-        let scrollView = UIScrollView(frame: CGRect(x:0, y:65, width:Constant.screenW, height:Constant.screenH - 65))
+        let scrollView = UIScrollView(frame: CGRect(x:0, y:85, width:Constant.screenW, height:Constant.screenH - 85))
         scrollView.backgroundColor = Constant.viewBackgroundColor
 //        scrollView.contentSize = CGSize(width: Constant.screenW, height: 602)
         scrollView.showsHorizontalScrollIndicator = false
@@ -89,7 +91,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.scrollView = scrollView
         scrollView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(view)
-            make.top.equalTo(view).offset(65)
+            make.top.equalTo(view).offset(85)
         }
     }
     
@@ -269,7 +271,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func setupHeadView() {
         
         let headView = UIView()
-        headView.frame = CGRect(x: 0, y: 0, width: Constant.screenW, height: 64)
+        headView.frame = CGRect(x: 0, y: 20, width: Constant.screenW, height: 64)
         headView.backgroundColor = Constant.viewBackgroundColor
         view.addSubview(headView)
         
@@ -400,6 +402,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // 刷新token
     func refreshToken() {
+        
+        
+        if is_login == "1" {
+            is_login = "0"
+            self.activeTableView.mj_header.beginRefreshing()
+            // 判断是否认证
+            AccountTool.checkAuth(window:  (UIApplication.shared.keyWindow)!)
+            self.checkUnreadMessage()
+            if AccountTool.getUser() == nil {
+                AccountTool.getUserInfo()
+            }
+            return
+        }
+        
         // 刷新token
         let params = NSMutableDictionary()
         params["method"] = Api.refreshTokenMethod

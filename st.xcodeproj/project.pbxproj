@@ -86,6 +86,10 @@
 		6EF83C31208F439900AD70B0 /* ActiveSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C30208F439900AD70B0 /* ActiveSquare.swift */; };
 		6EF83C332090B80F00AD70B0 /* ActiveMemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */; };
 		6EF83C352090B82500AD70B0 /* ActiveMemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */; };
+		6EF83C372090C3B000AD70B0 /* SignMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C362090C3B000AD70B0 /* SignMember.swift */; };
+		6EF83C3B2090E25600AD70B0 /* SocietyMemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3A2090E25600AD70B0 /* SocietyMemberListTableViewController.swift */; };
+		6EF83C3D20918AF200AD70B0 /* SocietyMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3C20918AF200AD70B0 /* SocietyMember.swift */; };
+		6EF83C3F2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3E2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,6 +195,10 @@
 		6EF83C30208F439900AD70B0 /* ActiveSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveSquare.swift; sourceTree = "<group>"; };
 		6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMemberListTableViewController.swift; sourceTree = "<group>"; };
 		6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveMemberListTableViewCell.swift; sourceTree = "<group>"; };
+		6EF83C362090C3B000AD70B0 /* SignMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignMember.swift; sourceTree = "<group>"; };
+		6EF83C3A2090E25600AD70B0 /* SocietyMemberListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMemberListTableViewController.swift; sourceTree = "<group>"; };
+		6EF83C3C20918AF200AD70B0 /* SocietyMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMember.swift; sourceTree = "<group>"; };
+		6EF83C3E2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMemberListTableViewCell.swift; sourceTree = "<group>"; };
 		754A57FC0FF44B49BEEBD454 /* Pods_st.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_st.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E74149F16B4177957CDC43 /* Pods-st.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-st.debug.xcconfig"; path = "Pods/Target Support Files/Pods-st/Pods-st.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -516,6 +524,7 @@
 				6EE94E40208CD95B0049D3FC /* TemplateActiveDetailViewController.swift */,
 				6EF83C2E208E2ABE00AD70B0 /* QrViewController.swift */,
 				6EF83C322090B80F00AD70B0 /* ActiveMemberListTableViewController.swift */,
+				6EF83C3A2090E25600AD70B0 /* SocietyMemberListTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -528,6 +537,7 @@
 				6ECC93DF2089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift */,
 				6EF83C2C208E142800AD70B0 /* SocietyActiveView.swift */,
 				6EF83C342090B82500AD70B0 /* ActiveMemberListTableViewCell.swift */,
+				6EF83C3E2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -542,6 +552,8 @@
 				6E1D00F7208057CD002B6119 /* ActiveDetailUser.swift */,
 				6EE94E42208CE2500049D3FC /* TemplateActive.swift */,
 				6EF83C30208F439900AD70B0 /* ActiveSquare.swift */,
+				6EF83C362090C3B000AD70B0 /* SignMember.swift */,
+				6EF83C3C20918AF200AD70B0 /* SocietyMember.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -771,6 +783,7 @@
 				6EE94E43208CE2500049D3FC /* TemplateActive.swift in Sources */,
 				6E2B954E205AC9BE00332C63 /* ConfirmField.swift in Sources */,
 				6ECC93E02089BF7E00ECC2B8 /* ActiveSquareTableViewCell.swift in Sources */,
+				6EF83C3F2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift in Sources */,
 				6E09788E2044466A00319404 /* UIImage+Original.swift in Sources */,
 				6E90AA76205FB35F00B3966B /* UserInfoViewController.swift in Sources */,
 				6EC6185B206650FF00C6A51A /* SocietyDetailViewController.swift in Sources */,
@@ -789,11 +802,13 @@
 				6EDBDC2C2073BBE300EB65F9 /* SocietyTableViewCell.swift in Sources */,
 				6EAC80D3204A4C3300D26642 /* NavigationController.swift in Sources */,
 				6E1D00FE2080AE04002B6119 /* MyActiveView.swift in Sources */,
+				6EF83C372090C3B000AD70B0 /* SignMember.swift in Sources */,
 				6EDBDC2E207623D300EB65F9 /* BriefSociety.swift in Sources */,
 				6EDBDC262073831700EB65F9 /* SearchViewController.swift in Sources */,
 				6E1D00F2207F7FE1002B6119 /* SocietyDetailActive.swift in Sources */,
 				6E40F877206409E7004400B8 /* BomButton.swift in Sources */,
 				6EE94E3B208C72E30049D3FC /* NoticeFriendBottomView.swift in Sources */,
+				6EF83C3D20918AF200AD70B0 /* SocietyMember.swift in Sources */,
 				6E8AF1DE2068940C00D7A81B /* SuggesViewController.swift in Sources */,
 				6EDBDC282073A11500EB65F9 /* SearchField.swift in Sources */,
 				6EA551E5206B82B900E2EC3B /* HomeActive.swift in Sources */,
@@ -816,6 +831,7 @@
 				6EE94E3F208C8F070049D3FC /* ProtocolViewController.swift in Sources */,
 				6EA551E3206A45AB00E2EC3B /* ChangePwdViewController.swift in Sources */,
 				6ECC93E5208A141500ECC2B8 /* ImagePreviewCell.swift in Sources */,
+				6EF83C3B2090E25600AD70B0 /* SocietyMemberListTableViewController.swift in Sources */,
 				6E2B9548205A66DB00332C63 /* User.swift in Sources */,
 				6EDBDC2A2073AFF700EB65F9 /* MySocietyViewController.swift in Sources */,
 				6ECC93DC208866C700ECC2B8 /* TeamJoinViewController.swift in Sources */,
@@ -984,7 +1000,7 @@
 				INFOPLIST_FILE = st/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = aaa.st;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yshetuan.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1001,7 +1017,7 @@
 				INFOPLIST_FILE = st/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = aaa.st;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yshetuan.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
