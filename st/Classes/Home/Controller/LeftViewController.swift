@@ -18,6 +18,8 @@ class LeftViewController: UIViewController {
     weak var leftView: UIView!
     // 红点view
     weak var redView: UIView!
+    // 名字label
+    weak var nameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,9 @@ class LeftViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.keyWindow?.rootViewController?.viewWillAppear(animated)
+        if self.nameLabel != nil {
+            nameLabel.text = "\(AccountTool.getUser()?.name! ?? "")"
+        }
     }
     
     
@@ -92,8 +97,9 @@ class LeftViewController: UIViewController {
         // 姓名
         let nicknameLabel = UILabel()
         nicknameLabel.font = UIFont.systemFont(ofSize: 18)
-        nicknameLabel.text = "柠檬味的炮灰"
+        nicknameLabel.text = "\(AccountTool.getUser()?.name! ?? "")"
         leftView.addSubview(nicknameLabel)
+        self.nameLabel = nicknameLabel
         nicknameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(headImageView.snp.right).offset(10)
             make.top.equalTo(headImageView).offset(10)
@@ -111,7 +117,7 @@ class LeftViewController: UIViewController {
         }
         
         // 修改密码
-        let pwdBtn = setupBtn("修改密码", normalImage: "info", normalColor: Constant.functionListFontColor, font: 16, selector:#selector(pwdBtnClick))
+        let pwdBtn = setupBtn("修改密码", normalImage: "left_password", normalColor: Constant.functionListFontColor, font: 16, selector:#selector(pwdBtnClick))
         leftView.addSubview(pwdBtn)
         pwdBtn.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(infoBtn)

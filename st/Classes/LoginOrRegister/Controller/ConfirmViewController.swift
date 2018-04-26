@@ -256,7 +256,7 @@ class ConfirmViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
 
         // 头像
-        let iconImageView = UIImageView(image: UIImage(named: "user"))
+        let iconImageView = UIImageView(image: UIImage(named: "user_placeholder"))
         iconImageView.layer.cornerRadius = 50
         iconImageView.layer.masksToBounds = true
         view.addSubview(iconImageView)

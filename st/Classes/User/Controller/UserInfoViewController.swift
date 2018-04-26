@@ -318,7 +318,7 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         // 头像
         let iconImageView = UIImageView()
         let url = Api.host + "/" + ((AccountTool.getUser()?.head_pic)! as String )
-        iconImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "image_placeholder"))
+        iconImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "user_placeholder"))
         iconImageView.layer.cornerRadius = 50
         iconImageView.layer.masksToBounds = true
         view.addSubview(iconImageView)

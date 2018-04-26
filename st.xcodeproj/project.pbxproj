@@ -90,6 +90,7 @@
 		6EF83C3B2090E25600AD70B0 /* SocietyMemberListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3A2090E25600AD70B0 /* SocietyMemberListTableViewController.swift */; };
 		6EF83C3D20918AF200AD70B0 /* SocietyMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3C20918AF200AD70B0 /* SocietyMember.swift */; };
 		6EF83C3F2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C3E2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift */; };
+		6EF83C4120921B4200AD70B0 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF83C4020921B4200AD70B0 /* Device.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,7 @@
 		6EF83C3A2090E25600AD70B0 /* SocietyMemberListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMemberListTableViewController.swift; sourceTree = "<group>"; };
 		6EF83C3C20918AF200AD70B0 /* SocietyMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMember.swift; sourceTree = "<group>"; };
 		6EF83C3E2091BEC000AD70B0 /* SocietyMemberListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocietyMemberListTableViewCell.swift; sourceTree = "<group>"; };
+		6EF83C4020921B4200AD70B0 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		754A57FC0FF44B49BEEBD454 /* Pods_st.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_st.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83E74149F16B4177957CDC43 /* Pods-st.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-st.debug.xcconfig"; path = "Pods/Target Support Files/Pods-st/Pods-st.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -341,6 +343,7 @@
 				6E09788F2044474600319404 /* UIView+Extension.swift */,
 				6EAC80D4204A4D5600D26642 /* Navigation+Extension.swift */,
 				6E40F8742063F3B9004400B8 /* UIButton+Extension.swift */,
+				6EF83C4020921B4200AD70B0 /* Device.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				6E83B8B6205405AA005C2022 /* LeftViewController.swift in Sources */,
 				6EF83C2F208E2ABE00AD70B0 /* QrViewController.swift in Sources */,
 				6EED6CDD2064FE83005B89D3 /* HomeActiveTableViewCell.swift in Sources */,
+				6EF83C4120921B4200AD70B0 /* Device.swift in Sources */,
 				6EAC80D9204A709400D26642 /* HomeViewController.swift in Sources */,
 				6E09788B2044456B00319404 /* Constant.swift in Sources */,
 				6EAAFA64207A7CF000F90DA5 /* SearchSociety.swift in Sources */,
@@ -1003,7 +1007,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yshetuan.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1020,7 +1024,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yshetuan.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -132,6 +132,7 @@ class MyActiveViewController: UIViewController, UIScrollViewDelegate {
         btn.setTitle(title, for: .normal)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.setTitleColor(Constant.viewColor, for: .disabled)
+        btn.backgroundColor = Constant.viewBackgroundColor
         btn.addTarget(self, action: #selector(headBtnClick), for: .touchUpInside)
         btn.tag = Int(tag)
         return btn

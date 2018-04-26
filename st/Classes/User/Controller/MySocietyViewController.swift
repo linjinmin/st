@@ -121,8 +121,6 @@ class MySocietyViewController: UIViewController, UITableViewDelegate, UITableVie
                         self.arr.add(briefSociety)
                     }
                     self.tableView.reloadData()
-                } else {
-                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
                 
                 self.tableView.mj_header.endRefreshing()
@@ -205,7 +203,7 @@ class MySocietyViewController: UIViewController, UITableViewDelegate, UITableVie
         //创建CAGradientLayer对象并设置参数
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = gradientColors
-        gradientLayer.frame = cell.contentView.frame
+        gradientLayer.frame.size.width = Constant.screenW - 60
         gradientLayer.frame.size.height = 180
         gradientLayer.locations = gradientLocations
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)

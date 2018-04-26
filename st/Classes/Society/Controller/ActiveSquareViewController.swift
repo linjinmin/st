@@ -254,7 +254,7 @@ class ActiveSquareViewController: UIViewController, SingleKeyBoardDelegate, UITa
         self.noActiveLabel = noActiveLabel
         noActiveLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(view)
-            make.centerY.equalTo(view).offset(80)
+            make.centerY.equalTo(view).offset(40)
         }
         
     }
