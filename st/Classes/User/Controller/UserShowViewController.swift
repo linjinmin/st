@@ -41,6 +41,8 @@ class UserShowViewController: UIViewController{
     weak var activeLabel: UILabel!
     // 活动view
     weak var activeView: UIView!
+    // 记载右按钮
+    weak var rightBtn: UIButton!
     
     // cellview的背景颜色 4色循环
     fileprivate lazy var cellColors: [UIColor] = [Constant.viewColor, UIColor(red: 100/255, green: 219/255, blue: 156/255, alpha: 1), UIColor(red: 255/255, green: 184/255, blue: 100/255, alpha: 1), UIColor(red: 255/255, green: 133/255, blue: 129/255, alpha: 1)]
@@ -158,7 +160,23 @@ class UserShowViewController: UIViewController{
             nameLabel.text = "\(AccountTool.getUser()?.name ?? "")"
             sexLabel.text = "\(AccountTool.getUser()?.sex_name ?? "")"
             addressLabel.text = "\(AccountTool.getUser()?.province_name ?? "") \(AccountTool.getUser()?.school_name ?? "") \(AccountTool.getUser()?.series_name ?? "")"
+            
+            // 设置右编辑按钮
+            let button = UIButton()
+            button.frame = CGRect(x:0 ,y:0, width:20, height:32)
+            button.setTitle("编辑", for: .normal)
+            button.setTitleColor(UIColor.black, for: .normal)
+            button.addTarget(self, action: #selector(edit), for: .touchUpInside)
+            self.rightBtn = button
+            navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: button)
+            
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationItem.rightBarButtonItem = nil
+        rightBtn = nil
+        SVProgressHUD.dismiss()
     }
     
     override func viewDidLoad() {
@@ -169,23 +187,19 @@ class UserShowViewController: UIViewController{
         setup()
         getData()
         
-        if user_id == AccountTool.getUser()?.id! {
-            // 说明是用户个人信息
-            // 设置右编辑按钮
-            let button = UIButton()
-            button.frame = CGRect(x:0 ,y:0, width:20, height:32)
-            button.setTitle("编辑", for: .normal)
-            button.setTitleColor(UIColor.black, for: .normal)
-            button.addTarget(self, action: #selector(edit), for: .touchUpInside)
-            navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: button)
-        }
+//        if user_id == AccountTool.getUser()?.id! {
+//            // 说明是用户个人信息
+//            // 设置右编辑按钮
+//            let button = UIButton()
+//            button.frame = CGRect(x:0 ,y:0, width:20, height:32)
+//            button.setTitle("编辑", for: .normal)
+//            button.setTitleColor(UIColor.black, for: .normal)
+//            button.addTarget(self, action: #selector(edit), for: .touchUpInside)
+//            navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: button)
+//        }
         
         SVProgressHUD.show(withStatus: Constant.loadingTitle)
         
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        SVProgressHUD.dismiss()
     }
 
     override func didReceiveMemoryWarning() {

@@ -98,7 +98,6 @@ class UserInfoViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         // 获取data数据
         getCityData()
         getSchoolData()
-        
     }
     
     // 初始化

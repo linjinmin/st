@@ -211,6 +211,11 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, SingleKeyBo
             return
         }
         
+        if repasswordField.text != passwordField.text {
+            SVProgressHUD.showError(withStatus: "确认密码错误")
+            return
+        }
+        
 //        if !validateCode() {
 //            SVProgressHUD.showError(withStatus: "请输入合法验证码")
 //            return
@@ -279,7 +284,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, SingleKeyBo
             }
         }
     }
-    
     
 //    @objc func keyboardWillShow(note: NSNotification) {
 //
